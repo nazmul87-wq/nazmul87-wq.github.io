@@ -59,7 +59,7 @@ Public repositories that are linked today:
 - [northstar-reader](https://github.com/nazmulislam-lab/northstar-reader)
 - [Nazmul-event-talks-app](https://github.com/nazmulislam-lab/Nazmul-event-talks-app)
 
-Descriptions for those five come from the GitHub API or each repository’s README. The profile text comes from the GitHub bio and from [nazmulislam-lab/nazmul87-wq](https://github.com/nazmulislam-lab/nazmul87-wq).
+Descriptions for those five come from the GitHub API or each repository’s README. The profile text comes from the GitHub bio and from [nazmulislam-lab/nazmulislam-lab](https://github.com/nazmulislam-lab/nazmulislam-lab).
 
 ## Preview locally
 
