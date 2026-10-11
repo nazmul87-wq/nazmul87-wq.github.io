@@ -1,11 +1,9 @@
 import { initChat } from "./chat.js";
-import { loadPosts, postHref, renderPostCards } from "./blog.js";
+import { loadPosts, renderPostCards } from "./blog.js";
+import { initChrome } from "./chrome.js";
 import { iconSvg, paintIcons, renderFooterSocial } from "./icons.js";
 
-const THEME_KEY = "nazmul-theme";
-
-initThemeToggle();
-initNav();
+initChrome();
 
 const status = document.querySelector("[data-status]");
 
@@ -30,19 +28,28 @@ async function loadProfile() {
 
 function renderProfile(profile) {
   const person = profile.person;
-  document.title = `${person.name} · Portfolio`;
+  const pageTitle = person.pageTitle || `${person.name} · Portfolio`;
+  document.title = pageTitle;
+  const description = person.description || "";
+  for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) {
+    const node = document.querySelector(selector);
+    if (node && description) node.setAttribute("content", description);
+  }
+  for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute("content", pageTitle);
+  }
 
   setText("[data-name]", person.name);
   setText("[data-given]", person.givenName);
-  setText("[data-title]", person.title);
-  setText("[data-field]", person.field);
-  setText("[data-affiliation]", person.affiliation);
-  setText("[data-location]", person.location);
-  setText("[data-bio]", person.bio);
+  setText("[data-tagline]", person.tagline || "");
   setText("[data-value]", person.valueStatement || "");
   setText("[data-year]", String(new Date().getFullYear()));
-  renderKeywords(person.keywords || []);
-  renderPrevious(profile.experience || []);
+  const eyebrow = document.querySelector("[data-eyebrow]");
+  if (eyebrow) {
+    const quantum = (profile.research || []).some((item) => /quantum sensors/i.test(item.title));
+    eyebrow.textContent = [person.title, person.affiliation, quantum ? "Quantum sensors" : "", person.location].filter(Boolean).join(" · ");
+  }
 
   const emailLink = document.querySelector("[data-email-link]");
   if (emailLink && !isPlaceholder(profile.contact.email)) emailLink.href = `mailto:${profile.contact.email}`;
@@ -66,6 +73,7 @@ function renderProfile(profile) {
     else scholarLink.href = profile.contact.scholar;
   }
   wireCvLink(profile.contact.cv);
+  renderHeroSocial(profile);
 
   const portrait = document.querySelector("[data-portrait]");
   if (portrait) {
@@ -103,15 +111,14 @@ function renderSkills(groups) {
   const root = document.querySelector("[data-skills]");
   if (!root) return;
   root.replaceChildren();
-  for (const group of groups) {
-    const item = document.createElement("li");
-    const name = document.createElement("span");
-    name.className = "skill-label";
+  for (const group of groups || []) {
+    const wrap = document.createElement("div");
+    const name = document.createElement("dt");
     name.textContent = group.group;
-    const values = document.createElement("span");
-    values.textContent = group.items.join(" · ");
-    item.append(name, values);
-    root.append(item);
+    const values = document.createElement("dd");
+    values.textContent = group.items.join(", ");
+    wrap.append(name, values);
+    root.append(wrap);
   }
 }
 
@@ -334,9 +341,8 @@ function renderExperience(jobs) {
     }
     const body = document.createElement("div");
     body.className = "job-body";
-    const mark = document.createElement("div");
+    const mark = document.createElement("span");
     mark.className = "job-mark";
-    mark.textContent = job.mark || initials(job.org);
     mark.setAttribute("aria-hidden", "true");
     const role = document.createElement("h3");
     role.textContent = job.role;
@@ -377,9 +383,13 @@ function projectCard(project) {
     media.className = "project-media";
     const img = document.createElement("img");
     img.src = project.image;
-    img.alt = project.imageAlt || project.name;
-    img.width = 1200;
-    img.height = 750;
+    if (project.imageSrcset) {
+      img.srcset = project.imageSrcset;
+      img.sizes = "(max-width: 860px) 100vw, 520px";
+    }
+    img.alt = project.imageAlt || prettyName(project.name);
+    img.width = project.imageWidth || 1200;
+    img.height = project.imageHeight || 750;
     img.loading = "lazy";
     img.decoding = "async";
     media.append(img);
@@ -396,7 +406,7 @@ function projectCard(project) {
     top.append(lang);
   }
   const title = document.createElement("h3");
-  title.textContent = project.name;
+  title.textContent = prettyName(project.name);
   const summary = document.createElement("p");
   summary.textContent = project.summary;
   const links = document.createElement("div");
@@ -462,7 +472,6 @@ function renderBeyond(beyond) {
 
 function renderCollaborate(profile) {
   const copy = document.querySelector("[data-collab-copy]");
-  const actions = document.querySelector("[data-collab-actions]");
   const title = document.querySelector("[data-collab-title]");
   const block = profile.collaborate || {};
   if (title && !isPlaceholder(block.title)) title.textContent = block.title;
@@ -475,16 +484,6 @@ function renderCollaborate(profile) {
       copy.append(p);
     }
   }
-  if (!actions) return;
-  actions.replaceChildren();
-  const c = profile.contact || {};
-  if (!isPlaceholder(c.email)) {
-    actions.append(textLink(`mailto:${c.email}?subject=${encodeURIComponent("Collaboration")}`, "Email", "button button-primary", "email"));
-  }
-  if (!isPlaceholder(c.linkedin)) actions.append(textLink(c.linkedin, "LinkedIn", "button button-ghost", "linkedin"));
-  if (!isPlaceholder(c.x)) actions.append(textLink(c.x, "X", "button button-ghost", "x"));
-  if (!isPlaceholder(c.whatsapp)) actions.append(textLink(c.whatsapp, "WhatsApp", "button button-ghost", "whatsapp"));
-  if (!isPlaceholder(c.scholar)) actions.append(textLink(c.scholar, "Google Scholar", "button button-ghost", "scholar"));
 }
 
 function renderLatestPosts() {
@@ -493,7 +492,7 @@ function renderLatestPosts() {
   if (!section || !root) return;
   loadPosts("blog/posts.json")
     .then((posts) => {
-      if (!posts.length) return;
+      if (posts.length < 3) return;
       renderPostCards(root, posts.slice(0, 3), "blog/");
       section.hidden = false;
       section.classList.add("is-in");
@@ -509,26 +508,13 @@ function renderContact(profile) {
   const c = profile.contact;
   root.replaceChildren();
 
-  if (!isPlaceholder(c.email)) root.append(contactCard("Email", c.email, `mailto:${c.email}`, "email"));
-  if (!isPlaceholder(c.github)) root.append(contactCard("GitHub", c.githubLabel || c.github, c.github, "github"));
-  if (!isPlaceholder(c.linkedin)) root.append(contactCard("LinkedIn", c.linkedinLabel || c.linkedin, c.linkedin, "linkedin"));
-  if (!isPlaceholder(c.x)) root.append(contactCard("X", c.xLabel || c.x, c.x, "x"));
-  if (!isPlaceholder(c.whatsapp)) root.append(contactCard("WhatsApp me", c.whatsappLabel || c.whatsapp, c.whatsapp, "whatsapp"));
-  if (!isPlaceholder(c.scholar)) root.append(contactCard("Google Scholar", c.scholarLabel || "Google Scholar profile", c.scholar, "scholar"));
-
-  const note = document.querySelector("[data-collaboration]");
-  if (note) note.textContent = c.collaboration;
-
-  const cv = document.querySelector("[data-cv]");
-  if (cv) {
-    cv.replaceChildren();
-    if (!isPlaceholder(c.cv)) {
-      cv.hidden = false;
-      cv.append(textLink(c.cv, "Download CV", "button button-primary", "cv"));
-    } else {
-      cv.hidden = true;
-    }
-  }
+  if (!isPlaceholder(c.email)) root.append(contactLink("Email", c.email, `mailto:${c.email}`, "email"));
+  if (!isPlaceholder(c.whatsapp)) root.append(contactLink("WhatsApp", c.whatsappLabel || c.whatsapp, c.whatsapp, "whatsapp"));
+  if (!isPlaceholder(c.linkedin)) root.append(contactLink("LinkedIn", c.linkedinLabel || c.linkedin, c.linkedin, "linkedin"));
+  if (!isPlaceholder(c.github)) root.append(contactLink("GitHub", c.githubLabel || c.github, c.github, "github"));
+  if (!isPlaceholder(c.x)) root.append(contactLink("X", c.xLabel || c.x, c.x, "x"));
+  if (!isPlaceholder(c.scholar)) root.append(contactLink("Google Scholar", c.scholarLabel || "Google Scholar profile", c.scholar, "scholar"));
+  if (!isPlaceholder(c.cv)) root.append(contactLink("Download CV", "PDF", c.cv, "cv"));
 }
 
 function wireCvLink(path) {
@@ -548,27 +534,61 @@ function renderStructuredData(profile) {
   if (!node) return;
   const person = profile.person;
   const sameAs = [profile.contact.github, profile.contact.linkedin, profile.contact.x, profile.contact.scholar].filter((url) => !isPlaceholder(url));
+  const alumniOf = (profile.education || [])
+    .filter((item) => /brac|cuet/i.test(item.school || ""))
+    .map((item) => ({
+      "@type": "CollegeOrUniversity",
+      name: String(item.school).replace(/\s*\([^)]*\)\s*$/, "")
+    }));
   node.textContent = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Person",
     name: person.name,
     jobTitle: person.title,
-    affiliation: person.affiliation,
-    address: person.location,
-    email: profile.contact.email,
+    description: person.description,
+    affiliation: { "@type": "Organization", name: person.affiliation },
+    alumniOf,
+    knowsAbout: (profile.research || []).map((item) => item.title).filter((title) => !isPlaceholder(title)),
+    address: { "@type": "Place", name: person.location },
+    email: profile.contact.email ? `mailto:${profile.contact.email}` : undefined,
     url: "https://nazmulislam-lab.github.io/",
     image: person.portrait ? `https://nazmulislam-lab.github.io/${person.portrait}` : undefined,
     sameAs
   });
 }
 
-function initials(org) {
-  return String(org || "")
-    .split(/\s+/)
-    .map((part) => part[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+function renderHeroSocial(profile) {
+  const root = document.querySelector("[data-hero-social]");
+  if (!root) return;
+  const c = profile.contact || {};
+  const handle = c.xLabel || "@nzml087";
+  const items = [
+    ["linkedin", "LinkedIn", c.linkedin],
+    ["scholar", "Google Scholar", c.scholar],
+    ["github", "GitHub", c.github],
+    ["x", `X (${handle})`, c.x]
+  ];
+  root.replaceChildren();
+  for (const [icon, label, href] of items) {
+    if (isPlaceholder(href)) continue;
+    const link = document.createElement("a");
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.title = label;
+    link.setAttribute("aria-label", label);
+    const glyph = iconSvg(icon);
+    if (glyph) link.append(glyph);
+    root.append(link);
+  }
+}
+
+function prettyName(name) {
+  return String(name || "")
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 function initReveal() {
@@ -593,25 +613,26 @@ function isPlaceholder(value) {
   return !text || /\bTODO\b/i.test(text);
 }
 
-function contactCard(label, value, href, iconName) {
+function contactLink(label, value, href, iconName) {
+  const item = document.createElement("li");
   const link = document.createElement("a");
-  link.className = "contact-card";
   link.href = href;
-  if (!href.startsWith("mailto:")) {
+  if (!href.startsWith("mailto:") && !href.startsWith("assets/")) {
     link.target = "_blank";
     link.rel = "noopener noreferrer";
   }
-  const kicker = document.createElement("span");
-  kicker.className = "contact-kicker";
+  if (href.startsWith("assets/")) link.setAttribute("download", "");
   const glyph = iconSvg(iconName);
-  if (glyph) kicker.append(glyph);
+  if (glyph) link.append(glyph);
   const labelText = document.createElement("span");
+  labelText.className = "contact-label";
   labelText.textContent = label;
-  kicker.append(labelText);
-  const text = document.createElement("strong");
+  const text = document.createElement("span");
+  text.className = "contact-value";
   text.textContent = value;
-  link.append(kicker, text);
-  return link;
+  link.append(labelText, text);
+  item.append(link);
+  return item;
 }
 
 function textLink(href, label, className, iconName) {
@@ -640,41 +661,3 @@ function setText(selector, value) {
   if (node && value != null) node.textContent = value;
 }
 
-function initNav() {
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector("[data-nav]");
-  if (!toggle || !nav) return;
-  toggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-  nav.addEventListener("click", (event) => {
-    if (event.target.closest("a")) {
-      nav.classList.remove("is-open");
-      toggle.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
-function initThemeToggle() {
-  const button = document.querySelector("[data-theme-toggle]");
-  if (!button) return;
-  const sync = () => {
-    const theme = document.documentElement.dataset.theme || "light";
-    button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-    button.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", theme === "dark" ? "#101114" : "#f6f3ec");
-  };
-  sync();
-  button.addEventListener("click", () => {
-    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try {
-      localStorage.setItem(THEME_KEY, next);
-    } catch {
-      /* private mode */
-    }
-    sync();
-  });
-}

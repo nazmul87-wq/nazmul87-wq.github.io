@@ -8,6 +8,7 @@
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../css/styles.css" />
     <script>
+      document.documentElement.classList.add("js");
       (function () {
         try {
           var saved = localStorage.getItem("nazmul-theme");
@@ -27,15 +28,17 @@
       </a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
       <nav id="site-nav" class="site-nav" data-nav>
-        <a href="../index.html">Home</a>
-        <a href="../index.html#collaborate">Collaborate</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#publications">Publications</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#education">Education</a>
+        <a href="../index.html#certifications">Training</a>
         <a href="index.html">Blog</a>
-        <a href="../index.html#contact">Contact</a>
+        <a href="../index.html#contact">Collaborate</a>
       </nav>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
-        <span class="theme-icon theme-icon-sun" aria-hidden="true"></span>
-        <span class="theme-icon theme-icon-moon" aria-hidden="true"></span>
-      </button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode"></button>
     </header>
     <main id="main" class="section blog-main">
       <p><a href="index.html">All posts</a></p>
@@ -45,8 +48,7 @@
     </main>
     <footer class="site-footer">
       <div class="footer-copy">
-        <p>Md Nazmul Islam · Kent, Ohio</p>
-        <p>This is my site. © <span data-year>2026</span></p>
+        <p>© <span data-year>2026</span> Md Nazmul Islam</p>
       </div>
       <nav class="footer-social" data-footer-social aria-label="Social profiles"></nav>
     </footer>

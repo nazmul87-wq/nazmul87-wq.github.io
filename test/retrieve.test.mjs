@@ -6,6 +6,8 @@ const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.m
 
 const cases = [
   ["Where does he study?", ["kent state", "phd", "tao shen", "4.00", "aug 2024"]],
+  ["What does he teach?", ["mechatronics lab", "signal and electronics lab"]],
+  ["What does he do at Kent State?", ["quantum sensors", "medical robotics", "mechatronics lab", "signal and electronics lab"]],
   ["What is his GPA?", ["4.00/4.00", "3.18/4.00"]],
   ["Who advised his master's at BRAC?", ["md golam rabiul alam", "highest distinction"]],
   ["What did he work on at Medtronic?", ["field technical service specialist", "hugo", "2021", "aug 2024"]],
@@ -23,7 +25,7 @@ const cases = [
   ["What languages does he use?", ["python", "matlab"]],
   ["Where is he based?", ["kent, ohio"]],
   ["Tell me about the chess project", ["online chess"]],
-  ["What is his favorite color?", ["don’t have that", "public profile"]]
+  ["What is his favorite color?", ["isn't in nazmul", "public profile"]]
 ];
 
 let failed = 0;

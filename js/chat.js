@@ -91,10 +91,35 @@ export function initChat(profile) {
     ask(input.value);
   });
 
+  const hero = document.querySelector(".hero");
+  if (hero && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      root.classList.toggle("is-ready", !entry.isIntersecting);
+    }, { threshold: 0.2 });
+    observer.observe(hero);
+  } else {
+    root.classList.add("is-ready");
+  }
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !panel.hidden) {
+    if (panel.hidden) return;
+    if (event.key === "Escape") {
       event.preventDefault();
       setOpen(false);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const items = [...panel.querySelectorAll("a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled])")]
+      .filter((el) => !el.closest("[hidden]"));
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   });
 }
