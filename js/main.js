@@ -49,8 +49,6 @@ function renderProfile(profile) {
     portrait.src = person.portrait;
     portrait.alt = person.portraitAlt || person.name;
   }
-  setText("[data-portrait-todo]", person.portraitTodo);
-
   const about = document.querySelector("[data-about]");
   if (about) {
     about.replaceChildren();
@@ -137,10 +135,13 @@ function renderExperience(jobs) {
     head.className = "job-head";
     const org = document.createElement("h3");
     org.textContent = job.org;
-    const dates = document.createElement("p");
-    dates.className = /todo/i.test(job.dates || "") ? "todo" : "dates";
-    dates.textContent = job.dates;
-    head.append(org, dates);
+    head.append(org);
+    if (!isPlaceholder(job.dates)) {
+      const dates = document.createElement("p");
+      dates.className = "dates";
+      dates.textContent = job.dates;
+      head.append(dates);
+    }
 
     const role = document.createElement("p");
     role.className = "job-role";
@@ -155,43 +156,16 @@ function renderExperience(jobs) {
     summary.textContent = job.summary;
 
     item.append(head, role, focus, summary);
-    if (job.todo) {
-      const todo = document.createElement("p");
-      todo.className = "todo";
-      todo.textContent = job.todo;
-      item.append(todo);
-    }
     root.append(item);
   }
 }
 
 function renderProjects(projects) {
   const grid = document.querySelector("[data-projects]");
-  const pending = document.querySelector("[data-pending-projects]");
-  if (grid) {
-    grid.replaceChildren();
-    for (const project of projects.filter((item) => item.available)) {
-      grid.append(projectCard(project));
-    }
-  }
-  if (pending) {
-    pending.replaceChildren();
-    for (const project of projects.filter((item) => !item.available)) {
-      const item = document.createElement("li");
-      const name = document.createElement("strong");
-      name.textContent = project.name;
-      item.append(name);
-      if (project.summary) {
-        item.append(document.createTextNode(` — ${project.summary}`));
-      }
-      if (project.todo) {
-        const note = document.createElement("span");
-        note.className = "todo";
-        note.textContent = project.todo;
-        item.append(note);
-      }
-      pending.append(item);
-    }
+  if (!grid) return;
+  grid.replaceChildren();
+  for (const project of projects.filter((item) => item.available && !isPlaceholder(item.summary))) {
+    grid.append(projectCard(project));
   }
 }
 
@@ -222,9 +196,9 @@ function renderContact(profile) {
   const c = profile.contact;
   root.replaceChildren();
 
-  root.append(contactCard("Email", c.email, `mailto:${c.email}`));
-  root.append(contactCard("GitHub", c.githubLabel, c.github));
-  root.append(contactCard("LinkedIn", c.linkedinLabel, c.linkedin));
+  if (!isPlaceholder(c.email)) root.append(contactCard("Email", c.email, `mailto:${c.email}`));
+  if (!isPlaceholder(c.github)) root.append(contactCard("GitHub", c.githubLabel || c.github, c.github));
+  if (!isPlaceholder(c.linkedin)) root.append(contactCard("LinkedIn", c.linkedinLabel || c.linkedin, c.linkedin));
 
   const note = document.querySelector("[data-collaboration]");
   if (note) note.textContent = c.collaboration;
@@ -232,16 +206,18 @@ function renderContact(profile) {
   const cv = document.querySelector("[data-cv]");
   if (cv) {
     cv.replaceChildren();
-    if (c.cv) {
-      const link = textLink(c.cv, "Download CV");
-      cv.append(link);
+    if (!isPlaceholder(c.cv)) {
+      cv.hidden = false;
+      cv.append(textLink(c.cv, "Download CV"));
     } else {
-      const todo = document.createElement("p");
-      todo.className = "todo";
-      todo.textContent = c.cvTodo;
-      cv.append(todo);
+      cv.hidden = true;
     }
   }
+}
+
+function isPlaceholder(value) {
+  const text = String(value || "").trim();
+  return !text || /\bTODO\b/i.test(text);
 }
 
 function contactCard(label, value, href) {

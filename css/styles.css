@@ -283,11 +283,6 @@ h3 { margin: 0; font-size: 1.45rem; }
 
 .rings::after { inset: 20%; border-style: solid; }
 
-.portrait-wrap figcaption {
-  margin-top: 0.9rem;
-  color: var(--copper);
-  font-size: 0.82rem;
-}
 
 .section { padding: 2.5rem 0; }
 
@@ -354,8 +349,6 @@ h3 { margin: 0; font-size: 1.45rem; }
 .job-focus { margin: 0.15rem 0 0.6rem; color: var(--muted); }
 
 .dates { color: var(--muted); font-size: 0.92rem; }
-
-.todo { color: var(--copper); font-size: 0.92rem; }
 
 .project-top { display: flex; justify-content: space-between; margin-bottom: 0.7rem; }
 

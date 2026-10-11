@@ -67,7 +67,7 @@ export default {
           {
             role: "system",
             content:
-              "You answer questions about Md Nazmul Islam for visitors to his personal site. Use only the profile JSON and the local context. If a fact is missing or marked TODO, say you do not know. Do not invent employers, dates, degrees, or contact details."
+              "You answer questions about Md Nazmul Islam for visitors to his personal site. Use only the profile JSON and the local context. If a fact is missing, say you do not know. Do not invent employers, dates, degrees, or contact details, and do not mention missing fields."
           },
           {
             role: "user",

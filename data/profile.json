@@ -9,8 +9,7 @@
     "location": "Kent, Ohio",
     "bio": "PhD Candidate @ Kent State | Robotics • Quantum Sensors • AI | Ex-Medtronic, Philips & Siemens | Exploring Claude, Codex, Cursor, Gemini & OpenClaw",
     "portrait": "assets/portrait.jpg",
-    "portraitAlt": "Portrait of Md Nazmul Islam",
-    "portraitTodo": "TODO: replace assets/portrait.jpg if you want a different photo. The current image is the public GitHub profile avatar."
+    "portraitAlt": "Portrait of Md Nazmul Islam"
   },
   "about": {
     "paragraphs": [
@@ -44,25 +43,51 @@
       "id": "medical-ai",
       "title": "Medical AI for imaging",
       "summary": "Explainable deep learning for CT classification and differential diagnosis, built for radiology decision support.",
-      "match": ["medical ai", "imaging", "radiology", "ct", "deep learning", "explainable", "differential diagnosis"]
+      "match": [
+        "medical ai",
+        "imaging",
+        "radiology",
+        "ct",
+        "deep learning",
+        "explainable",
+        "differential diagnosis"
+      ]
     },
     {
       "id": "medical-robotics",
       "title": "Medical robotics",
       "summary": "Deployment, uptime, and operation of surgical robotic systems in clinical environments.",
-      "match": ["medical robotics", "surgical robot", "robotics research", "uptime"]
+      "match": [
+        "medical robotics",
+        "surgical robot",
+        "robotics research",
+        "uptime"
+      ]
     },
     {
       "id": "quantum-sensing",
       "title": "Quantum sensing",
       "summary": "OPM and NV-center approaches to biomedical signal detection.",
-      "match": ["quantum", "quantum sensors", "quantum sensing", "opm", "nv-center", "nv center", "biomedical signal"]
+      "match": [
+        "quantum",
+        "quantum sensors",
+        "quantum sensing",
+        "opm",
+        "nv-center",
+        "nv center",
+        "biomedical signal"
+      ]
     },
     {
       "id": "embedded-control",
       "title": "Embedded control",
       "summary": "Control workflows for intelligent medical devices.",
-      "match": ["embedded", "embedded control", "control systems", "medical devices"]
+      "match": [
+        "embedded",
+        "embedded control",
+        "control systems",
+        "medical devices"
+      ]
     }
   ],
   "publications": [
@@ -99,10 +124,9 @@
       "role": "PhD Candidate",
       "focus": "Mechatronics, Robotics & Automation Engineering",
       "location": "Kent, Ohio",
-      "dates": "TODO: add dates",
+      "dates": "",
       "current": true,
       "summary": "He studies at Kent State University in Kent, Ohio, as a PhD candidate in Mechatronics, Robotics & Automation Engineering. The work is at the intersection of robotics, sensing, and machine learning for healthcare, aimed at systems that are interpretable, reliable, and deployable in real clinical settings.",
-      "todo": "TODO: add the program start date and advisor or lab, if you want them on the site.",
       "match": [
         "where does he study",
         "where does nazmul study",
@@ -124,10 +148,9 @@
       "role": "Field technical specialist and service engineer",
       "focus": "Clinical imaging systems and the Hugo™ robotic-assisted surgery platform",
       "location": "",
-      "dates": "TODO: add dates",
+      "dates": "",
       "current": false,
       "summary": "At Medtronic he worked as a field technical specialist and service engineer before graduate school. His public profile describes several years supporting clinical imaging systems and the Hugo™ robotic-assisted surgery platform in hospital environments, together with Philips and Siemens. Hugo™ RAS is Medtronic's surgical robotics system. The profile does not split duties, sites, or dates by company.",
-      "todo": "TODO: add the exact Medtronic title, dates, locations, and which systems were supported there.",
       "match": [
         "medtronic",
         "what did he work on at medtronic",
@@ -142,10 +165,9 @@
       "role": "Field technical specialist and service engineer",
       "focus": "Clinical imaging systems",
       "location": "",
-      "dates": "TODO: add dates",
+      "dates": "",
       "current": false,
       "summary": "At Philips he worked as a field technical specialist and service engineer before graduate school, supporting clinical imaging systems in hospital environments. The public profile groups this industry work with Medtronic and Siemens and does not list a separate Philips title, dates, or product line.",
-      "todo": "TODO: add the exact Philips title, dates, locations, and which imaging systems were supported there.",
       "match": [
         "philips",
         "what did he work on at philips",
@@ -158,10 +180,9 @@
       "role": "Field technical specialist and service engineer",
       "focus": "Clinical imaging systems",
       "location": "",
-      "dates": "TODO: add dates",
+      "dates": "",
       "current": false,
       "summary": "At Siemens he worked as a field technical specialist and service engineer before graduate school, supporting clinical imaging systems in hospital environments. The public profile groups this industry work with Medtronic and Philips and does not list a separate Siemens title, dates, or product line.",
-      "todo": "TODO: add the exact Siemens title, dates, locations, and which imaging systems were supported there.",
       "match": [
         "siemens",
         "what did he work on at siemens"
@@ -171,23 +192,47 @@
   "skills": [
     {
       "group": "Languages",
-      "items": ["Python", "C/C++", "MATLAB"]
+      "items": [
+        "Python",
+        "C/C++",
+        "MATLAB"
+      ]
     },
     {
       "group": "Machine learning",
-      "items": ["TensorFlow", "Keras", "scikit-learn", "NumPy", "Pandas"]
+      "items": [
+        "TensorFlow",
+        "Keras",
+        "scikit-learn",
+        "NumPy",
+        "Pandas"
+      ]
     },
     {
       "group": "Embedded and tooling",
-      "items": ["Arduino", "Linux", "Git"]
+      "items": [
+        "Arduino",
+        "Linux",
+        "Git"
+      ]
     },
     {
       "group": "Clinical systems",
-      "items": ["CT and PET-CT imaging", "Hugo™ RAS robotics operations"]
+      "items": [
+        "CT and PET-CT imaging",
+        "Hugo™ RAS robotics operations"
+      ]
     },
     {
       "group": "AI-assisted development",
-      "items": ["Claude", "Codex", "Cursor", "Gemini", "OpenClaw", "Ollama"]
+      "items": [
+        "Claude",
+        "Codex",
+        "Cursor",
+        "Gemini",
+        "OpenClaw",
+        "Ollama"
+      ]
     }
   ],
   "projects": [
@@ -199,7 +244,12 @@
       "url": "https://github.com/nazmulislam-lab/multi-agent-system",
       "demo": "",
       "available": true,
-      "match": ["multi-agent", "multi agent", "orchestrator", "local models"]
+      "match": [
+        "multi-agent",
+        "multi agent",
+        "orchestrator",
+        "local models"
+      ]
     },
     {
       "id": "orca-draw",
@@ -209,7 +259,13 @@
       "url": "https://github.com/nazmulislam-lab/orca-draw",
       "demo": "https://nazmulislam-lab.github.io/orca-draw/",
       "available": true,
-      "match": ["orca", "orca-draw", "orca draw", "whiteboard", "excalidraw"]
+      "match": [
+        "orca",
+        "orca-draw",
+        "orca draw",
+        "whiteboard",
+        "excalidraw"
+      ]
     },
     {
       "id": "passport-photo-studio",
@@ -219,7 +275,12 @@
       "url": "https://github.com/nazmulislam-lab/passport-photo-studio",
       "demo": "https://nazmulislam-lab.github.io/passport-photo-studio/",
       "available": true,
-      "match": ["passport", "passport photo", "visa photo", "photo studio"]
+      "match": [
+        "passport",
+        "passport photo",
+        "visa photo",
+        "photo studio"
+      ]
     },
     {
       "id": "simple-typescript-app-01",
@@ -229,8 +290,11 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add the repository URL. nazmulislam-lab/Simple-Typescript-App-01 was not found on public GitHub.",
-      "match": ["simple typescript", "online chess", "chess"]
+      "match": [
+        "simple typescript",
+        "online chess",
+        "chess"
+      ]
     },
     {
       "id": "bollywood-jigsaw-game",
@@ -240,8 +304,10 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/bollywood-jigsaw-game was not found on public GitHub.",
-      "match": ["bollywood", "jigsaw"]
+      "match": [
+        "bollywood",
+        "jigsaw"
+      ]
     },
     {
       "id": "ai-influencer-agents",
@@ -251,8 +317,10 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/ai-influencer-agents was not found on public GitHub.",
-      "match": ["influencer agents", "ai influencer"]
+      "match": [
+        "influencer agents",
+        "ai influencer"
+      ]
     },
     {
       "id": "northstar-reader",
@@ -262,7 +330,11 @@
       "url": "https://github.com/nazmulislam-lab/northstar-reader",
       "demo": "",
       "available": true,
-      "match": ["northstar", "pdf reader", "markdown reader"]
+      "match": [
+        "northstar",
+        "pdf reader",
+        "markdown reader"
+      ]
     },
     {
       "id": "xerviolab-v1",
@@ -272,8 +344,10 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/XervioLab_v1 was not found on public GitHub.",
-      "match": ["xervio", "xerviolab"]
+      "match": [
+        "xervio",
+        "xerviolab"
+      ]
     },
     {
       "id": "ant-game",
@@ -283,8 +357,10 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/Ant-Game was not found on public GitHub.",
-      "match": ["ant game", "ant-game"]
+      "match": [
+        "ant game",
+        "ant-game"
+      ]
     },
     {
       "id": "nazmul-event-talks-app",
@@ -294,7 +370,11 @@
       "url": "https://github.com/nazmulislam-lab/Nazmul-event-talks-app",
       "demo": "",
       "available": true,
-      "match": ["event talks", "bigquery", "release notes"]
+      "match": [
+        "event talks",
+        "bigquery",
+        "release notes"
+      ]
     },
     {
       "id": "x-business-ideas-scout",
@@ -304,8 +384,10 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/x-business-ideas-scout was not found on public GitHub.",
-      "match": ["business ideas", "ideas scout"]
+      "match": [
+        "business ideas",
+        "ideas scout"
+      ]
     },
     {
       "id": "last-30-days-skill",
@@ -315,8 +397,11 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmulislam-lab/last-30-days-skill was not found on public GitHub.",
-      "match": ["last 30 days", "last-30-days", "30 days skill"]
+      "match": [
+        "last 30 days",
+        "last-30-days",
+        "30 days skill"
+      ]
     }
   ],
   "contact": {
@@ -326,7 +411,6 @@
     "linkedin": "https://www.linkedin.com/in/nazmul87",
     "linkedinLabel": "linkedin.com/in/nazmul87",
     "cv": "",
-    "cvTodo": "TODO: add a CV URL here, or place a PDF at assets/cv.pdf and set this field to that path.",
     "collaboration": "Open to research collaborations, healthcare AI consulting, and robotics partnerships.",
     "match": [
       "how can i contact him",

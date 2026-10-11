@@ -16,7 +16,7 @@ Change a fact there, commit, and push to `main`. Refresh the site. You do not ne
 | Longer about text | `about.paragraphs` |
 | Research interests | `research` |
 | Papers | `publications` |
-| Jobs | `experience` (use a `TODO:` string wherever a date or detail is still unknown) |
+| Jobs | `experience`. Leave `dates` as `""` until you know them; an empty date is hidden |
 | Skills | `skills` |
 | Projects | `projects` |
 | Email, GitHub, LinkedIn, CV | `contact` |
@@ -26,17 +26,22 @@ Change a fact there, commit, and push to `main`. Refresh the site. You do not ne
 
 ### Photo
 
-The portrait is the public GitHub avatar, saved at `assets/portrait.jpg`. Replace that file to use a different photo, and keep the same path (or change `person.portrait`). `person.portraitTodo` is the caption on the page.
+The portrait visitors see is the public GitHub profile photo, saved at `assets/portrait.jpg`. There is no caption. To use a different photo, replace that file or change `person.portrait`.
 
-### CV
+### Fields that stay hidden until you fill them in
 
-`contact.cv` is empty on purpose. Add a URL, or put a PDF at `assets/cv.pdf` and set `contact.cv` to `assets/cv.pdf`. Until then the contact section shows the TODO from `contact.cvTodo`.
+Empty strings are not shown on the page or in the chat. Do not put notes like “TODO” in `data/profile.json`; visitors would see them. Keep editor notes in this README.
+
+- **Dates.** Each job has `"dates": ""`. Set a real range, such as `"2021 – 2024"`, when you know it. Still unknown: Kent State, Medtronic, Philips, and Siemens.
+- **Kent State.** The public profile does not name an advisor or lab.
+- **Industry roles.** The public profile describes field technical specialist and service engineer work across Medtronic, Philips, and Siemens, supporting clinical imaging systems and the Hugo™ robotic-assisted surgery platform. It does not give a separate title, site, or product line for each company. Hugo™ RAS is Medtronic’s surgical robotics system.
+- **CV.** `contact.cv` is `""`, so no CV block is shown. Add a URL, or put a PDF at `assets/cv.pdf` and set `contact.cv` to `assets/cv.pdf`.
 
 ### Projects that were not on public GitHub
 
-These names are in `projects` with `"available": false` because `nazmulislam-lab/<name>` returned 404 from the public GitHub API when the site was built:
+These names are in `projects` with `"available": false` because `nazmulislam-lab/<name>` returned 404 from the public GitHub API when the site was built. They are omitted from the projects section and from the “what projects has he built?” answer:
 
-- Simple-Typescript-App-01 (described as online chess)
+- Simple-Typescript-App-01 (described as online chess; `summary` is kept so a direct question can still answer)
 - bollywood-jigsaw-game
 - ai-influencer-agents
 - XervioLab_v1
@@ -44,7 +49,7 @@ These names are in `projects` with `"available": false` because `nazmulislam-lab
 - x-business-ideas-scout
 - last-30-days-skill
 
-They show under “Names still to confirm”. When you have a real URL and description, set `available` to `true`, fill `summary` and `url`, and clear or update `todo`.
+When you have a real URL and description, set `available` to `true` and fill `summary` and `url`.
 
 Public repositories that are linked today:
 

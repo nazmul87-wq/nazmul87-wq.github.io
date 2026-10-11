@@ -89,7 +89,7 @@ export function buildDocs(profile) {
     docs.push({
       id: `experience:${job.id}`,
       title: job.org,
-      text: [job.summary, job.todo].filter(Boolean).join(" "),
+      text: visitorText(job.summary),
       match: job.match || []
     });
   }
@@ -122,36 +122,21 @@ export function buildDocs(profile) {
 
 function formatProject(project) {
   const lines = [`${project.name}${project.language ? ` (${project.language})` : ""}.`];
-  if (project.summary) lines.push(project.summary);
+  const summary = visitorText(project.summary);
+  if (summary) lines.push(summary);
   if (project.url) lines.push(project.url);
   if (project.demo) lines.push(`Live demo: ${project.demo}`);
-  if (!project.available && project.todo) lines.push(project.todo);
   return lines.join("\n");
 }
 
 function formatAllProjects(profile) {
-  const lines = ["Here are the projects listed for Md Nazmul Islam.", ""];
-  const publicOnes = profile.projects.filter((p) => p.available);
-  const pending = profile.projects.filter((p) => !p.available);
-
-  if (publicOnes.length) {
-    lines.push("Public on GitHub:");
-    for (const project of publicOnes) {
-      lines.push(`• ${project.name}${project.language ? ` (${project.language})` : ""} — ${project.summary}`);
-      if (project.url) lines.push(`  ${project.url}`);
-      if (project.demo) lines.push(`  Live demo: ${project.demo}`);
-    }
+  const lines = ["Here are the public projects listed for Md Nazmul Islam.", ""];
+  for (const project of profile.projects.filter((item) => item.available)) {
+    const summary = visitorText(project.summary);
+    lines.push(`• ${project.name}${project.language ? ` (${project.language})` : ""}${summary ? ` — ${summary}` : ""}`);
+    if (project.url) lines.push(`  ${project.url}`);
+    if (project.demo) lines.push(`  Live demo: ${project.demo}`);
   }
-
-  if (pending.length) {
-    lines.push("");
-    lines.push("Named projects whose public repositories were not found (details are TODO in data/profile.json):");
-    for (const project of pending) {
-      lines.push(`• ${project.name}${project.summary ? ` — ${project.summary}` : ""}`);
-      if (project.todo) lines.push(`  ${project.todo}`);
-    }
-  }
-
   return lines.join("\n");
 }
 
@@ -163,9 +148,15 @@ function formatContact(profile) {
     `LinkedIn: ${c.linkedin}`
   ];
   if (c.collaboration) lines.push(c.collaboration);
-  if (c.cv) lines.push(`CV: ${c.cv}`);
-  else if (c.cvTodo) lines.push(`CV: ${c.cvTodo}`);
+  const cv = visitorText(c.cv);
+  if (cv) lines.push(`CV: ${cv}`);
   return lines.join("\n");
+}
+
+function visitorText(value) {
+  const text = String(value || "").trim();
+  if (!text || /\bTODO\b/i.test(text)) return "";
+  return text;
 }
 
 function formatResearch(profile) {

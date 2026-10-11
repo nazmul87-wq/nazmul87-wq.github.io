@@ -7,7 +7,7 @@ const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.m
 const cases = [
   ["Where does he study?", ["kent state", "phd"]],
   ["What did he work on at Medtronic?", ["medtronic", "hugo", "imaging"]],
-  ["What projects has he built?", ["multi-agent-system", "orca-draw", "passport-photo-studio", "northstar-reader", "online chess"]],
+  ["What projects has he built?", ["multi-agent-system", "orca-draw", "passport-photo-studio", "northstar-reader"]],
   ["How can I contact him?", ["nazmul87@gmail.com", "github.com/nazmulislam-lab", "linkedin.com/in/nazmul87"]],
   ["What did he do at Philips?", ["philips", "imaging"]],
   ["Tell me about Siemens", ["siemens"]],
@@ -15,7 +15,7 @@ const cases = [
   ["What has he published?", ["scientific reports", "healthcare"]],
   ["What languages does he use?", ["python", "matlab"]],
   ["Where is he based?", ["kent, ohio"]],
-  ["Tell me about the chess project", ["online chess", "todo"]],
+  ["Tell me about the chess project", ["online chess"]],
   ["What is his favorite color?", ["don’t have that", "public profile"]]
 ];
 
@@ -23,6 +23,11 @@ let failed = 0;
 for (const [question, needles] of cases) {
   const result = answerQuestion(profile, question);
   const hay = result.text.toLowerCase();
+  if (/\btodo\b/i.test(result.text)) {
+    failed += 1;
+    console.error("\nFAIL:", question, "contains TODO");
+    console.error(result.text);
+  }
   const missing = needles.filter((needle) => !hay.includes(needle.toLowerCase()));
   if (missing.length) {
     failed += 1;
