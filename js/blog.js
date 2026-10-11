@@ -1,3 +1,4 @@
+import { initChrome } from "./chrome.js";
 import { paintIcons, renderFooterSocial } from "./icons.js";
 
 const WORDS_PER_MINUTE = 200;
@@ -70,6 +71,18 @@ export function renderPost(root, post) {
   root.append(body);
 }
 
+function sentenceExcerpt(plain, max) {
+  const text = String(plain || "").trim();
+  if (text.length <= max) return text;
+  const slice = text.slice(0, max + 1);
+  const marks = [...slice.matchAll(/[.!?](?=\s|$)/g)];
+  if (marks.length) return text.slice(0, marks[marks.length - 1].index + 1).trim();
+  const end = text.search(/[.!?](?=\s|$)/);
+  if (end > 0) return text.slice(0, end + 1).trim();
+  const space = slice.lastIndexOf(" ");
+  return `${(space > 40 ? slice.slice(0, space) : slice).trim()}…`;
+}
+
 function parsePost(source, entry) {
   const { meta, body } = splitFrontMatter(source);
   const title = meta.title || entry.title || "Untitled";
@@ -84,7 +97,7 @@ function parsePost(source, entry) {
     date,
     tags,
     html,
-    excerpt: plain.slice(0, 180).trim(),
+    excerpt: sentenceExcerpt(plain, 180),
     minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE))
   };
 }
@@ -166,27 +179,7 @@ function readingLabel(minutes) {
 
 function initBlogPage() {
   const kind = document.body.dataset.blog;
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector("[data-nav]");
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-  }
-  const theme = document.querySelector("[data-theme-toggle]");
-  if (theme) {
-    const apply = (next) => {
-      document.documentElement.dataset.theme = next;
-      try { localStorage.setItem("nazmul-theme", next); } catch (e) { /* ignore */ }
-      theme.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-      theme.setAttribute("aria-label", next === "dark" ? "Switch to light mode" : "Switch to dark mode");
-    };
-    theme.addEventListener("click", () => {
-      apply((document.documentElement.dataset.theme || "light") === "dark" ? "light" : "dark");
-    });
-    apply(document.documentElement.dataset.theme || "light");
-  }
+  initChrome();
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
   paintIcons(document);

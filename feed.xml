@@ -3,13 +3,13 @@
   <channel>
     <title>Md Nazmul Islam</title>
     <link>https://nazmulislam-lab.github.io/blog/</link>
-    <description>Notes from my work in robotics, sensing, and AI.</description>
+    <description>Short notes on robotics and medical devices, from the lab and the field.</description>
     <item>
       <title>Welcome to my site</title>
       <link>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</link>
       <guid>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</guid>
       <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
-      <description>I'm a PhD candidate at Kent State University. I work on robotics, sensing, and AI, and I will write about that work here.</description>
+      <description>I'll use this space for notes from the lab and from 12 years of servicing hospital equipment.</description>
     </item>
   </channel>
 </rss>

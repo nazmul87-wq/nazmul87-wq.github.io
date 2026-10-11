@@ -1,6 +1,6 @@
 # Md Nazmul Islam
 
-Personal site for [nazmulislam-lab.github.io](https://nazmulislam-lab.github.io). It is a static site: HTML, CSS, and JavaScript, with no build step. GitHub Pages serves it from the root of `main`.
+Personal site for [nazmulislam-lab.github.io](https://nazmulislam-lab.github.io). It is a static site: HTML, CSS, and JavaScript. GitHub Pages serves it from the root of `main`. There is no bundler. After you edit `data/profile.json`, run `node scripts/build.mjs` so the prerendered HTML stays in sync for crawlers. The page still refreshes itself from the JSON when JavaScript runs.
 
 Family, friends, and colleagues can read the page or use **Ask about Nazmul**. The chat answers from the profile file in the browser. It does not need an API key.
 
@@ -8,7 +8,7 @@ Family, friends, and colleagues can read the page or use **Ask about Nazmul**. T
 
 All personal content lives in [`data/profile.json`](data/profile.json). The page and the chat both read that file.
 
-Change a fact there, commit, and push to `main`. Refresh the site. You do not need to edit the HTML for ordinary updates.
+Change a fact there, run `node scripts/build.mjs`, commit, and push to `main`. Refresh the site. You do not need to edit the HTML by hand for ordinary updates.
 
 | What you want to change | Where |
 | --- | --- |
