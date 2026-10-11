@@ -10,20 +10,21 @@
     "bio": "PhD Candidate @ Kent State | Robotics • Quantum Sensors • AI | Ex-Medtronic, Philips & Siemens | Exploring Claude, Codex, Cursor, Gemini & OpenClaw",
     "portrait": "assets/portrait.jpg",
     "portraitAlt": "Md Nazmul Islam",
-    "valueStatement": "I build assistive and wearable devices for rehabilitation, and I've published on AI that explains how it reads CT scans.",
+    "valueStatement": "I research quantum sensors and medical robotics at Kent State, and I teach the Mechatronics, Signal and Electronics, and Circuits labs. Before my PhD, I spent 12 years in hospitals in Bangladesh and India keeping CT and PET scanners and Hugo surgical robots running, and I helped grow the service business into Nepal and Sri Lanka.",
     "keywords": [
       "Robotics",
       "Quantum sensors",
       "Clinical AI"
     ],
     "pageTitle": "Md Nazmul Islam: PhD Candidate in Robotics & Medical AI, Kent State",
-    "description": "PhD candidate at Kent State. I build assistive and wearable devices for rehabilitation, and I've published on AI that explains how it reads CT scans. I also work on quantum sensors.",
-    "tagline": "PhD candidate at Kent State. Before that, 12 years fixing CT scanners and surgical robots in hospitals."
+    "description": "PhD candidate at Kent State researching quantum sensors and medical robotics. 12 years servicing CT, PET and Hugo surgical robots across South Asia.",
+    "tagline": "PhD candidate at Kent State researching quantum sensors and medical robotics. 12 years servicing CT, PET and Hugo surgical robots across South Asia."
   },
   "about": {
     "paragraphs": [
-      "I started with MRI and X-ray at Siemens Bangladesh and taught part-time at Daffodil, then spent eight years on CT and PET CT scanners at Philips and three keeping Medtronic's Hugo surgical robots running.",
-      "Now I build assistive and wearable devices for rehabilitation. I've published on AI that explains how it reads CT scans, including kidney findings and lung disease."
+      "I'm a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, working with Dr. Tao Shen. My research is on quantum sensors and medical robotics, including assistive and wearable devices for rehabilitation. I also teach the Mechatronics, Signal and Electronics, and Circuits labs. I publish my work on quantum sensors and medical robotics.",
+      "Before the PhD, I worked in the field. I started with MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. I then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. Along the way I helped expand the service business into Nepal and Sri Lanka.",
+      "During my MSc at BRAC University I published on explainable AI for medical imaging: deep learning models that show their reasoning when they detect kidney and lung disease in CT scans. That mix of hands-on hospital work and research shapes everything I build now."
     ],
     "match": [
       "who is he",
@@ -32,11 +33,17 @@
       "tell me about him",
       "tell me about nazmul",
       "background",
-      "bio"
+      "bio",
+      "which countries",
+      "nepal",
+      "sri lanka",
+      "south asia",
+      "circuits labs"
     ],
     "assistant": [
-      "Nazmul started with MRI and X-ray at Siemens Bangladesh and taught part-time at Daffodil, then spent eight years on CT and PET CT scanners at Philips and three years keeping Medtronic's Hugo surgical robots running.",
-      "He now builds assistive and wearable devices for rehabilitation. He has published on AI that explains how it reads CT scans, including kidney findings and lung disease. He is a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, a graduate assistant since Aug 2024, advised by Dr. Tao Shen."
+      "He is a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, working with Dr. Tao Shen. His research is on quantum sensors and medical robotics, including assistive and wearable devices for rehabilitation. He also teaches the Mechatronics, Signal and Electronics, and Circuits labs. He publishes his work on quantum sensors and medical robotics.",
+      "Before the PhD, he worked in the field. He started with MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. He then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. Along the way he helped expand the service business into Nepal and Sri Lanka.",
+      "During his MSc at BRAC University he published on explainable AI for medical imaging: deep learning models that show their reasoning when they detect kidney and lung disease in CT scans. That mix of hands-on hospital work and research shapes everything he builds now."
     ]
   },
   "locationNote": {
@@ -322,15 +329,16 @@
       "mark": "KS",
       "duties": [
         "Research quantum sensors and medical robotics.",
-        "Teach the Mechatronics Lab and the Signal and Electronics Lab."
+        "Teach the Mechatronics, Signal and Electronics, and Circuits labs."
       ],
-      "summary": "Since Aug 2024 he has been a Graduate Assistant and PhD candidate at Kent State University in Kent, Ohio. He researches quantum sensors and medical robotics. He teaches the Mechatronics Lab and the Signal and Electronics Lab. His PhD advisor is Dr. Tao Shen, and his CGPA is 4.00/4.00.",
+      "summary": "Since Aug 2024 he has been a Graduate Assistant and PhD candidate at Kent State University in Kent, Ohio. He researches quantum sensors and medical robotics. He teaches the Mechatronics, Signal and Electronics, and Circuits labs. His PhD advisor is Dr. Tao Shen, and his CGPA is 4.00/4.00.",
       "match": [
         "kent state",
         "graduate assistant",
         "phd candidate",
         "signal and electronics",
-        "mechatronics lab",
+        "circuits labs",
+        "mechatronics",
         "what does he teach",
         "what does he do at kent state",
         "teach",
