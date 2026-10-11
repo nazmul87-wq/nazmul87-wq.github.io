@@ -7,7 +7,7 @@
     "field": "Mechatronics, Robotics & Automation Engineering",
     "affiliation": "Kent State University",
     "location": "Kent, Ohio",
-    "bio": "PhD Candidate @ Kent State | Robotics • Quantum Sensors • AI | Ex-Medtronic, Philips & Siemens | Exploring Claude, Codex, Cursor, Gemini & OpenClaw",
+    "bio": "PhD Candidate @ Kent State | Robotics \u2022 Quantum Sensors \u2022 AI | Ex-Medtronic, Philips & Siemens | Exploring Claude, Codex, Cursor, Gemini & OpenClaw",
     "portrait": "assets/portrait.jpg",
     "portraitAlt": "Md Nazmul Islam",
     "valueStatement": "I research quantum sensors and medical robotics at Kent State, and I teach the Mechatronics, Signal and Electronics, and Circuits labs. Before my PhD, I spent 12 years in hospitals in Bangladesh and India keeping CT and PET scanners and Hugo surgical robots running, and I helped grow the service business into Nepal and Sri Lanka.",
@@ -44,6 +44,16 @@
       "He is a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, working with Dr. Tao Shen. His research is on quantum sensors and medical robotics, including assistive and wearable devices for rehabilitation. He also teaches the Mechatronics, Signal and Electronics, and Circuits labs. He publishes his work on quantum sensors and medical robotics.",
       "Before the PhD, he worked in the field. He started with MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. He then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. Along the way he helped expand the service business into Nepal and Sri Lanka.",
       "During his MSc at BRAC University he published on explainable AI for medical imaging: deep learning models that show their reasoning when they detect kidney and lung disease in CT scans. That mix of hands-on hospital work and research shapes everything he builds now."
+    ],
+    "interests": [
+      "Quantum sensors",
+      "Medical robotics",
+      "Wearable and assistive devices",
+      "Human-machine interfaces",
+      "Control systems",
+      "Computer vision",
+      "Explainable AI",
+      "Healthcare AI"
     ]
   },
   "locationNote": {
@@ -305,7 +315,7 @@
         "Md Golam Rabiul Alam"
       ],
       "type": "conference",
-      "venue": "24th ICCIT, IEEE, pp. 1–6",
+      "venue": "24th ICCIT, IEEE, pp. 1\u20136",
       "year": "2021",
       "date": "Dec 18, 2021",
       "url": "https://doi.org/10.1109/ICCIT54785.2021.9689784",
@@ -324,7 +334,7 @@
       "org": "Kent State University",
       "role": "Graduate Assistant / PhD Candidate",
       "location": "Kent, Ohio",
-      "dates": "Aug 2024 – Present",
+      "dates": "Aug 2024 \u2013 Present",
       "current": true,
       "mark": "KS",
       "duties": [
@@ -351,7 +361,7 @@
       "org": "Medtronic",
       "role": "Field Technical Service Specialist, Hugo Surgical Robotics",
       "location": "",
-      "dates": "2021 – Aug 2024",
+      "dates": "2021 \u2013 Aug 2024",
       "current": false,
       "mark": "MD",
       "duties": [
@@ -375,7 +385,7 @@
       "org": "Philips Healthcare",
       "role": "Field Service Engineer, CT and PET CT",
       "location": "",
-      "dates": "2013 – 2021",
+      "dates": "2013 \u2013 2021",
       "current": false,
       "mark": "PH",
       "duties": [
@@ -399,7 +409,7 @@
       "org": "Siemens Bangladesh Ltd.",
       "role": "Executive Engineer, MRI and X-ray",
       "location": "",
-      "dates": "2012 – 2013",
+      "dates": "2012 \u2013 2013",
       "current": false,
       "mark": "SI",
       "duties": [
@@ -422,7 +432,7 @@
       "org": "Daffodil International University",
       "role": "Lecturer, EEE (Part-Time)",
       "location": "",
-      "dates": "2012 – 2013",
+      "dates": "2012 \u2013 2013",
       "current": false,
       "mark": "DI",
       "duties": [
@@ -529,7 +539,7 @@
       "id": "orca-draw",
       "name": "orca-draw",
       "language": "JavaScript",
-      "summary": "Hand-drawn style whiteboard — Excalidraw-compatible clone (Vite + rough.js) with a one-line install.",
+      "summary": "Hand-drawn style whiteboard \u2014 Excalidraw-compatible clone (Vite + rough.js) with a one-line install.",
       "url": "https://github.com/nazmulislam-lab/orca-draw",
       "demo": "https://nazmulislam-lab.github.io/orca-draw/",
       "available": true,
@@ -652,6 +662,26 @@
       ]
     },
     {
+      "id": "chess-orca",
+      "name": "Chess_ORCA",
+      "language": "JavaScript",
+      "summary": "Exindel Chess: 2D and 3D boards, Stockfish bot personalities, a live tactical coach, a threat lens, and online multiplayer.",
+      "url": "https://github.com/nazmulislam-lab/Chess_ORCA",
+      "demo": "https://nazmulislam-lab.github.io/Chess_ORCA/",
+      "available": true,
+      "match": [
+        "chess orca",
+        "exindel",
+        "stockfish",
+        "threat lens"
+      ],
+      "image": "assets/projects/chess-orca.webp",
+      "imageAlt": "Exindel Chess board in the browser",
+      "imageSrcset": "assets/projects/chess-orca-800.webp 800w, assets/projects/chess-orca.webp 1280w",
+      "imageWidth": 1280,
+      "imageHeight": 800
+    },
+    {
       "id": "nazmul-event-talks-app",
       "name": "Nazmul-event-talks-app",
       "language": "Python",
@@ -759,7 +789,7 @@
       "school": "Kent State University",
       "degree": "PhD in Mechatronics, Robotics and Automation Engineering",
       "location": "Kent, Ohio, USA",
-      "dates": "Aug 2024 – Present",
+      "dates": "Aug 2024 \u2013 Present",
       "gpa": "4.00/4.00",
       "standing": "",
       "thesis": "",
@@ -779,7 +809,7 @@
       "school": "BRAC University",
       "degree": "Master of Science in Computer Science and Engineering",
       "location": "Dhaka, Bangladesh",
-      "dates": "Apr 2019 – Feb 2022",
+      "dates": "Apr 2019 \u2013 Feb 2022",
       "gpa": "4.00/4.00",
       "standing": "Highest Distinction",
       "thesis": "Demystify the Black-box Model of Automated Detection of Lung and Kidney Diseases from X-ray and CT Radiographs",
@@ -798,10 +828,10 @@
       "school": "Chittagong University of Engineering and Technology (CUET)",
       "degree": "Bachelor of Science in Electrical and Electronic Engineering",
       "location": "Chittagong, Bangladesh",
-      "dates": "Apr 2007 – May 2011",
+      "dates": "Apr 2007 \u2013 May 2011",
       "gpa": "3.18/4.00",
       "standing": "Merit position 46th",
-      "thesis": "Energy and Power Pricing Analysis of Bangladesh 2010–2011",
+      "thesis": "Energy and Power Pricing Analysis of Bangladesh 2010\u20132011",
       "advisor": "Dr. Shamsul Alam",
       "match": [
         "cuet",
@@ -815,43 +845,112 @@
   ],
   "certifications": [
     {
-      "group": "Workera",
-      "items": [
-        "Machine Learning Researcher, issued Mar 2022"
-      ]
+      "title": "O-arm imaging technical training",
+      "place": "Hyderabad, India",
+      "date": "Feb 2022",
+      "kind": "professional"
     },
     {
-      "group": "Coursera and DeepLearning.AI",
-      "items": [
-        "Convolutional Neural Networks",
-        "Convolutional Neural Networks in TensorFlow",
-        "Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization",
-        "Introduction to TensorFlow for Artificial Intelligence, Machine Learning, and Deep Learning",
-        "Structuring Machine Learning Projects",
-        "AI for Medical Diagnosis"
-      ]
+      "title": "Hugo RAS (Robotic Assisted Surgery) training",
+      "place": "North Haven, Connecticut, USA",
+      "date": "2 Nov 2021",
+      "kind": "professional"
     },
     {
-      "group": "Other courses",
-      "items": [
-        "Probability and Statistics: To p or not to p? — University of London",
-        "Python Data Structures — University of Michigan"
-      ]
+      "title": "Remote Technical Field Service Training for the Hugo RAS System",
+      "date": "Jun 2021",
+      "kind": "professional"
     },
     {
-      "group": "Professional",
-      "items": [
-        "Hugo RAS (Robotic Assisted Surgery) training, North Haven, Connecticut, USA, 2 Nov 2021",
-        "Remote Technical Field Service Training for the Hugo RAS System, Jun 2021",
-        "LEAN Basic Training at Philips Healthcare, Mumbai, India, Aug 2018",
-        "PET-CT (Ingenuity TF PET-CT differences), Philips Healthcare Academy, Cleveland, USA, Sep 2017",
-        "PET-CT (NM Gemini TF Series PET Table GSU with TruFlight Select), Philips Healthcare Academy, Cleveland, USA, Sep 2017",
-        "IntelliSpace Portal R10 Server, Gurgaon Philips, India, Aug 2018",
-        "CT Scanner (Brilliance Air Family), Singapore Learning Centre, Philips Singapore, Jul 2015",
-        "CT Scanner (Brilliance/Ingenuity/iCT Gateway), Singapore Learning Centre, Philips Singapore, Jul 2015",
-        "CT Scanner (CT advance training MX-16), Professor Holst Centre, the Netherlands, Aug 2014",
-        "O-arm imaging technical training, Hyderabad, India, Feb 2022"
-      ]
+      "title": "LEAN Basic Training",
+      "issuer": "Philips Healthcare",
+      "place": "Mumbai, India",
+      "date": "Aug 2018",
+      "kind": "professional"
+    },
+    {
+      "title": "IntelliSpace Portal R10 Server",
+      "place": "Gurgaon Philips, India",
+      "date": "Aug 2018",
+      "kind": "professional"
+    },
+    {
+      "title": "PET-CT (Ingenuity TF PET-CT differences)",
+      "issuer": "Philips Healthcare Academy",
+      "place": "Cleveland, USA",
+      "date": "Sep 2017",
+      "kind": "professional"
+    },
+    {
+      "title": "PET-CT (NM Gemini TF Series PET Table GSU with TruFlight Select)",
+      "issuer": "Philips Healthcare Academy",
+      "place": "Cleveland, USA",
+      "date": "Sep 2017",
+      "kind": "professional"
+    },
+    {
+      "title": "CT Scanner (Brilliance Air Family)",
+      "issuer": "Singapore Learning Centre, Philips Singapore",
+      "date": "Jul 2015",
+      "kind": "professional"
+    },
+    {
+      "title": "CT Scanner (Brilliance/Ingenuity/iCT Gateway)",
+      "issuer": "Singapore Learning Centre, Philips Singapore",
+      "date": "Jul 2015",
+      "kind": "professional"
+    },
+    {
+      "title": "CT Scanner (CT advance training MX-16)",
+      "place": "Professor Holst Centre, the Netherlands",
+      "date": "Aug 2014",
+      "kind": "professional"
+    },
+    {
+      "title": "Machine Learning Researcher",
+      "issuer": "Workera",
+      "date": "Mar 2022",
+      "kind": "online"
+    },
+    {
+      "title": "Convolutional Neural Networks",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "Convolutional Neural Networks in TensorFlow",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "Improving Deep Neural Networks: Hyperparameter Tuning, Regularization and Optimization",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "Introduction to TensorFlow for Artificial Intelligence, Machine Learning, and Deep Learning",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "Structuring Machine Learning Projects",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "AI for Medical Diagnosis",
+      "issuer": "DeepLearning.AI",
+      "kind": "online"
+    },
+    {
+      "title": "Probability and Statistics: To p or not to p?",
+      "issuer": "University of London",
+      "kind": "online"
+    },
+    {
+      "title": "Python Data Structures",
+      "issuer": "University of Michigan",
+      "kind": "online"
     }
   ],
   "collaborate": {

@@ -19,13 +19,14 @@ html = replaceMeta(html, "property", "og:title", title);
 html = replaceMeta(html, "name", "twitter:title", title);
 
 html = fill(html, "about", profile.about.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
+html = fill(html, "interests", (profile.about.interests || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("\n"));
 html = fill(html, "skills", profile.skills.map((group) => `<div><dt>${escapeHtml(group.group)}</dt><dd>${escapeHtml(group.items.join(", "))}</dd></div>`).join("\n"));
-html = fill(html, "research", profile.research.map((item) => `<li>${escapeHtml(item.title)}</li>`).join("\n"));
 html = fill(html, "publications", publicationsHtml(profile));
 html = fill(html, "experience", profile.experience.map(jobHtml).join("\n"));
 html = fill(html, "projects", profile.projects.filter((item) => item.available && item.summary).map(projectHtml).join("\n"));
 html = fill(html, "education", profile.education.map(eduHtml).join("\n"));
-html = fill(html, "training", profile.certifications.map(certHtml).join("\n"));
+html = fill(html, "certs-pro", certCards(profile.certifications, "professional"));
+html = fill(html, "certs-online", certCards(profile.certifications, "online"));
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));
@@ -101,14 +102,20 @@ function eduHtml(item) {
     item.advisor ? `Advisor: ${item.advisor}` : "",
     item.thesis ? `Thesis: ${item.thesis}` : ""
   ].filter(Boolean);
-  const extra = bits.length ? `<p>${escapeHtml(bits.join(" · "))}</p>` : "";
+  const extra = bits.length ? `<ul class="duties">${bits.map((bit) => `<li>${escapeHtml(bit)}</li>`).join("")}</ul>` : "";
   const place = [item.school, item.location].filter(Boolean).join(" · ");
-  return `<article class="edu"><p class="job-dates">${escapeHtml(item.dates || "")}</p><h3>${escapeHtml(item.degree)}</h3><p class="job-org">${escapeHtml(place)}</p>${extra}</article>`;
+  return `<article class="job"><p class="job-dates">${escapeHtml(item.dates || "")}</p><div class="job-body"><span class="job-mark" aria-hidden="true"></span><h3>${escapeHtml(item.degree)}</h3><p class="job-org">${escapeHtml(place)}</p>${extra}</div></article>`;
 }
 
-function certHtml(group) {
-  const items = group.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
-  return `<div class="cert-group"><h3 class="subhead">${escapeHtml(group.group)}</h3><ul class="duties">${items}</ul></div>`;
+function certCards(items, kind) {
+  return (items || []).filter((item) => item.kind === kind).map(certCard).join("\n");
+}
+
+function certCard(item) {
+  const meta = [item.issuer, item.place].filter(Boolean).join(" · ");
+  const metaHtml = meta ? `<p class="cert-meta">${escapeHtml(meta)}</p>` : "";
+  const dateHtml = item.date ? `<p class="cert-date">${escapeHtml(item.date)}</p>` : "";
+  return `<article class="cert"><h4>${escapeHtml(item.title)}</h4>${metaHtml}${dateHtml}</article>`;
 }
 
 function contactHtml(contact) {

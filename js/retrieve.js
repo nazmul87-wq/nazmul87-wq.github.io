@@ -236,7 +236,15 @@ function formatJob(job) {
 
 function formatCertifications(profile) {
   const lines = ["Training and certificates from his CV:", ""];
-  for (const group of profile.certifications || []) {
+  const entries = profile.certifications || [];
+  if (entries.length && entries[0] && entries[0].title) {
+    for (const item of entries) {
+      const bits = [item.title, item.issuer, item.place, item.date].filter((part) => visitorText(part));
+      if (bits.length) lines.push(`• ${bits.join(", ")}`);
+    }
+    return lines.join("\n").trim();
+  }
+  for (const group of entries) {
     const items = (group.items || []).filter((item) => visitorText(item));
     if (!items.length) continue;
     lines.push(group.group);
