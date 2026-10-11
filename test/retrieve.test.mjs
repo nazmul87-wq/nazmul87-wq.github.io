@@ -8,7 +8,7 @@ const cases = [
   ["Where does he study?", ["kent state", "phd"]],
   ["What did he work on at Medtronic?", ["medtronic", "hugo", "imaging"]],
   ["What projects has he built?", ["multi-agent-system", "orca-draw", "passport-photo-studio", "northstar-reader", "online chess"]],
-  ["How can I contact him?", ["nazmul87@gmail.com", "github.com/nazmul87-wq", "linkedin.com/in/nazmul87"]],
+  ["How can I contact him?", ["nazmul87@gmail.com", "github.com/nazmulislam-lab", "linkedin.com/in/nazmul87"]],
   ["What did he do at Philips?", ["philips", "imaging"]],
   ["Tell me about Siemens", ["siemens"]],
   ["What is his research on quantum sensors?", ["quantum", "opm"]],

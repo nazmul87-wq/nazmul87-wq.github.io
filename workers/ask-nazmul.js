@@ -15,7 +15,7 @@
  * Then set chat.llm.endpoint to the deployed https URL and chat.llm.enabled to true.
  */
 
-const DEFAULT_ORIGIN = "https://nazmul87-wq.github.io";
+const DEFAULT_ORIGIN = "https://nazmulislam-lab.github.io";
 
 export default {
   async fetch(request, env) {

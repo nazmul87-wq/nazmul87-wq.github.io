@@ -196,7 +196,7 @@
       "name": "multi-agent-system",
       "language": "Python",
       "summary": "Multi-agent system (orchestrator, researcher, designer, coders, reviewer, summarizer, documenter) running on free local models with a live dashboard.",
-      "url": "https://github.com/nazmul87-wq/multi-agent-system",
+      "url": "https://github.com/nazmulislam-lab/multi-agent-system",
       "demo": "",
       "available": true,
       "match": ["multi-agent", "multi agent", "orchestrator", "local models"]
@@ -206,8 +206,8 @@
       "name": "orca-draw",
       "language": "JavaScript",
       "summary": "Hand-drawn style whiteboard — Excalidraw-compatible clone (Vite + rough.js) with a one-line install.",
-      "url": "https://github.com/nazmul87-wq/orca-draw",
-      "demo": "https://nazmul87-wq.github.io/orca-draw/",
+      "url": "https://github.com/nazmulislam-lab/orca-draw",
+      "demo": "https://nazmulislam-lab.github.io/orca-draw/",
       "available": true,
       "match": ["orca", "orca-draw", "orca draw", "whiteboard", "excalidraw"]
     },
@@ -216,8 +216,8 @@
       "name": "passport-photo-studio",
       "language": "TypeScript",
       "summary": "Make a compliant passport or visa photo sheet in the browser. The photo never leaves the device.",
-      "url": "https://github.com/nazmul87-wq/passport-photo-studio",
-      "demo": "https://nazmul87-wq.github.io/passport-photo-studio/",
+      "url": "https://github.com/nazmulislam-lab/passport-photo-studio",
+      "demo": "https://nazmulislam-lab.github.io/passport-photo-studio/",
       "available": true,
       "match": ["passport", "passport photo", "visa photo", "photo studio"]
     },
@@ -229,7 +229,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add the repository URL. nazmul87-wq/Simple-Typescript-App-01 was not found on public GitHub.",
+      "todo": "TODO: add the repository URL. nazmulislam-lab/Simple-Typescript-App-01 was not found on public GitHub.",
       "match": ["simple typescript", "online chess", "chess"]
     },
     {
@@ -240,7 +240,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/bollywood-jigsaw-game was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/bollywood-jigsaw-game was not found on public GitHub.",
       "match": ["bollywood", "jigsaw"]
     },
     {
@@ -251,7 +251,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/ai-influencer-agents was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/ai-influencer-agents was not found on public GitHub.",
       "match": ["influencer agents", "ai influencer"]
     },
     {
@@ -259,7 +259,7 @@
       "name": "northstar-reader",
       "language": "TypeScript",
       "summary": "Local-first Markdown and PDF reader for Windows (web and Tauri desktop). Import files into a private library, read and annotate PDFs, edit Markdown, and export a file when you need one.",
-      "url": "https://github.com/nazmul87-wq/northstar-reader",
+      "url": "https://github.com/nazmulislam-lab/northstar-reader",
       "demo": "",
       "available": true,
       "match": ["northstar", "pdf reader", "markdown reader"]
@@ -272,7 +272,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/XervioLab_v1 was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/XervioLab_v1 was not found on public GitHub.",
       "match": ["xervio", "xerviolab"]
     },
     {
@@ -283,7 +283,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/Ant-Game was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/Ant-Game was not found on public GitHub.",
       "match": ["ant game", "ant-game"]
     },
     {
@@ -291,7 +291,7 @@
       "name": "Nazmul-event-talks-app",
       "language": "Python",
       "summary": "Flask app that fetches Google Cloud BigQuery release notes, splits combined updates into cards, and helps compose posts for X (Twitter) with character-limit checks.",
-      "url": "https://github.com/nazmul87-wq/Nazmul-event-talks-app",
+      "url": "https://github.com/nazmulislam-lab/Nazmul-event-talks-app",
       "demo": "",
       "available": true,
       "match": ["event talks", "bigquery", "release notes"]
@@ -304,7 +304,7 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/x-business-ideas-scout was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/x-business-ideas-scout was not found on public GitHub.",
       "match": ["business ideas", "ideas scout"]
     },
     {
@@ -315,14 +315,14 @@
       "url": "",
       "demo": "",
       "available": false,
-      "todo": "TODO: add a description and repository URL. nazmul87-wq/last-30-days-skill was not found on public GitHub.",
+      "todo": "TODO: add a description and repository URL. nazmulislam-lab/last-30-days-skill was not found on public GitHub.",
       "match": ["last 30 days", "last-30-days", "30 days skill"]
     }
   ],
   "contact": {
     "email": "nazmul87@gmail.com",
-    "github": "https://github.com/nazmul87-wq",
-    "githubLabel": "github.com/nazmul87-wq",
+    "github": "https://github.com/nazmulislam-lab",
+    "githubLabel": "github.com/nazmulislam-lab",
     "linkedin": "https://www.linkedin.com/in/nazmul87",
     "linkedinLabel": "linkedin.com/in/nazmul87",
     "cv": "",

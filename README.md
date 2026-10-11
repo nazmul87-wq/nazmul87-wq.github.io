@@ -1,6 +1,6 @@
 # Md Nazmul Islam
 
-Personal site for [nazmul87-wq.github.io](https://nazmul87-wq.github.io). It is a static site: HTML, CSS, and JavaScript, with no build step. GitHub Pages serves it from the root of `main`.
+Personal site for [nazmulislam-lab.github.io](https://nazmulislam-lab.github.io). It is a static site: HTML, CSS, and JavaScript, with no build step. GitHub Pages serves it from the root of `main`.
 
 Family, friends, and colleagues can read the page or use **Ask about Nazmul**. The chat answers from the profile file in the browser. It does not need an API key.
 
@@ -34,7 +34,7 @@ The portrait is the public GitHub avatar, saved at `assets/portrait.jpg`. Replac
 
 ### Projects that were not on public GitHub
 
-These names are in `projects` with `"available": false` because `nazmul87-wq/<name>` returned 404 from the public GitHub API when the site was built:
+These names are in `projects` with `"available": false` because `nazmulislam-lab/<name>` returned 404 from the public GitHub API when the site was built:
 
 - Simple-Typescript-App-01 (described as online chess)
 - bollywood-jigsaw-game
@@ -48,13 +48,13 @@ They show under “Names still to confirm”. When you have a real URL and descr
 
 Public repositories that are linked today:
 
-- [multi-agent-system](https://github.com/nazmul87-wq/multi-agent-system)
-- [orca-draw](https://github.com/nazmul87-wq/orca-draw) ([demo](https://nazmul87-wq.github.io/orca-draw/))
-- [passport-photo-studio](https://github.com/nazmul87-wq/passport-photo-studio) ([demo](https://nazmul87-wq.github.io/passport-photo-studio/))
-- [northstar-reader](https://github.com/nazmul87-wq/northstar-reader)
-- [Nazmul-event-talks-app](https://github.com/nazmul87-wq/Nazmul-event-talks-app)
+- [multi-agent-system](https://github.com/nazmulislam-lab/multi-agent-system)
+- [orca-draw](https://github.com/nazmulislam-lab/orca-draw) ([demo](https://nazmulislam-lab.github.io/orca-draw/))
+- [passport-photo-studio](https://github.com/nazmulislam-lab/passport-photo-studio) ([demo](https://nazmulislam-lab.github.io/passport-photo-studio/))
+- [northstar-reader](https://github.com/nazmulislam-lab/northstar-reader)
+- [Nazmul-event-talks-app](https://github.com/nazmulislam-lab/Nazmul-event-talks-app)
 
-Descriptions for those five come from the GitHub API or each repository’s README. The profile text comes from the GitHub bio and from [nazmul87-wq/nazmul87-wq](https://github.com/nazmul87-wq/nazmul87-wq).
+Descriptions for those five come from the GitHub API or each repository’s README. The profile text comes from the GitHub bio and from [nazmulislam-lab/nazmul87-wq](https://github.com/nazmulislam-lab/nazmul87-wq).
 
 ## Preview locally
 
@@ -108,7 +108,7 @@ It returns `{ "answer": "..." }`. It calls an OpenAI-compatible `POST /chat/comp
 - `LLM_API_KEY` (secret)
 - `LLM_BASE_URL` (default `https://api.openai.com/v1`)
 - `LLM_MODEL` (default `gpt-4o-mini`)
-- `ALLOWED_ORIGIN` (default `https://nazmul87-wq.github.io`; localhost is also allowed)
+- `ALLOWED_ORIGIN` (default `https://nazmulislam-lab.github.io`; localhost is also allowed)
 
 Then in `data/profile.json`:
 
@@ -128,4 +128,4 @@ This repository is a user site. Pages should deploy from the **main** branch, fo
 - `index.html` is at the repository root.
 - `.nojekyll` is present so Jekyll does not rewrite the site.
 
-In the repository settings, under Pages, choose “Deploy from a branch”, branch `main`, folder `/ (root)`. After the next push to `main`, the site is at https://nazmul87-wq.github.io.
+In the repository settings, under Pages, choose “Deploy from a branch”, branch `main`, folder `/ (root)`. After the next push to `main`, the site is at https://nazmulislam-lab.github.io.
