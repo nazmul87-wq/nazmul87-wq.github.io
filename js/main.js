@@ -91,7 +91,7 @@ function renderProfile(profile) {
   }
 
   renderSkills(profile.skills);
-  renderResearch(profile.research);
+  renderInterests(profile.about && profile.about.interests);
   renderEducation(profile.education);
   renderPublications(profile);
   renderExperience(profile.experience);
@@ -122,40 +122,43 @@ function renderSkills(groups) {
   }
 }
 
-function renderResearch(items) {
-  const root = document.querySelector("[data-research]");
+function renderInterests(items) {
+  const root = document.querySelector("[data-interests]");
   if (!root) return;
   root.replaceChildren();
-  for (const item of items) {
-    if (isPlaceholder(item.title)) continue;
+  for (const item of items || []) {
+    if (isPlaceholder(item)) continue;
     const li = document.createElement("li");
-    li.textContent = item.title;
+    li.textContent = item;
     root.append(li);
   }
 }
 
 function renderEducation(items) {
   const root = document.querySelector("[data-education]");
-  const section = document.querySelector("#education");
   if (!root) return;
   root.replaceChildren();
   const rows = (items || []).filter((item) => !isPlaceholder(item.degree) || !isPlaceholder(item.school));
-  if (section) section.hidden = rows.length === 0;
   for (const item of rows) {
     const card = document.createElement("article");
-    card.className = "edu";
+    card.className = "job";
     if (!isPlaceholder(item.dates)) {
       const dates = document.createElement("p");
       dates.className = "job-dates";
       dates.textContent = item.dates;
       card.append(dates);
     }
+    const body = document.createElement("div");
+    body.className = "job-body";
+    const mark = document.createElement("span");
+    mark.className = "job-mark";
+    mark.setAttribute("aria-hidden", "true");
     const degree = document.createElement("h3");
     degree.textContent = item.degree;
     const school = document.createElement("p");
     school.className = "job-org";
     school.textContent = [item.school, item.location].filter((part) => !isPlaceholder(part)).join(" · ");
-    card.append(degree, school);
+    body.append(mark, degree, school);
     const facts = [
       !isPlaceholder(item.gpa) ? `CGPA ${item.gpa}` : "",
       !isPlaceholder(item.standing) ? item.standing : "",
@@ -170,37 +173,77 @@ function renderEducation(items) {
         li.textContent = fact;
         list.append(li);
       }
-      card.append(list);
+      body.append(list);
     }
+    card.append(body);
     root.append(card);
   }
 }
 
-function renderCertifications(groups) {
-  const root = document.querySelector("[data-certifications]");
-  const section = document.querySelector("[data-certifications-section]");
-  const nav = document.querySelector("[data-nav-certifications]");
+function renderCertifications(items) {
+  const professional = document.querySelector("[data-certs-professional]");
+  const online = document.querySelector("[data-certs-online]");
+  const more = document.querySelector("[data-certs-more]");
+  const certs = sortCerts(items || []);
+  const pro = certs.filter((item) => item.kind === "professional");
+  const web = certs.filter((item) => item.kind !== "professional");
+  fillCertGrid(professional, pro);
+  fillCertGrid(online, web);
+  if (more) more.hidden = web.length === 0;
+}
+
+function fillCertGrid(root, items) {
   if (!root) return;
   root.replaceChildren();
-  const filled = (groups || []).filter((group) => (group.items || []).some((item) => !isPlaceholder(item)));
-  if (section) section.hidden = filled.length === 0;
-  if (nav) nav.hidden = filled.length === 0;
-  for (const group of filled) {
-    const block = document.createElement("div");
-    block.className = "cert-group";
-    const heading = document.createElement("h3");
-    heading.className = "subhead";
-    heading.textContent = group.group;
-    const list = document.createElement("ul");
-    list.className = "duties";
-    for (const item of group.items.filter((entry) => !isPlaceholder(entry))) {
-      const li = document.createElement("li");
-      li.textContent = item;
-      list.append(li);
-    }
-    block.append(heading, list);
-    root.append(block);
+  for (const item of items) root.append(certCard(item));
+}
+
+function certCard(item) {
+  const card = document.createElement("article");
+  card.className = "cert";
+  const title = document.createElement("h4");
+  title.textContent = item.title;
+  card.append(title);
+  const meta = [item.issuer, item.place].filter((part) => !isPlaceholder(part)).join(" · ");
+  if (meta) {
+    const line = document.createElement("p");
+    line.className = "cert-meta";
+    line.textContent = meta;
+    card.append(line);
   }
+  if (!isPlaceholder(item.date)) {
+    const date = document.createElement("p");
+    date.className = "cert-date";
+    date.textContent = item.date;
+    card.append(date);
+  }
+  return card;
+}
+
+const CERT_MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+
+function certStamp(item) {
+  const date = String(item.date || "");
+  const year = date.match(/\b(19|20)\d{2}\b/);
+  if (!year) return 0;
+  const month = date.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i);
+  const dayMatch = date.match(/\b(\d{1,2})\b/);
+  const day = dayMatch && Number(dayMatch[1]) <= 31 ? Number(dayMatch[1]) : 1;
+  return Number(year[0]) * 10000 + (month ? CERT_MONTHS[month[1].toLowerCase()] : 1) * 100 + day;
+}
+
+function sortCerts(items) {
+  return items
+    .filter((item) => item && !isPlaceholder(item.title))
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => {
+      const kind = (a.item.kind === "professional" ? 0 : 1) - (b.item.kind === "professional" ? 0 : 1);
+      if (kind) return kind;
+      const stamp = certStamp(b.item) - certStamp(a.item);
+      if (stamp) return stamp;
+      return a.index - b.index;
+    })
+    .map((entry) => entry.item);
 }
 
 function renderKeywords(keywords) {
@@ -492,7 +535,7 @@ function renderLatestPosts() {
   if (!section || !root) return;
   loadPosts("blog/posts.json")
     .then((posts) => {
-      if (posts.length < 3) return;
+      if (posts.length < 1) return;
       renderPostCards(root, posts.slice(0, 3), "blog/");
       section.hidden = false;
       section.classList.add("is-in");
