@@ -1,0 +1,9 @@
+name = "ask-nazmul"
+main = "ask-nazmul.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+LLM_BASE_URL = "https://api.openai.com/v1"
+LLM_MODEL = "gpt-4o-mini"
+ALLOWED_ORIGIN = "https://nazmul87-wq.github.io"
+# Set the secret out of band: npx wrangler secret put LLM_API_KEY

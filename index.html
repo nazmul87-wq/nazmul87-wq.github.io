@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Md Nazmul Islam · Portfolio</title>
+    <meta
+      name="description"
+      content="Md Nazmul Islam is a PhD candidate at Kent State University working on robotics, quantum sensors, and AI. Previously Medtronic, Philips, and Siemens."
+    />
+    <meta name="theme-color" content="#f6f3ec" />
+    <meta property="og:title" content="Md Nazmul Islam" />
+    <meta
+      property="og:description"
+      content="PhD candidate at Kent State. Robotics, quantum sensors, and AI. Previously Medtronic, Philips, and Siemens."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nazmul87-wq.github.io/" />
+    <meta property="og:image" content="https://nazmul87-wq.github.io/assets/portrait.jpg" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,560;0,9..144,640;1,9..144,560&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("nazmul-theme");
+          var theme = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          document.documentElement.dataset.theme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#101114" : "#f6f3ec");
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top">
+        <span class="mark" aria-hidden="true">NI</span>
+        <span data-given>Nazmul</span>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+      <nav id="site-nav" class="site-nav" data-nav>
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
+        <span class="theme-icon theme-icon-sun" aria-hidden="true"></span>
+        <span class="theme-icon theme-icon-moon" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <main id="main">
+      <p class="status" data-status role="status">Loading profile…</p>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span data-title>PhD Candidate</span>
+            <span class="dot" aria-hidden="true"></span>
+            <span data-affiliation>Kent State University</span>
+          </p>
+          <h1 data-name>Md Nazmul Islam</h1>
+          <p class="lede" data-bio></p>
+          <p class="hero-meta">
+            <span data-field>Mechatronics, Robotics &amp; Automation Engineering</span>
+            <span class="dot" aria-hidden="true"></span>
+            <span data-location>Kent, Ohio</span>
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" data-email-link href="mailto:nazmul87@gmail.com">Email Nazmul</a>
+            <a class="button button-ghost" data-github-link href="https://github.com/nazmul87-wq">GitHub</a>
+            <button class="button button-ghost" type="button" data-ask-open>Ask about Nazmul</button>
+          </div>
+        </div>
+        <figure class="portrait-wrap">
+          <div class="rings" aria-hidden="true"></div>
+          <img data-portrait width="460" height="460" alt="" />
+          <figcaption data-portrait-todo></figcaption>
+        </figure>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-head">
+          <p class="kicker">About</p>
+          <h2>Clinical systems, then a research path.</h2>
+        </div>
+        <div class="about-grid">
+          <div class="prose" data-about></div>
+          <ul class="skills" data-skills></ul>
+        </div>
+      </section>
+
+      <section id="research" class="section">
+        <div class="section-head">
+          <p class="kicker">Research interests</p>
+          <h2>Robotics, sensing, and interpretable clinical AI.</h2>
+        </div>
+        <div class="card-grid" data-research></div>
+      </section>
+
+      <section id="publications" class="section">
+        <div class="section-head">
+          <p class="kicker">Selected publications</p>
+          <h2>Papers listed on his public profile.</h2>
+        </div>
+        <ol class="papers" data-publications></ol>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="section-head">
+          <p class="kicker">Experience</p>
+          <h2>Kent State, and earlier field work in hospitals.</h2>
+        </div>
+        <div class="timeline" data-experience></div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-head">
+          <p class="kicker">Projects</p>
+          <h2>Software on his public GitHub.</h2>
+        </div>
+        <div class="project-grid" data-projects></div>
+        <div class="pending">
+          <h3>Names still to confirm</h3>
+          <p>
+            These project names are part of the portfolio list. A public GitHub repository was not found for them, so the
+            description and link are left as TODOs in <code>data/profile.json</code>.
+          </p>
+          <ul data-pending-projects></ul>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="section-head">
+          <p class="kicker">Contact</p>
+          <h2>A note goes a long way.</h2>
+        </div>
+        <div class="contact-grid" data-contact></div>
+        <p class="collab" data-collaboration></p>
+        <div class="cv-note" data-cv></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span data-name>Md Nazmul Islam</span> · <span data-location>Kent, Ohio</span></p>
+      <p>Personal content lives in <code>data/profile.json</code>. © <span data-year>2026</span></p>
+    </footer>
+
+    <div class="ask" data-ask>
+      <button class="ask-launch" type="button" aria-expanded="false" aria-controls="ask-panel">
+        <span class="ask-mark" aria-hidden="true"></span>
+        <span class="ask-launch-label">Ask about Nazmul</span>
+      </button>
+      <section id="ask-panel" class="ask-panel" hidden role="dialog" aria-modal="true" aria-labelledby="ask-title">
+        <header class="ask-head">
+          <div>
+            <h2 id="ask-title">Ask about Nazmul</h2>
+            <p>Answers stay in your browser unless you turn on the optional assistant.</p>
+          </div>
+          <button class="ask-close" type="button" aria-label="Close chat">Close</button>
+        </header>
+        <div class="ask-log" aria-live="polite"></div>
+        <div class="ask-chips"></div>
+        <form class="ask-form">
+          <label class="visually-hidden" for="ask-input">Your question</label>
+          <input
+            id="ask-input"
+            class="ask-input"
+            type="text"
+            name="question"
+            maxlength="500"
+            placeholder="Where does he study?"
+            autocomplete="off"
+          />
+          <button class="button button-primary" type="submit">Send</button>
+        </form>
+      </section>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
