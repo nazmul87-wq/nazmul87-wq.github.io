@@ -5,18 +5,18 @@
     <link>https://nazmulislam-lab.github.io/blog/</link>
     <description>Short notes on robotics and medical devices, from the lab and the field.</description>
     <item>
-      <title>Welcome to my site</title>
-      <link>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</link>
-      <guid>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</guid>
-      <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
-      <description>I'll use this space for notes from the lab and from 12 years of servicing hospital equipment.</description>
-    </item>
-    <item>
       <title>Customer discovery at Quantum World Congress 2026</title>
       <link>https://nazmulislam-lab.github.io/blog/post.html?slug=qwc-2026</link>
       <guid>https://nazmulislam-lab.github.io/blog/post.html?slug=qwc-2026</guid>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
+      <pubDate>Sun, 11 Oct 2026 18:00:00 GMT</pubDate>
       <description>I went to Quantum World Congress 2026 in College Park with the NSF I-Corps program for customer discovery.</description>
+    </item>
+    <item>
+      <title>Welcome to my site</title>
+      <link>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</link>
+      <guid>https://nazmulislam-lab.github.io/blog/post.html?slug=welcome</guid>
+      <pubDate>Sun, 11 Oct 2026 09:00:00 GMT</pubDate>
+      <description>I'll use this space for notes from the lab and from 12 years of servicing hospital equipment.</description>
     </item>
   </channel>
 </rss>

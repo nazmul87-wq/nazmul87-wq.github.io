@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { iconMarkup } from "../js/icon-paths.js";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8"));
-const news = JSON.parse(readFileSync(new URL("../data/news.json", import.meta.url), "utf8"));
+const postsFile = JSON.parse(readFileSync(new URL("../blog/posts.json", import.meta.url), "utf8"));
 const indexPath = new URL("../index.html", import.meta.url);
 let html = readFileSync(indexPath, "utf8");
 
@@ -28,10 +28,12 @@ html = fill(html, "projects", profile.projects.filter((item) => item.available &
 html = fill(html, "education", profile.education.map(eduHtml).join("\n"));
 html = fill(html, "certs-pro", certItems(profile.certifications, "professional"));
 html = fill(html, "certs-online", certItems(profile.certifications, "online"));
-const newsHtml = (news.items || []).map((item) => newsItem(item, false)).join("\n");
-const newsDup = (news.items || []).map((item) => newsItem(item, true)).join("\n");
-html = fill(html, "news", newsHtml);
-html = fill(html, "news-dup", newsDup);
+const headlines = latestPosts(postsFile.posts || []);
+html = html.replace(
+  /<aside class="news-ticker"(?: hidden)?/,
+  headlines.length ? '<aside class="news-ticker"' : '<aside class="news-ticker" hidden'
+);
+html = fill(html, "news", headlines.length ? newsItem(headlines[0]) : "");
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));
@@ -131,10 +133,27 @@ function certLabel(item) {
   return tail ? `${item.title}, ${tail}` : item.title;
 }
 
-function newsItem(item, hidden) {
-  const label = item.date ? `${item.date}: ${item.title}` : item.title;
-  const tab = hidden ? ` tabindex="-1"` : "";
-  return `<li><a href="${escapeAttr(item.url)}"${tab}>${escapeHtml(label)}</a></li>`;
+function latestPosts(posts) {
+  return posts
+    .filter((post) => post && post.slug && post.title)
+    .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
+    .slice(0, 5);
+}
+
+function shortPostDate(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return "";
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[Number(match[2]) - 1]} ${Number(match[3])}`;
+}
+
+function newsItem(post) {
+  const date = shortPostDate(post.date);
+  const time = date
+    ? `<time class="news-date" datetime="${escapeAttr(post.date)}">${escapeHtml(date)}</time>`
+    : "";
+  const href = `blog/post.html?slug=${encodeURIComponent(post.slug)}`;
+  return `<a class="news-slide" href="${href}"><span class="news-title">${escapeHtml(post.title)}</span>${time}</a>`;
 }
 
 function contactHtml(contact) {

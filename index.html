@@ -32,6 +32,8 @@
     <meta name="twitter:image" content="https://nazmulislam-lab.github.io/assets/og.jpg" />
     <link rel="canonical" href="https://nazmulislam-lab.github.io/" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" as="image" href="assets/portrait.jpg" />
     <link rel="stylesheet" href="css/styles.css" />
     <script>
@@ -103,20 +105,9 @@
 
       <aside class="news-ticker" aria-label="Latest news" data-news>
         <p class="news-label">Latest</p>
-        <div class="news-viewport">
-          <div class="news-track">
-            <ul class="news-list"><!-- build:news -->
-<li><a href="blog/post.html?slug=qwc-2026">Sep 2026: Attended Quantum World Congress 2026 with NSF I-Corps</a></li>
-<li><a href="#experience">Teaching the Mechatronics, Signal and Electronics, and Circuits labs at Kent State</a></li>
-<li><a href="#publications">New paper at ASME DMD 2026</a></li>
-<!-- /build:news --></ul>
-            <ul class="news-list" aria-hidden="true"><!-- build:news-dup -->
-<li><a href="blog/post.html?slug=qwc-2026" tabindex="-1">Sep 2026: Attended Quantum World Congress 2026 with NSF I-Corps</a></li>
-<li><a href="#experience" tabindex="-1">Teaching the Mechatronics, Signal and Electronics, and Circuits labs at Kent State</a></li>
-<li><a href="#publications" tabindex="-1">New paper at ASME DMD 2026</a></li>
-<!-- /build:news-dup --></ul>
-          </div>
-        </div>
+        <div class="news-viewport"><!-- build:news -->
+<a class="news-slide" href="blog/post.html?slug=qwc-2026"><span class="news-title">Customer discovery at Quantum World Congress 2026</span><time class="news-date" datetime="2026-10-11">Oct 11</time></a>
+<!-- /build:news --></div>
       </aside>
 
       <section id="about" class="section reveal">
@@ -252,16 +243,6 @@
         <div class="prose" data-beyond-copy></div>
         <ul class="hobbies" data-hobbies></ul>
         <div class="gallery" data-gallery></div>
-      </section>
-
-      <section id="latest" class="section reveal" data-latest-section hidden>
-        <div class="section-head section-head-split">
-          <div>
-            <h2>Latest posts</h2>
-          </div>
-          <a class="button button-ghost" href="blog/index.html">All posts</a>
-        </div>
-        <div class="post-list" data-latest-posts></div>
       </section>
 
       <section id="contact" class="section reveal">
