@@ -10,6 +10,7 @@ const status = document.querySelector("[data-status]");
 loadProfile()
   .then((profile) => {
     renderProfile(profile);
+    loadNews();
     initChat(profile);
     if (status) status.hidden = true;
   })
@@ -19,6 +20,35 @@ loadProfile()
       status.textContent = "This page could not load data/profile.json. From the site folder, run a local server such as: python3 -m http.server";
     }
   });
+
+function loadNews() {
+  fetch("data/news.json", { cache: "no-cache" })
+    .then((response) => {
+      if (!response.ok) throw new Error("news");
+      return response.json();
+    })
+    .then((data) => renderNews(data.items || []))
+    .catch(() => {});
+}
+
+function renderNews(items) {
+  const lists = document.querySelectorAll("[data-news] .news-list");
+  if (!lists.length || !items.length) return;
+  lists.forEach((list, index) => {
+    list.replaceChildren();
+    for (const item of items) list.append(newsLink(item, index > 0));
+  });
+}
+
+function newsLink(item, hidden) {
+  const li = document.createElement("li");
+  const link = document.createElement("a");
+  link.href = item.url;
+  link.textContent = item.date ? `${item.date}: ${item.title}` : item.title;
+  if (hidden) link.tabIndex = -1;
+  li.append(link);
+  return li;
+}
 
 async function loadProfile() {
   const response = await fetch("data/profile.json", { cache: "no-cache" });
@@ -187,37 +217,40 @@ function renderCertifications(items) {
   const certs = sortCerts(items || []);
   const pro = certs.filter((item) => item.kind === "professional");
   const web = certs.filter((item) => item.kind !== "professional");
-  fillCertGrid(professional, pro);
-  fillCertGrid(online, web);
+  fillCertList(professional, pro);
+  fillCertList(online, web);
   if (more) more.hidden = web.length === 0;
 }
 
-function fillCertGrid(root, items) {
+function fillCertList(root, items) {
   if (!root) return;
   root.replaceChildren();
-  for (const item of items) root.append(certCard(item));
+  for (const item of items) root.append(certItem(item));
 }
 
-function certCard(item) {
-  const card = document.createElement("article");
-  card.className = "cert";
-  const title = document.createElement("h4");
-  title.textContent = item.title;
-  card.append(title);
-  const meta = [item.issuer, item.place].filter((part) => !isPlaceholder(part)).join(" · ");
-  if (meta) {
-    const line = document.createElement("p");
-    line.className = "cert-meta";
-    line.textContent = meta;
-    card.append(line);
-  }
+function certItem(item) {
+  const li = document.createElement("li");
+  const line = document.createElement("span");
+  line.className = "cert-line";
+  line.textContent = certLabel(item);
+  li.append(line);
   if (!isPlaceholder(item.date)) {
-    const date = document.createElement("p");
+    const date = document.createElement("span");
     date.className = "cert-date";
     date.textContent = item.date;
-    card.append(date);
+    li.append(date);
   }
-  return card;
+  return li;
+}
+
+function certLabel(item) {
+  const issuer = isPlaceholder(item.issuer) ? "" : String(item.issuer).trim();
+  const place = isPlaceholder(item.place) ? "" : String(item.place).trim();
+  let tail = "";
+  if (issuer && place) tail = `${issuer} (${place})`;
+  else if (issuer) tail = issuer;
+  else if (place) tail = `(${place})`;
+  return tail ? `${item.title}, ${tail}` : item.title;
 }
 
 const CERT_MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
@@ -536,7 +569,7 @@ function renderLatestPosts() {
   loadPosts("blog/posts.json")
     .then((posts) => {
       if (posts.length < 1) return;
-      renderPostCards(root, posts.slice(0, 3), "blog/");
+      renderPostCards(root, posts.slice(0, 3), "blog/", "");
       section.hidden = false;
       section.classList.add("is-in");
     })
