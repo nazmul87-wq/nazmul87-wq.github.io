@@ -191,7 +191,13 @@ function escapeAttr(value) {
 }
 
 function inline(text) {
-  return escapeHtml(text)
+  const escaped = escapeHtml(text);
+  const curled = escaped
+    .split(/(https?:\/\/[^\s)]+|`[^`]*`)/g)
+    .map((part, index) => (index % 2 ? part : part.replace(/(\w)'(\w)/g, "$1\u2019$2")))
+    .join("");
+  return curled
+    .replace(/`([^`]*)`/g, "<code>$1</code>")
     .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[\s(])\*([^*]+)\*(?=$|[\s).,])/g, "$1<em>$2</em>");
