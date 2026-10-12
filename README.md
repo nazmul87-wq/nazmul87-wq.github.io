@@ -89,12 +89,13 @@ The note, in first person. Use only facts already on the site or in the CV.
 
 2. Add an entry to [`blog/posts.json`](blog/posts.json): `"slug"`, `"title"`, `"date"`, `"tags"`, and `"file"` (for example `posts/my-note.md`). The slug is the `?slug=` value on `blog/post.html`.
 3. Add an `<item>` to [`feed.xml`](feed.xml) with the same title, date, and link `https://nazmulislam-lab.github.io/blog/post.html?slug=my-note`.
-4. Commit and push. The blog index, the homepage “Latest posts” strip, and the post page all read `posts.json`.
+4. Commit and push. The blog index and the post page read `posts.json`. Run `node scripts/build.mjs` so the news band under the hero includes the new post.
 5. Optional cover: set `"image"` and `"imageAlt"` on the `posts.json` entry. Paths are from the site root, for example `assets/blog/photo.webp`.
+6. Optional order: set `"published"` to an ISO datetime when two posts share a `date`. Newer `published` values sort first on the blog index, in the news band, and in `feed.xml`.
 
 ## Latest news
 
-The band under the hero reads [`data/news.json`](data/news.json). Each item is `{ "date", "title", "url" }`. Leave `date` as `""` when a headline has no date. The page shows `date: title` when a date is set. After you edit the file, run `node scripts/build.mjs` so the same headlines are written into `index.html`.
+The band under the hero shows one post at a time from the five newest entries in [`blog/posts.json`](blog/posts.json). Each item is the post title, linking to that post, plus a short date such as `Oct 11`. The title changes about every four seconds. Fewer than five posts shows whatever exists. The band is hidden when there are no posts. After you add or remove a post, run `node scripts/build.mjs` so `index.html` matches.
 
 Markdown supported in the browser: paragraphs, `#` / `##` / `###` headings, `-` lists, `**bold**`, `*italic*`, and links. Reading time is about 200 words a minute.
 

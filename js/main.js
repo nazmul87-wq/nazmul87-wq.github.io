@@ -1,5 +1,4 @@
 import { initChat } from "./chat.js";
-import { loadPosts, renderPostCards } from "./blog.js";
 import { initChrome } from "./chrome.js";
 import { iconSvg, paintIcons, renderFooterSocial } from "./icons.js";
 
@@ -7,10 +6,11 @@ initChrome();
 
 const status = document.querySelector("[data-status]");
 
+loadTicker();
+
 loadProfile()
   .then((profile) => {
     renderProfile(profile);
-    loadNews();
     initChat(profile);
     if (status) status.hidden = true;
   })
@@ -21,33 +21,88 @@ loadProfile()
     }
   });
 
-function loadNews() {
-  fetch("data/news.json", { cache: "no-cache" })
+function loadTicker() {
+  fetch("blog/posts.json", { cache: "no-cache" })
     .then((response) => {
-      if (!response.ok) throw new Error("news");
+      if (!response.ok) throw new Error("posts");
       return response.json();
     })
-    .then((data) => renderNews(data.items || []))
+    .then((data) => renderTicker(latestPosts(data.posts || [])))
     .catch(() => {});
 }
 
-function renderNews(items) {
-  const lists = document.querySelectorAll("[data-news] .news-list");
-  if (!lists.length || !items.length) return;
-  lists.forEach((list, index) => {
-    list.replaceChildren();
-    for (const item of items) list.append(newsLink(item, index > 0));
-  });
+function latestPosts(posts) {
+  return posts
+    .filter((post) => post && post.slug && post.title)
+    .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
+    .slice(0, 5);
 }
 
-function newsLink(item, hidden) {
-  const li = document.createElement("li");
-  const link = document.createElement("a");
-  link.href = item.url;
-  link.textContent = item.date ? `${item.date}: ${item.title}` : item.title;
-  if (hidden) link.tabIndex = -1;
-  li.append(link);
-  return li;
+let tickerTimer = 0;
+
+function renderTicker(items) {
+  const ticker = document.querySelector("[data-news]");
+  window.clearInterval(tickerTimer);
+  tickerTimer = 0;
+  if (!ticker) return;
+  const viewport = ticker.querySelector(".news-viewport");
+  if (!viewport || !items.length) {
+    ticker.hidden = true;
+    return;
+  }
+  ticker.hidden = false;
+  let slide = viewport.querySelector(".news-slide");
+  if (!slide) {
+    slide = document.createElement("a");
+    slide.className = "news-slide";
+    viewport.replaceChildren(slide);
+  }
+  let index = 0;
+  const paint = (animate) => {
+    const item = items[index];
+    slide.href = `blog/post.html?slug=${encodeURIComponent(item.slug)}`;
+    slide.replaceChildren();
+    const title = document.createElement("span");
+    title.className = "news-title";
+    title.textContent = item.title;
+    slide.append(title);
+    const date = shortPostDate(item.date);
+    if (date) {
+      const time = document.createElement("time");
+      time.className = "news-date";
+      time.dateTime = item.date;
+      time.textContent = date;
+      slide.append(time);
+    }
+    if (!animate) return;
+    slide.classList.remove("is-in");
+    void slide.offsetWidth;
+    slide.classList.add("is-in");
+  };
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  paint(false);
+  if (reduced || items.length < 2) return;
+  const stop = () => window.clearInterval(tickerTimer);
+  const start = () => {
+    stop();
+    if (ticker.matches(":hover") || ticker.matches(":focus-within")) return;
+    tickerTimer = window.setInterval(() => {
+      index = (index + 1) % items.length;
+      paint(true);
+    }, 4000);
+  };
+  start();
+  ticker.onmouseenter = stop;
+  ticker.onmouseleave = start;
+  ticker.onfocusin = stop;
+  ticker.onfocusout = start;
+}
+
+function shortPostDate(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return "";
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return `${months[Number(match[2]) - 1]} ${Number(match[3])}`;
 }
 
 async function loadProfile() {
@@ -129,7 +184,6 @@ function renderProfile(profile) {
   renderProjects(profile.projects);
   renderBeyond(profile.beyond);
   renderCollaborate(profile);
-  renderLatestPosts();
   renderContact(profile);
   renderStructuredData(profile);
   renderFooterSocial(document.querySelector("[data-footer-social]"), profile, { rssHref: "feed.xml" });
@@ -560,22 +614,6 @@ function renderCollaborate(profile) {
       copy.append(p);
     }
   }
-}
-
-function renderLatestPosts() {
-  const section = document.querySelector("[data-latest-section]");
-  const root = document.querySelector("[data-latest-posts]");
-  if (!section || !root) return;
-  loadPosts("blog/posts.json")
-    .then((posts) => {
-      if (posts.length < 1) return;
-      renderPostCards(root, posts.slice(0, 3), "blog/", "");
-      section.hidden = false;
-      section.classList.add("is-in");
-    })
-    .catch(() => {
-      section.hidden = true;
-    });
 }
 
 function renderContact(profile) {

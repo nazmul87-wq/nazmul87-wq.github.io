@@ -4,13 +4,15 @@
       "slug": "welcome",
       "title": "Welcome to my site",
       "date": "2026-10-11",
+      "published": "2026-10-11T09:00:00Z",
       "tags": ["welcome", "robotics", "ai"],
       "file": "posts/welcome.md"
     },
     {
       "slug": "qwc-2026",
       "title": "Customer discovery at Quantum World Congress 2026",
-      "date": "2026-09-26",
+      "date": "2026-10-11",
+      "published": "2026-10-11T18:00:00Z",
       "tags": ["quantum", "i-corps"],
       "file": "posts/qwc-2026.md",
       "image": "assets/blog/qwc-2026.webp",

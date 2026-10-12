@@ -16,8 +16,12 @@ export async function loadPosts(manifestUrl) {
     const parsed = parsePost(await fileResponse.text(), entry);
     posts.push(parsed);
   }
-  posts.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+  posts.sort((a, b) => postRank(b).localeCompare(postRank(a)));
   return posts;
+}
+
+function postRank(post) {
+  return String(post.published || post.date || "");
 }
 
 export function postHref(slug, prefix = "") {
@@ -115,6 +119,7 @@ function parsePost(source, entry) {
     tags,
     image: entry.image || meta.image || "",
     imageAlt: entry.imageAlt || meta.imageAlt || "",
+    published: entry.published || meta.published || "",
     html,
     excerpt: sentenceExcerpt(plain, 180),
     minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE))
