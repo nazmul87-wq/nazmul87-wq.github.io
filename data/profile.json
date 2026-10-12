@@ -10,7 +10,7 @@
     "bio": "PhD Candidate @ Kent State | Robotics \u2022 Quantum Sensors \u2022 AI | Ex-Medtronic, Philips & Siemens | Exploring Claude, Codex, Cursor, Gemini & OpenClaw",
     "portrait": "assets/portrait.jpg",
     "portraitAlt": "Md Nazmul Islam",
-    "valueStatement": "I research quantum sensors and medical robotics at Kent State, and I teach the Mechatronics, Signal and Electronics, and Circuits labs. Before my PhD, I spent 12 years in hospitals in Bangladesh and India keeping CT and PET scanners and Hugo surgical robots running, and I helped grow the service business into Nepal and Sri Lanka.",
+    "valueStatement": "PhD researcher in quantum sensors and medical robotics at Kent State, with 12 years keeping hospital scanners and surgical robots running across South Asia. I love teaching and building things.",
     "keywords": [
       "Robotics",
       "Quantum sensors",
@@ -22,7 +22,7 @@
   },
   "about": {
     "paragraphs": [
-      "I'm a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, working with Dr. Tao Shen. My research is on quantum sensors and medical robotics, including assistive and wearable devices for rehabilitation. I also teach the Mechatronics, Signal and Electronics, and Circuits labs. I publish my work on quantum sensors and medical robotics.",
+      "I’m a PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University, working with Dr. Tao Shen. My research is on quantum sensors and medical robotics, including assistive and wearable devices for rehabilitation. I also teach the Mechatronics, Signal and Electronics, and Circuits labs. I publish my work on quantum sensors and medical robotics.",
       "Before the PhD, I worked in the field. I started with MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. I then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. Along the way I helped expand the service business into Nepal and Sri Lanka.",
       "During my MSc at BRAC University I published on explainable AI for medical imaging: deep learning models that show their reasoning when they detect kidney and lung disease in CT scans. That mix of hands-on hospital work and research shapes everything I build now."
     ],
@@ -762,14 +762,14 @@
     "scholarLabel": "Google Scholar profile"
   },
   "chat": {
-    "greeting": "Hi! Ask anything about Nazmul's research, past jobs or projects. Answers come from his CV and run in your browser.",
+    "greeting": "Hi! Ask anything about Nazmul’s research, past jobs or projects. Answers come from his CV and run in your browser.",
     "suggestions": [
       "Where does he study?",
       "What did he work on at Medtronic?",
       "What projects has he built?",
       "How can I contact him?"
     ],
-    "fallback": "That isn't in Nazmul's CV or public profile. Ask where he studies, his advisor and GPA, what he did at Medtronic, Philips, Siemens, and Daffodil, his skills, his papers, his projects, or how to contact him.",
+    "fallback": "That isn’t in Nazmul’s CV or public profile. Ask where he studies, his advisor and GPA, what he did at Medtronic, Philips, Siemens, and Daffodil, his skills, his papers, his projects, or how to contact him.",
     "llm": {
       "enabled": false,
       "endpoint": "",
@@ -972,7 +972,7 @@
   "collaborate": {
     "title": "Contact",
     "paragraphs": [
-      "Working on medical robotics or wearable devices? I'm happy to talk research, industry projects, or mentoring. Email is the fastest way to reach me."
+      "Working on medical robotics or wearable devices? I’m happy to talk research, industry projects, or mentoring. Email is the fastest way to reach me."
     ]
   }
 }

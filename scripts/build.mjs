@@ -33,7 +33,8 @@ html = html.replace(
   /<aside class="news-ticker"(?: hidden)?/,
   headlines.length ? '<aside class="news-ticker"' : '<aside class="news-ticker" hidden'
 );
-html = fill(html, "news", headlines.length ? newsItem(headlines[0]) : "");
+html = fill(html, "news", tickerItems(headlines, false));
+html = fill(html, "news-dup", tickerItems(headlines, true));
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));
@@ -79,7 +80,7 @@ function paperHtml(paper, selfName) {
     return name.trim() === selfName.trim() ? `<strong class="self">${escapeHtml(name)}</strong>` : escapeHtml(name);
   }).join(", ");
   const meta = [paper.venue, paper.date || paper.year].filter(Boolean).join(" · ");
-  return `<li>${title}<p class="authors">${authors}</p><span class="venue">${escapeHtml(meta)}</span></li>`;
+  return `<li>${title}<p class="authors">${authors}</p><span class="venue">${venueMarkup(meta)}</span></li>`;
 }
 
 function jobHtml(job) {
@@ -140,20 +141,29 @@ function latestPosts(posts) {
     .slice(0, 5);
 }
 
-function shortPostDate(value) {
-  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return "";
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  return `${months[Number(match[2]) - 1]} ${Number(match[3])}`;
+function tickerItems(posts, hidden) {
+  if (!posts.length) return "";
+  const approx = posts.reduce((sum, post) => sum + post.title.length * 8 + 36, 0);
+  const copies = Math.max(1, Math.ceil(2000 / Math.max(approx, 1)));
+  const parts = [];
+  for (let copy = 0; copy < copies; copy += 1) {
+    for (const post of posts) parts.push(newsItem(post, hidden || copy > 0));
+  }
+  return parts.join("\n");
 }
 
-function newsItem(post) {
-  const date = shortPostDate(post.date);
-  const time = date
-    ? `<time class="news-date" datetime="${escapeAttr(post.date)}">${escapeHtml(date)}</time>`
-    : "";
+function newsItem(post, hidden) {
+  const tab = hidden ? ` tabindex="-1"` : "";
+  const hide = hidden ? ` aria-hidden="true"` : "";
   const href = `blog/post.html?slug=${encodeURIComponent(post.slug)}`;
-  return `<a class="news-slide" href="${href}"><span class="news-title">${escapeHtml(post.title)}</span>${time}</a>`;
+  return `<li${hide}><a href="${href}"${tab}>${escapeHtml(post.title)}</a></li>`;
+}
+
+function venueMarkup(text) {
+  return escapeHtml(text).replace(
+    /\b(DMD\d{4}-\d+|V\d+T\d+A\d+|10\.\d{4,}\/[^\s<]+)/g,
+    '<span class="paper-id">$1</span>'
+  );
 }
 
 function contactHtml(contact) {

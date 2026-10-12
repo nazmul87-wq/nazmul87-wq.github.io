@@ -38,71 +38,51 @@ function latestPosts(posts) {
     .slice(0, 5);
 }
 
-let tickerTimer = 0;
-
 function renderTicker(items) {
   const ticker = document.querySelector("[data-news]");
-  window.clearInterval(tickerTimer);
-  tickerTimer = 0;
   if (!ticker) return;
   const viewport = ticker.querySelector(".news-viewport");
-  if (!viewport || !items.length) {
+  const lists = [...ticker.querySelectorAll(".news-list")];
+  const primary = lists[0];
+  if (!viewport || !primary || !items.length) {
     ticker.hidden = true;
     return;
   }
   ticker.hidden = false;
-  let slide = viewport.querySelector(".news-slide");
-  if (!slide) {
-    slide = document.createElement("a");
-    slide.className = "news-slide";
-    viewport.replaceChildren(slide);
+  primary.replaceChildren();
+  const appendSet = (hidden) => {
+    for (const item of items) primary.append(newsLink(item, hidden));
+  };
+  appendSet(false);
+  let guard = 0;
+  while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
+    appendSet(true);
+    guard += 1;
   }
-  let index = 0;
-  const paint = (animate) => {
-    const item = items[index];
-    slide.href = `blog/post.html?slug=${encodeURIComponent(item.slug)}`;
-    slide.replaceChildren();
-    const title = document.createElement("span");
-    title.className = "news-title";
-    title.textContent = item.title;
-    slide.append(title);
-    const date = shortPostDate(item.date);
-    if (date) {
-      const time = document.createElement("time");
-      time.className = "news-date";
-      time.dateTime = item.date;
-      time.textContent = date;
-      slide.append(time);
+  for (const list of lists.slice(1)) {
+    list.replaceChildren();
+    list.setAttribute("aria-hidden", "true");
+    for (const node of primary.children) {
+      const clone = node.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      const link = clone.querySelector("a");
+      if (link) link.tabIndex = -1;
+      list.append(clone);
     }
-    if (!animate) return;
-    slide.classList.remove("is-in");
-    void slide.offsetWidth;
-    slide.classList.add("is-in");
-  };
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  paint(false);
-  if (reduced || items.length < 2) return;
-  const stop = () => window.clearInterval(tickerTimer);
-  const start = () => {
-    stop();
-    if (ticker.matches(":hover") || ticker.matches(":focus-within")) return;
-    tickerTimer = window.setInterval(() => {
-      index = (index + 1) % items.length;
-      paint(true);
-    }, 4000);
-  };
-  start();
-  ticker.onmouseenter = stop;
-  ticker.onmouseleave = start;
-  ticker.onfocusin = stop;
-  ticker.onfocusout = start;
+  }
 }
 
-function shortPostDate(value) {
-  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) return "";
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  return `${months[Number(match[2]) - 1]} ${Number(match[3])}`;
+function newsLink(item, hidden) {
+  const li = document.createElement("li");
+  const link = document.createElement("a");
+  link.href = `blog/post.html?slug=${encodeURIComponent(item.slug)}`;
+  link.textContent = item.title;
+  if (hidden) {
+    li.setAttribute("aria-hidden", "true");
+    link.tabIndex = -1;
+  }
+  li.append(link);
+  return li;
 }
 
 async function loadProfile() {
@@ -412,6 +392,14 @@ function renderPublications(profile) {
   if (nav) nav.hidden = !visible;
 }
 
+function venueMarkup(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\b(DMD\d{4}-\d+|V\d+T\d+A\d+|10\.\d{4,}\/[^\s<]+)/g, '<span class="paper-id">$1</span>');
+}
+
 function entryItem(entry, selfName) {
   const item = document.createElement("li");
   const label = entry.title;
@@ -433,7 +421,7 @@ function entryItem(entry, selfName) {
   if (meta) {
     const venue = document.createElement("span");
     venue.className = "venue";
-    venue.textContent = meta;
+    venue.innerHTML = venueMarkup(meta);
     item.append(venue);
   }
   return item;
