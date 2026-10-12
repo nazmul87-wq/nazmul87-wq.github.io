@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { iconMarkup } from "../js/icon-paths.js";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8"));
+const news = JSON.parse(readFileSync(new URL("../data/news.json", import.meta.url), "utf8"));
 const indexPath = new URL("../index.html", import.meta.url);
 let html = readFileSync(indexPath, "utf8");
 
@@ -25,8 +26,12 @@ html = fill(html, "publications", publicationsHtml(profile));
 html = fill(html, "experience", profile.experience.map(jobHtml).join("\n"));
 html = fill(html, "projects", profile.projects.filter((item) => item.available && item.summary).map(projectHtml).join("\n"));
 html = fill(html, "education", profile.education.map(eduHtml).join("\n"));
-html = fill(html, "certs-pro", certCards(profile.certifications, "professional"));
-html = fill(html, "certs-online", certCards(profile.certifications, "online"));
+html = fill(html, "certs-pro", certItems(profile.certifications, "professional"));
+html = fill(html, "certs-online", certItems(profile.certifications, "online"));
+const newsHtml = (news.items || []).map((item) => newsItem(item, false)).join("\n");
+const newsDup = (news.items || []).map((item) => newsItem(item, true)).join("\n");
+html = fill(html, "news", newsHtml);
+html = fill(html, "news-dup", newsDup);
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));
@@ -107,15 +112,29 @@ function eduHtml(item) {
   return `<article class="job"><p class="job-dates">${escapeHtml(item.dates || "")}</p><div class="job-body"><span class="job-mark" aria-hidden="true"></span><h3>${escapeHtml(item.degree)}</h3><p class="job-org">${escapeHtml(place)}</p>${extra}</div></article>`;
 }
 
-function certCards(items, kind) {
-  return (items || []).filter((item) => item.kind === kind).map(certCard).join("\n");
+function certItems(items, kind) {
+  return (items || []).filter((item) => item.kind === kind).map(certItem).join("\n");
 }
 
-function certCard(item) {
-  const meta = [item.issuer, item.place].filter(Boolean).join(" · ");
-  const metaHtml = meta ? `<p class="cert-meta">${escapeHtml(meta)}</p>` : "";
-  const dateHtml = item.date ? `<p class="cert-date">${escapeHtml(item.date)}</p>` : "";
-  return `<article class="cert"><h4>${escapeHtml(item.title)}</h4>${metaHtml}${dateHtml}</article>`;
+function certItem(item) {
+  const date = item.date ? `<span class="cert-date">${escapeHtml(item.date)}</span>` : "";
+  return `<li><span class="cert-line">${escapeHtml(certLabel(item))}</span>${date}</li>`;
+}
+
+function certLabel(item) {
+  const issuer = String(item.issuer || "").trim();
+  const place = String(item.place || "").trim();
+  let tail = "";
+  if (issuer && place) tail = `${issuer} (${place})`;
+  else if (issuer) tail = issuer;
+  else if (place) tail = `(${place})`;
+  return tail ? `${item.title}, ${tail}` : item.title;
+}
+
+function newsItem(item, hidden) {
+  const label = item.date ? `${item.date}: ${item.title}` : item.title;
+  const tab = hidden ? ` tabindex="-1"` : "";
+  return `<li><a href="${escapeAttr(item.url)}"${tab}>${escapeHtml(label)}</a></li>`;
 }
 
 function contactHtml(contact) {

@@ -24,11 +24,24 @@ export function postHref(slug, prefix = "") {
   return `${prefix}post.html?slug=${encodeURIComponent(slug)}`;
 }
 
-export function renderPostCards(root, posts, prefix = "") {
+export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
   root.replaceChildren();
   for (const post of posts) {
     const card = document.createElement("article");
     card.className = "post-card";
+    if (post.image) {
+      const cover = document.createElement("a");
+      cover.className = "post-cover";
+      cover.href = postHref(post.slug, prefix);
+      const img = document.createElement("img");
+      const src = `${assetPrefix}${post.image}`;
+      img.src = src;
+      img.alt = post.imageAlt || "";
+      img.loading = "lazy";
+      img.decoding = "async";
+      cover.append(img);
+      card.append(cover);
+    }
     const title = document.createElement("h3");
     const link = document.createElement("a");
     link.href = postHref(post.slug, prefix);
@@ -89,13 +102,19 @@ function parsePost(source, entry) {
   const date = meta.date || entry.date || "";
   const tags = meta.tags || entry.tags || [];
   const html = markdownToHtml(body);
-  const plain = body.replace(/[#>*_\[\]()`]/g, " ").replace(/\s+/g, " ").trim();
+  const plain = body
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+    .replace(/[#>*_\[\]()`]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   const words = plain ? plain.split(" ").length : 0;
   return {
     slug: entry.slug,
     title,
     date,
     tags,
+    image: entry.image || meta.image || "",
+    imageAlt: entry.imageAlt || meta.imageAlt || "",
     html,
     excerpt: sentenceExcerpt(plain, 180),
     minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE))
@@ -134,6 +153,11 @@ function markdownToHtml(markdown) {
     }
     flush();
     if (!line.trim()) continue;
+    const image = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/);
+    if (image) {
+      html.push(figureHtml(image[1], image[2], image[3] || ""));
+      continue;
+    }
     const heading = line.match(/^(#{1,3})\s+(.*)$/);
     if (heading) {
       const level = heading[1].length + 1;
@@ -144,6 +168,21 @@ function markdownToHtml(markdown) {
   }
   flush();
   return html.join("");
+}
+
+function figureHtml(alt, src, caption) {
+  const safeAlt = escapeHtml(alt);
+  const safeSrc = escapeAttr(src);
+  const jpg = safeSrc.replace(/\.webp$/i, ".jpg");
+  const media = /\.webp$/i.test(safeSrc)
+    ? `<picture><source srcset="${safeSrc}" type="image/webp"><img src="${jpg}" alt="${safeAlt}" width="1600" height="742"></picture>`
+    : `<img src="${safeSrc}" alt="${safeAlt}" width="1600" height="742">`;
+  const cap = caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : "";
+  return `<figure class="post-figure">${media}${cap}</figure>`;
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value).replace(/'/g, "&#39;");
 }
 
 function inline(text) {
@@ -207,7 +246,7 @@ function initBlogPage() {
           }
           return;
         }
-        renderPostCards(root, posts, "");
+        renderPostCards(root, posts, "", "../");
       })
       .catch(() => {
         if (status) {

@@ -953,6 +953,22 @@
       "kind": "online"
     }
   ],
+  "events": [
+    {
+      "id": "qwc-2026",
+      "title": "Quantum World Congress 2026",
+      "summary": "Nazmul attended Quantum World Congress 2026 from Sept 23 to 25, 2026, at The Hotel at the University of Maryland in College Park, Maryland, as part of the NSF I-Corps program. He did customer discovery, meeting industry leaders and entrepreneurs in quantum to learn what problems they face. He is a PhD candidate at Kent State researching quantum sensors and medical robotics. The congress site is https://www.quantumworldcongress.com/.",
+      "match": [
+        "quantum world congress",
+        "qwc",
+        "qwc 2026",
+        "nsf i-corps",
+        "i-corps",
+        "customer discovery",
+        "college park"
+      ]
+    }
+  ],
   "collaborate": {
     "title": "Contact",
     "paragraphs": [

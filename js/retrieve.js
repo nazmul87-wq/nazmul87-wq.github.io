@@ -79,6 +79,15 @@ export function buildDocs(profile) {
     match: profile.locationNote.match || []
   });
 
+  for (const event of profile.events || []) {
+    docs.push({
+      id: `event:${event.id}`,
+      title: event.title,
+      text: [event.title, event.summary].filter(Boolean).join(". "),
+      match: event.match || []
+    });
+  }
+
   for (const item of profile.research) {
     docs.push({
       id: `research:${item.id}`,

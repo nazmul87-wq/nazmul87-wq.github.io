@@ -6,6 +6,15 @@
       "date": "2026-10-11",
       "tags": ["welcome", "robotics", "ai"],
       "file": "posts/welcome.md"
+    },
+    {
+      "slug": "qwc-2026",
+      "title": "Customer discovery at Quantum World Congress 2026",
+      "date": "2026-09-26",
+      "tags": ["quantum", "i-corps"],
+      "file": "posts/qwc-2026.md",
+      "image": "assets/blog/qwc-2026.webp",
+      "imageAlt": "Group photo at the Quantum World Congress 2026 photo wall in College Park, Maryland"
     }
   ]
 }

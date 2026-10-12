@@ -28,6 +28,7 @@ const cases = [
   ["Tell me about the chess project", ["online chess"]],
   ["Tell me about Chess ORCA", ["stockfish", "threat lens", "https://github.com/nazmulislam-lab/chess_orca"]],
   ["What certifications does he have?", ["o-arm imaging", "hugo ras", "workera", "deeplearning.ai"]],
+  ["Tell me about NSF I-Corps", ["nsf i-corps", "quantum world congress", "college park", "customer discovery", "sept 23"]],
   ["What is his favorite color?", ["isn't in nazmul", "public profile"]]
 ];
 
