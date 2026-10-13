@@ -89,9 +89,10 @@ The note, in first person. Use only facts already on the site or in the CV.
 
 2. Add an entry to [`blog/posts.json`](blog/posts.json): `"slug"`, `"title"`, `"date"`, `"tags"`, and `"file"` (for example `posts/my-note.md`). The slug is the `?slug=` value on `blog/post.html`.
 3. Add an `<item>` to [`feed.xml`](feed.xml) with the same title, date, and link `https://nazmulislam-lab.github.io/blog/post.html?slug=my-note`.
-4. Commit and push. The blog index and the post page read `posts.json`. Run `node scripts/build.mjs` so the news band under the hero includes the new post.
-5. Optional cover: set `"image"` and `"imageAlt"` on the `posts.json` entry. Paths are from the site root, for example `assets/blog/photo.webp`.
-6. Optional order: set `"published"` to an ISO datetime when two posts share a `date`. Newer `published` values sort first on the blog index, in the news band, and in `feed.xml`.
+4. Add that same URL to [`sitemap.xml`](sitemap.xml), with `lastmod` set to the post date, and add a link under Notes in [`llms.txt`](llms.txt).
+5. Commit and push. The blog index and the post page read `posts.json`. Run `node scripts/build.mjs` so the news band under the hero includes the new post.
+6. Optional cover: set `"image"` and `"imageAlt"` on the `posts.json` entry. Paths are from the site root, for example `assets/blog/photo.webp`.
+7. Optional order: set `"published"` to an ISO datetime when two posts share a `date`. Newer `published` values sort first on the blog index, in the news band, and in `feed.xml`.
 
 ## Latest news
 
@@ -152,6 +153,6 @@ The worker accepts `POST` JSON `{ "question", "context", "profile" }` and return
 This repository is a user site. Pages should deploy from the **main** branch, folder **/** (root).
 
 - `index.html` is at the repository root.
-- `.nojekyll` is present so Jekyll does not rewrite the site.
+- `.nojekyll` is present so Jekyll does not rewrite the site. `robots.txt`, `sitemap.xml`, and `llms.txt` sit in the repository root and are served from there.
 
 In the repository settings, under Pages, choose “Deploy from a branch”, branch `main`, folder `/ (root)`. After the next push to `main`, the site is at https://nazmulislam-lab.github.io.

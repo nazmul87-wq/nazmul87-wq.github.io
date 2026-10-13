@@ -1,0 +1,41 @@
+# Md Nazmul Islam
+
+> PhD candidate in Mechatronics, Robotics and Automation Engineering at Kent State University in Kent, Ohio. He researches quantum sensors and medical robotics with Dr. Tao Shen, and spent 12 years servicing CT, PET, and Hugo surgical robots across South Asia.
+
+Md Nazmul Islam is a PhD candidate and graduate assistant at Kent State University. He teaches the Mechatronics, Signal and Electronics, and Circuits labs. His research covers quantum sensors, medical robotics, and assistive and wearable devices for rehabilitation.
+
+Before the PhD, he serviced MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. He then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. He also helped expand that service business into Nepal and Sri Lanka. During his MSc at BRAC University he published on explainable AI for medical imaging.
+
+This site lists that background, his publications, experience, education and training, public software projects, short notes, contact details, and a CV.
+
+## Sections
+
+- [Home](https://nazmulislam-lab.github.io/): Portfolio home
+- [About](https://nazmulislam-lab.github.io/#about): Background, research interests, and skills
+- [Publications](https://nazmulislam-lab.github.io/#publications): Journal and conference papers on medical imaging, explainable AI, and wearable devices
+- [Experience](https://nazmulislam-lab.github.io/#experience): Kent State, Medtronic, Philips Healthcare, Siemens Bangladesh, and Daffodil International University
+- [Education and training](https://nazmulislam-lab.github.io/#education): PhD at Kent State, MSc at BRAC University, BSc at CUET, and professional certifications
+- [Projects](https://nazmulislam-lab.github.io/#projects): Public software projects, including multi-agent-system, orca-draw, passport-photo-studio, northstar-reader, Chess_ORCA, and Nazmul-event-talks-app
+- [Blog](https://nazmulislam-lab.github.io/blog/): Short notes on robotics and medical devices, from the lab and the field
+- [Contact](https://nazmulislam-lab.github.io/#contact): Email is the fastest way to reach him
+- [CV](https://nazmulislam-lab.github.io/assets/cv.pdf): Downloadable CV
+
+## Notes
+
+- [Customer discovery at Quantum World Congress 2026](https://nazmulislam-lab.github.io/blog/post.html?slug=qwc-2026): NSF I-Corps customer discovery at Quantum World Congress, Sept 23 to 25, 2026, in College Park, Maryland
+- [Welcome to my site](https://nazmulislam-lab.github.io/blog/post.html?slug=welcome): Note on the site and 12 years of servicing hospital equipment
+
+## Profiles
+
+- [Email](mailto:nazmul87@gmail.com): nazmul87@gmail.com
+- [LinkedIn](https://www.linkedin.com/in/nazmul87/): linkedin.com/in/nazmul87
+- [Google Scholar](https://scholar.google.com/citations?user=L6BZ7JoAAAAJ&hl=en): Google Scholar profile
+- [GitHub](https://github.com/nazmulislam-lab): github.com/nazmulislam-lab
+- [X](https://x.com/nzml087): @nzml087
+- [WhatsApp](https://wa.me/12342829758): +1 234-282-9758
+
+## Optional
+
+- [RSS feed](https://nazmulislam-lab.github.io/feed.xml): Blog feed
+- [Customer discovery at Quantum World Congress 2026 (Markdown)](https://nazmulislam-lab.github.io/blog/posts/qwc-2026.md): Plain-text source of the note
+- [Welcome to my site (Markdown)](https://nazmulislam-lab.github.io/blog/posts/welcome.md): Plain-text source of the note
