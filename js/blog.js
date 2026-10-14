@@ -105,8 +105,10 @@ function parsePost(source, entry) {
   const title = meta.title || entry.title || "Untitled";
   const date = meta.date || entry.date || "";
   const tags = meta.tags || entry.tags || [];
-  const html = markdownToHtml(body);
-  const plain = body
+  const article = dropDuplicateTitle(body, title);
+  const html = markdownToHtml(article);
+  const plain = article
+    .replace(/```[\s\S]*?```/g, " ")
     .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
     .replace(/[#>*_\[\]()`]/g, " ")
     .replace(/\s+/g, " ")
@@ -141,22 +143,73 @@ function splitFrontMatter(source) {
   return { meta, body: source.slice(match[0].length).trim() };
 }
 
-function markdownToHtml(markdown) {
+export function dropDuplicateTitle(body, title) {
+  const source = String(body).trim();
+  const match = source.match(/^#\s+([^\n]+)\n*/);
+  if (!match || match[1].trim() !== String(title).trim()) return source;
+  return source.slice(match[0].length).trim();
+}
+
+export function markdownToHtml(markdown) {
   const lines = String(markdown).replace(/\r\n/g, "\n").split("\n");
   const html = [];
   let list = [];
-  const flush = () => {
+  let quote = [];
+  let code = null;
+  const flushList = () => {
     if (!list.length) return;
     html.push(`<ul>${list.map((item) => `<li>${inline(item)}</li>`).join("")}</ul>`);
     list = [];
   };
+  const flushQuote = () => {
+    if (!quote.length) return;
+    const paragraphs = [];
+    let current = [];
+    const flushParagraph = () => {
+      if (!current.length) return;
+      paragraphs.push(`<p>${current.map((line) => inline(line)).join("<br>")}</p>`);
+      current = [];
+    };
+    for (const line of quote) {
+      if (!line.trim()) flushParagraph();
+      else current.push(line);
+    }
+    flushParagraph();
+    html.push(`<blockquote>${paragraphs.join("")}</blockquote>`);
+    quote = [];
+  };
+  const flushCode = () => {
+    if (!code) return;
+    const lang = code.lang ? ` class="language-${escapeAttr(code.lang)}"` : "";
+    html.push(`<pre><code${lang}>${escapeHtml(code.lines.join("\n"))}</code></pre>`);
+    code = null;
+  };
   for (const line of lines) {
+    if (code) {
+      if (/^```\s*$/.test(line)) flushCode();
+      else code.lines.push(line);
+      continue;
+    }
+    const fence = line.match(/^```(\w*)\s*$/);
+    if (fence) {
+      flushList();
+      flushQuote();
+      code = { lang: fence[1], lines: [] };
+      continue;
+    }
+    const quoted = line.match(/^>\s?(.*)$/);
+    if (quoted) {
+      flushList();
+      quote.push(quoted[1]);
+      continue;
+    }
+    flushQuote();
     const item = line.match(/^\s*[-*]\s+(.*)$/);
     if (item) {
       list.push(item[1]);
       continue;
     }
-    flush();
+    flushList();
     if (!line.trim()) continue;
     const image = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/);
     if (image) {
@@ -171,7 +224,9 @@ function markdownToHtml(markdown) {
     }
     html.push(`<p>${inline(line.trim())}</p>`);
   }
-  flush();
+  flushList();
+  flushQuote();
+  flushCode();
   return html.join("");
 }
 
@@ -293,4 +348,4 @@ function initBlogPage() {
   }
 }
 
-if (document.body?.dataset.blog) initBlogPage();
+if (typeof document !== "undefined" && document.body?.dataset.blog) initBlogPage();

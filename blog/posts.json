@@ -17,6 +17,14 @@
       "file": "posts/qwc-2026.md",
       "image": "assets/blog/qwc-2026.webp",
       "imageAlt": "Group photo at the Quantum World Congress 2026 photo wall in College Park, Maryland"
+    },
+    {
+      "slug": "stop-slop-humanizer",
+      "title": "Two Claude skills that fix how AI writes my emails",
+      "date": "2026-10-14",
+      "published": "2026-10-14T12:00:00Z",
+      "tags": [],
+      "file": "posts/stop-slop-humanizer.md"
     }
   ]
 }

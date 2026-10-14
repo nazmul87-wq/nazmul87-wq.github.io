@@ -22,6 +22,7 @@ This site lists that background, his publications, experience, education and tra
 
 ## Notes
 
+- [Two Claude skills that fix how AI writes my emails](https://nazmulislam-lab.github.io/blog/post.html?slug=stop-slop-humanizer): stop-slop and Humanizer for drafting email in Claude Code
 - [Customer discovery at Quantum World Congress 2026](https://nazmulislam-lab.github.io/blog/post.html?slug=qwc-2026): NSF I-Corps customer discovery at Quantum World Congress, Sept 23 to 25, 2026, in College Park, Maryland
 - [Welcome to my site](https://nazmulislam-lab.github.io/blog/post.html?slug=welcome): Note on the site and 12 years of servicing hospital equipment
 
@@ -37,5 +38,6 @@ This site lists that background, his publications, experience, education and tra
 ## Optional
 
 - [RSS feed](https://nazmulislam-lab.github.io/feed.xml): Blog feed
+- [Two Claude skills that fix how AI writes my emails (Markdown)](https://nazmulislam-lab.github.io/blog/posts/stop-slop-humanizer.md): Plain-text source of the note
 - [Customer discovery at Quantum World Congress 2026 (Markdown)](https://nazmulislam-lab.github.io/blog/posts/qwc-2026.md): Plain-text source of the note
 - [Welcome to my site (Markdown)](https://nazmulislam-lab.github.io/blog/posts/welcome.md): Plain-text source of the note

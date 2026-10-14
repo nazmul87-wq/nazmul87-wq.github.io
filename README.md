@@ -98,7 +98,7 @@ The note, in first person. Use only facts already on the site or in the CV.
 
 The band under the hero scrolls the five newest titles from [`blog/posts.json`](blog/posts.json), newest first. Each title links to that post, with a dot between items. Fewer than five posts shows whatever exists. The band is hidden when there are no posts. After you add or remove a post, run `node scripts/build.mjs` so `index.html` matches.
 
-Markdown supported in the browser: paragraphs, `#` / `##` / `###` headings, `-` lists, `**bold**`, `*italic*`, and links. Reading time is about 200 words a minute.
+Markdown supported in the browser: paragraphs, `#` / `##` / `###` headings, `-` lists, `>` blockquotes, fenced code blocks, `**bold**`, `*italic*`, and links. Reading time is about 200 words a minute.
 
 ## Preview locally
 
