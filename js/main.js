@@ -1,5 +1,6 @@
 import { initChat } from "./chat.js";
 import { initChrome } from "./chrome.js";
+import { initJoint } from "./joint.js";
 import { iconSvg, paintIcons, renderFooterSocial } from "./icons.js";
 
 initChrome();
@@ -19,7 +20,14 @@ loadProfile()
       status.hidden = false;
       status.textContent = "This page could not load data/profile.json. From the site folder, run a local server such as: python3 -m http.server";
     }
-  });
+  })
+  .finally(mountCraft);
+
+function mountCraft() {
+  document.documentElement.classList.add("sc-armed");
+  if (window.ScrollCraft) window.ScrollCraft.mount(document.body);
+  initJoint();
+}
 
 function loadTicker() {
   fetch("blog/posts.json", { cache: "no-cache" })
@@ -41,35 +49,14 @@ function latestPosts(posts) {
 function renderTicker(items) {
   const ticker = document.querySelector("[data-news]");
   if (!ticker) return;
-  const viewport = ticker.querySelector(".news-viewport");
-  const lists = [...ticker.querySelectorAll(".news-list")];
-  const primary = lists[0];
-  if (!viewport || !primary || !items.length) {
+  const primary = ticker.querySelector(".news-list");
+  if (!primary || !items.length) {
     ticker.hidden = true;
     return;
   }
   ticker.hidden = false;
   primary.replaceChildren();
-  const appendSet = (hidden) => {
-    for (const item of items) primary.append(newsLink(item, hidden));
-  };
-  appendSet(false);
-  let guard = 0;
-  while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
-    appendSet(true);
-    guard += 1;
-  }
-  for (const list of lists.slice(1)) {
-    list.replaceChildren();
-    list.setAttribute("aria-hidden", "true");
-    for (const node of primary.children) {
-      const clone = node.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      const link = clone.querySelector("a");
-      if (link) link.tabIndex = -1;
-      list.append(clone);
-    }
-  }
+  for (const item of items) primary.append(newsLink(item, false));
 }
 
 function newsLink(item, hidden) {
@@ -376,6 +363,11 @@ function renderPublications(profile) {
     talkList.replaceChildren();
     for (const talk of talks) talkList.append(entryItem(talk, profile.person && profile.person.name));
   }
+  const paperCount = document.querySelector("[data-paper-count]");
+  if (paperCount && papers.length) {
+    paperCount.setAttribute("data-sc-count", `0 ${papers.length}`);
+    paperCount.textContent = String(papers.length);
+  }
   if (paperBlock) paperBlock.hidden = papers.length === 0;
   if (talkBlock) talkBlock.hidden = talks.length === 0;
   const title = document.querySelector("[data-publications-title]");
@@ -510,6 +502,7 @@ function projectCard(project) {
     img.height = project.imageHeight || 750;
     img.loading = "lazy";
     img.decoding = "async";
+    media.dataset.scTilt = "5";
     media.append(img);
     card.append(media);
   }
@@ -760,6 +753,7 @@ function textLink(href, label, className, iconName) {
 
 function setText(selector, value) {
   const node = document.querySelector(selector);
-  if (node && value != null) node.textContent = value;
+  if (!node || value == null || node.textContent === value) return;
+  node.textContent = value;
 }
 

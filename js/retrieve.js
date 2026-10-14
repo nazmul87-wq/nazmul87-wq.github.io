@@ -170,7 +170,7 @@ function formatAllProjects(profile) {
   const lines = ["Here are the public projects listed for Md Nazmul Islam.", ""];
   for (const project of profile.projects.filter((item) => item.available)) {
     const summary = visitorText(project.summary);
-    lines.push(`• ${project.name}${project.language ? ` (${project.language})` : ""}${summary ? ` — ${summary}` : ""}`);
+    lines.push(`• ${project.name}${project.language ? ` (${project.language})` : ""}${summary ? `: ${summary}` : ""}`);
     if (project.url) lines.push(`  ${project.url}`);
     if (project.demo) lines.push(`  Live demo: ${project.demo}`);
   }
@@ -214,7 +214,7 @@ function formatResearch(profile) {
   const lines = ["His research interests, from his CV:", ""];
   for (const item of profile.research) {
     const summary = visitorText(item.summary);
-    lines.push(summary ? `• ${item.title} — ${summary}` : `• ${item.title}`);
+    lines.push(summary ? `• ${item.title}: ${summary}` : `• ${item.title}`);
   }
   return lines.join("\n");
 }

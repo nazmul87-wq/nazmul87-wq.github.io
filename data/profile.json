@@ -539,7 +539,7 @@
       "id": "orca-draw",
       "name": "orca-draw",
       "language": "JavaScript",
-      "summary": "Hand-drawn style whiteboard \u2014 Excalidraw-compatible clone (Vite + rough.js) with a one-line install.",
+      "summary": "Hand-drawn style whiteboard: Excalidraw-compatible clone (Vite + rough.js) with a one-line install.",
       "url": "https://github.com/nazmulislam-lab/orca-draw",
       "demo": "https://nazmulislam-lab.github.io/orca-draw/",
       "available": true,

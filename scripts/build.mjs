@@ -30,11 +30,10 @@ html = fill(html, "certs-pro", certItems(profile.certifications, "professional")
 html = fill(html, "certs-online", certItems(profile.certifications, "online"));
 const headlines = latestPosts(postsFile.posts || []);
 html = html.replace(
-  /<aside class="news-ticker"(?: hidden)?/,
-  headlines.length ? '<aside class="news-ticker"' : '<aside class="news-ticker" hidden'
+  /<aside class="news-line"(?: hidden)?/,
+  headlines.length ? '<aside class="news-line"' : '<aside class="news-line" hidden'
 );
 html = fill(html, "news", tickerItems(headlines, false));
-html = fill(html, "news-dup", tickerItems(headlines, true));
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));
@@ -100,7 +99,8 @@ function projectHtml(project) {
     project.url ? `<a class="button button-ghost" href="${escapeAttr(project.url)}" target="_blank" rel="noopener noreferrer">Code</a>` : ""
   ].filter(Boolean).join("");
   const lang = project.language ? `<span class="pill">${escapeHtml(project.language)}</span>` : "";
-  return `<article class="project-card">${media}<div class="project-body"><div class="project-top">${lang}</div><h3>${escapeHtml(name)}</h3><p>${escapeHtml(project.summary)}</p><div class="project-links">${links}</div></div></article>`;
+  const tilted = media.replace('class="project-media"', 'class="project-media" data-sc-tilt="5"');
+  return `<article class="project-card">${tilted}<div class="project-body"><div class="project-top">${lang}</div><h3>${escapeHtml(name)}</h3><p>${escapeHtml(project.summary)}</p><div class="project-links">${links}</div></div></article>`;
 }
 
 function eduHtml(item) {
@@ -141,15 +141,9 @@ function latestPosts(posts) {
     .slice(0, 5);
 }
 
-function tickerItems(posts, hidden) {
+function tickerItems(posts) {
   if (!posts.length) return "";
-  const approx = posts.reduce((sum, post) => sum + post.title.length * 8 + 36, 0);
-  const copies = Math.max(1, Math.ceil(2000 / Math.max(approx, 1)));
-  const parts = [];
-  for (let copy = 0; copy < copies; copy += 1) {
-    for (const post of posts) parts.push(newsItem(post, hidden || copy > 0));
-  }
-  return parts.join("\n");
+  return posts.map((post) => newsItem(post, false)).join("\n");
 }
 
 function newsItem(post, hidden) {
