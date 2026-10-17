@@ -50,7 +50,13 @@
         <a class="button button-ghost" data-icon="rss" href="../feed.xml">RSS</a>
       </div>
       <p class="lede">Short notes on robotics and medical devices, from the lab and the field.</p>
+      <div class="post-filters" data-blog-filters role="group" aria-label="Filter by category">
+        <button type="button" data-category="all" aria-pressed="true">All</button>
+        <button type="button" data-category="News" aria-pressed="false">News</button>
+        <button type="button" data-category="Posts" aria-pressed="false">Posts</button>
+      </div>
       <p class="status" data-blog-status role="status">Loading posts…</p>
+      <p class="post-empty" data-blog-empty hidden>No posts in this category.</p>
       <div class="post-list" data-blog-list></div>
     </main>
     <footer class="site-footer">

@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { newsPosts } from "../js/blog.js";
 import { iconMarkup } from "../js/icon-paths.js";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8"));
@@ -28,7 +29,7 @@ html = fill(html, "projects", profile.projects.filter((item) => item.available &
 html = fill(html, "education", profile.education.map(eduHtml).join("\n"));
 html = fill(html, "certs-pro", certItems(profile.certifications, "professional"));
 html = fill(html, "certs-online", certItems(profile.certifications, "online"));
-const headlines = latestPosts(postsFile.posts || []);
+const headlines = newsPosts(postsFile.posts || []);
 html = html.replace(
   /<aside class="news-ticker"(?: hidden)?/,
   headlines.length ? '<aside class="news-ticker"' : '<aside class="news-ticker" hidden'
@@ -132,13 +133,6 @@ function certLabel(item) {
   else if (issuer) tail = issuer;
   else if (place) tail = `(${place})`;
   return tail ? `${item.title}, ${tail}` : item.title;
-}
-
-function latestPosts(posts) {
-  return posts
-    .filter((post) => post && post.slug && post.title)
-    .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
-    .slice(0, 5);
 }
 
 function tickerItems(posts, hidden) {

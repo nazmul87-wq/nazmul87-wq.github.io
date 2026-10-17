@@ -87,7 +87,7 @@ tags: robotics, ai
 The note, in first person. Use only facts already on the site or in the CV.
 ```
 
-2. Add an entry to [`blog/posts.json`](blog/posts.json): `"slug"`, `"title"`, `"date"`, `"tags"`, and `"file"` (for example `posts/my-note.md`). The slug is the `?slug=` value on `blog/post.html`.
+2. Add an entry to [`blog/posts.json`](blog/posts.json): `"slug"`, `"title"`, `"date"`, `"category"`, `"tags"`, and `"file"` (for example `posts/my-note.md`). The slug is the `?slug=` value on `blog/post.html`. `category` is `News` or `Posts`. News is an update for the homepage band. Posts is a general article and stays off that band. A missing category is treated as Posts.
 3. Add an `<item>` to [`feed.xml`](feed.xml) with the same title, date, and link `https://nazmulislam-lab.github.io/blog/post.html?slug=my-note`.
 4. Add that same URL to [`sitemap.xml`](sitemap.xml), with `lastmod` set to the post date, and add a link under Notes in [`llms.txt`](llms.txt).
 5. Commit and push. The blog index and the post page read `posts.json`. Run `node scripts/build.mjs` so the news band under the hero includes the new post.
@@ -96,7 +96,7 @@ The note, in first person. Use only facts already on the site or in the CV.
 
 ## Latest news
 
-The band under the hero scrolls the five newest posts from [`blog/posts.json`](blog/posts.json), newest first. Each line links to that post, with a dot between items. The line is the post’s `news` text when that field is set, and the title otherwise. Fewer than five posts shows whatever exists. The band is hidden when there are no posts. After you add or remove a post, run `node scripts/build.mjs` so `index.html` matches.
+The band under the hero scrolls the five newest posts whose `category` is `News`, newest first. Posts in the `Posts` category stay on the blog index and do not appear in the band. Each line links to that post, with a dot between items. The line is the post’s `news` text when that field is set, and the title otherwise. Fewer than five News posts shows whatever exists. The band is hidden when there are no News posts. After you add or remove a News post, run `node scripts/build.mjs` so `index.html` matches.
 
 Markdown supported in the browser: paragraphs, `#` / `##` / `###` headings, `-` lists, `>` blockquotes, fenced code blocks, images, `**bold**`, `*italic*`, and links. A YouTube line is `@[youtube](https://www.youtube.com/watch?v=… "title")`. A photo gallery is a `:::gallery` block of images, closed with `:::`. A linked image is `[![alt](image)](file)`. Reading time is about 200 words a minute.
 

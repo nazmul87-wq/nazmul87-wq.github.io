@@ -1,3 +1,4 @@
+import { newsPosts } from "./blog.js";
 import { initChat } from "./chat.js";
 import { initChrome } from "./chrome.js";
 import { iconSvg, paintIcons, renderFooterSocial } from "./icons.js";
@@ -27,15 +28,8 @@ function loadTicker() {
       if (!response.ok) throw new Error("posts");
       return response.json();
     })
-    .then((data) => renderTicker(latestPosts(data.posts || [])))
+    .then((data) => renderTicker(newsPosts(data.posts || [])))
     .catch(() => {});
-}
-
-function latestPosts(posts) {
-  return posts
-    .filter((post) => post && post.slug && post.title)
-    .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
-    .slice(0, 5);
 }
 
 function renderTicker(items) {
@@ -54,11 +48,15 @@ function renderTicker(items) {
     for (const item of items) primary.append(newsLink(item, hidden));
   };
   appendSet(false);
-  let guard = 0;
-  while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
-    appendSet(true);
-    guard += 1;
+  const overflows = primary.scrollWidth > viewport.clientWidth + 1;
+  if (overflows) {
+    let guard = 0;
+    while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
+      appendSet(true);
+      guard += 1;
+    }
   }
+  ticker.classList.toggle("is-scrolling", overflows);
   for (const list of lists.slice(1)) {
     list.replaceChildren();
     list.setAttribute("aria-hidden", "true");
