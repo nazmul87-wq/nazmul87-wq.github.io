@@ -36,4 +36,52 @@ assert.match(qwcHtml, /<figure class="post-figure"><picture><source srcset="\.\.
 assert.match(qwcHtml, /quantumworldcongress\.com/);
 assert.doesNotMatch(qwcHtml, /blockquote|<pre/);
 
+const icorps = readFileSync(new URL("../blog/posts/nsf-icorps-quantum-x.md", import.meta.url), "utf8");
+const icorpsTitle = "We finished NSF I-Corps Quantum+X";
+for (const sentence of [
+  "On October 16, our team, Q BioSense, completed the National Science Foundation's I-Corps Quantum+X program.",
+  "My PhD work at Kent State is in quantum sensing, and most of our time goes into whether a sensor works. I-Corps asked us a different question: who needs it, and what problem does it solve for them? Getting to an answer meant leaving the lab and talking to the people who might use the technology.",
+  "The program also took us to Quantum World Congress 2026. We spent it meeting startups, potential collaborators, suppliers, and a few competitors. Seeing who builds what, and who buys it, gave us a clearer picture of where quantum sensing fits outside the lab than any paper has.",
+  "Here's our team video:"
+]) {
+  assert.equal(icorps.includes(sentence), true, sentence);
+}
+assert.doesNotMatch(icorps, /\[(?:VIDEO|PHOTOS|CERTIFICATE)/);
+const icorpsArticle = dropDuplicateTitle(icorps, icorpsTitle);
+assert.equal(icorpsArticle.startsWith("On October 16,"), true);
+assert.equal(icorpsArticle.includes(icorpsTitle), false);
+const icorpsHtml = markdownToHtml(icorpsArticle);
+assert.match(icorpsHtml, /Foundation\u2019s I-Corps/);
+assert.match(icorpsHtml, /Here\u2019s our team video:/);
+assert.match(
+  icorpsHtml,
+  /<figure class="post-video"><iframe src="https:\/\/www\.youtube\.com\/embed\/ZDbmKt-fsvk" title="Q BioSense Team4844 video" loading="lazy"/
+);
+assert.match(icorpsHtml, /<div class="post-gallery">/);
+assert.equal((icorpsHtml.match(/<div class="post-gallery">/g) || []).length, 1);
+assert.match(icorpsHtml, /alt="Group photo of the I-Corps cohort at Quantum World Congress 2026"/);
+assert.match(icorpsHtml, /alt="Four people at the Quantum World Congress backdrop"/);
+assert.match(icorpsHtml, /alt="Five people at a standing table at Quantum World Congress"/);
+assert.match(icorpsHtml, /src="\.\.\/assets\/blog\/qwc-cohort\.jpg"/);
+assert.match(icorpsHtml, /srcset="\.\.\/assets\/blog\/qwc-backdrop\.webp"/);
+assert.match(icorpsHtml, /srcset="\.\.\/assets\/blog\/qwc-table\.webp"/);
+assert.match(icorpsHtml, /loading="lazy" decoding="async"/);
+assert.match(
+  icorpsHtml,
+  /<figure class="post-figure post-certificate"><a href="\.\.\/assets\/blog\/icorps-quantum-x-certificate\.pdf"><img src="\.\.\/assets\/blog\/icorps-quantum-x-certificate\.png" alt="NSF National I-Corps Quantum\+X Program certificate for Md\. Nazmul Islam, dated October 16, 2026" width="2000" height="1545" loading="lazy" decoding="async"><\/a><\/figure>/
+);
+const galleryAlts = [...icorpsHtml.matchAll(/post-gallery[\s\S]*?<\/div>/g)].join(" ");
+assert.doesNotMatch(galleryAlts, /Nazmul|Islam|Kylie|Tao|Shen/);
+
+const posts = JSON.parse(readFileSync(new URL("../blog/posts.json", import.meta.url), "utf8"));
+const icorpsEntry = posts.posts.find((post) => post.slug === "nsf-icorps-quantum-x");
+assert.equal(icorpsEntry.title, icorpsTitle);
+assert.equal(icorpsEntry.date, "2026-10-17");
+assert.equal(icorpsEntry.news, "Completed NSF I-Corps Quantum+X with Q BioSense");
+const home = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+assert.match(
+  home,
+  /<a href="blog\/post\.html\?slug=nsf-icorps-quantum-x">Completed NSF I-Corps Quantum\+X with Q BioSense<\/a>/
+);
+
 console.log("blog markdown ok");

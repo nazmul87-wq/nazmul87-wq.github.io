@@ -25,6 +25,15 @@
       "published": "2026-10-14T12:00:00Z",
       "tags": [],
       "file": "posts/stop-slop-humanizer.md"
+    },
+    {
+      "slug": "nsf-icorps-quantum-x",
+      "title": "We finished NSF I-Corps Quantum+X",
+      "date": "2026-10-17",
+      "published": "2026-10-17T12:00:00Z",
+      "news": "Completed NSF I-Corps Quantum+X with Q BioSense",
+      "tags": ["quantum", "i-corps"],
+      "file": "posts/nsf-icorps-quantum-x.md"
     }
   ]
 }

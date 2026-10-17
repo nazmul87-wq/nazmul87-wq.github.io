@@ -1143,6 +1143,51 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 
 .post-figure figcaption { margin-top: 0.4rem; }
 
+.post-video,
+.post-gallery,
+.post-certificate { width: min(100%, 40rem); }
+
+.post-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 0.4rem 0 1.2rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--chip);
+}
+
+.post-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.post-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0.4rem 0 1.2rem;
+  align-items: start;
+}
+
+.post-gallery figure { margin: 0; }
+
+.post-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.post-certificate a { display: block; }
+
+.post-certificate a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
 .post-card h3 { margin: 0 0 0.35rem; }
 
 .post-card h3 a,
@@ -1187,6 +1232,8 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 }
 
 .post-body:has(pre) { max-width: none; }
+
+.post-body:has(.post-video, .post-gallery, .post-certificate) { max-width: none; }
 
 .post-body > p,
 .post-body > h2,
@@ -1271,6 +1318,7 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 
 @media (max-width: 720px) {
   .gallery { grid-template-columns: 1fr 1fr; }
+  .post-gallery { grid-template-columns: 1fr; }
   .job { grid-template-columns: 1fr; gap: 0.35rem; }
   .job-dates { text-align: left; margin-top: 0; padding-right: 0; }
   .job-body { margin-left: 0.4rem; }

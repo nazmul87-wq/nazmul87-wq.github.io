@@ -109,6 +109,9 @@ function parsePost(source, entry) {
   const html = markdownToHtml(article);
   const plain = article
     .replace(/```[\s\S]*?```/g, " ")
+    .replace(/:::gallery[\s\S]*?:::/g, " ")
+    .replace(/^@\[youtube\]\([^)]*\)\s*$/gm, " ")
+    .replace(/\[!\[[^\]]*\]\([^)]+\)\]\([^)]+\)/g, " ")
     .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
     .replace(/[#>*_\[\]()`]/g, " ")
     .replace(/\s+/g, " ")
@@ -156,6 +159,7 @@ export function markdownToHtml(markdown) {
   let list = [];
   let quote = [];
   let code = null;
+  let gallery = null;
   const flushList = () => {
     if (!list.length) return;
     html.push(`<ul>${list.map((item) => `<li>${inline(item)}</li>`).join("")}</ul>`);
@@ -184,10 +188,30 @@ export function markdownToHtml(markdown) {
     html.push(`<pre><code${lang}>${escapeHtml(code.lines.join("\n"))}</code></pre>`);
     code = null;
   };
+  const flushGallery = () => {
+    if (!gallery) return;
+    html.push(galleryHtml(gallery));
+    gallery = null;
+  };
   for (const line of lines) {
     if (code) {
       if (/^```\s*$/.test(line)) flushCode();
       else code.lines.push(line);
+      continue;
+    }
+    if (gallery) {
+      if (line.trim() === ":::") flushGallery();
+      else if (line.trim()) {
+        const image = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+(\d+)x(\d+))?\)$/);
+        if (image) {
+          gallery.push({
+            alt: image[1],
+            src: image[2],
+            width: image[3] || "",
+            height: image[4] || ""
+          });
+        }
+      }
       continue;
     }
     const fence = line.match(/^```(\w*)\s*$/);
@@ -195,6 +219,12 @@ export function markdownToHtml(markdown) {
       flushList();
       flushQuote();
       code = { lang: fence[1], lines: [] };
+      continue;
+    }
+    if (line.trim() === ":::gallery") {
+      flushList();
+      flushQuote();
+      gallery = [];
       continue;
     }
     const quoted = line.match(/^>\s?(.*)$/);
@@ -211,6 +241,16 @@ export function markdownToHtml(markdown) {
     }
     flushList();
     if (!line.trim()) continue;
+    const video = line.match(/^@\[youtube\]\((https?:\/\/[^)\s]+)(?:\s+"([^"]*)")?\)$/);
+    if (video) {
+      html.push(videoHtml(video[1], video[2] || ""));
+      continue;
+    }
+    const linked = line.match(/^\[!\[([^\]]*)\]\(([^)\s]+)(?:\s+(\d+)x(\d+))?\)\]\(([^)\s]+)\)$/);
+    if (linked) {
+      html.push(linkedFigureHtml(linked[1], linked[2], linked[5], linked[3], linked[4]));
+      continue;
+    }
     const image = line.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/);
     if (image) {
       html.push(figureHtml(image[1], image[2], image[3] || ""));
@@ -227,7 +267,60 @@ export function markdownToHtml(markdown) {
   flushList();
   flushQuote();
   flushCode();
+  flushGallery();
   return html.join("");
+}
+
+function videoHtml(url, title) {
+  const src = youtubeEmbedUrl(url);
+  if (!src) return `<p>${inline(url)}</p>`;
+  const label = title || "YouTube video";
+  return `<figure class="post-video"><iframe src="${escapeAttr(src)}" title="${escapeAttr(label)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></figure>`;
+}
+
+function youtubeEmbedUrl(url) {
+  let id = "";
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (host === "youtu.be") id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    else if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
+      id = parsed.searchParams.get("v") || "";
+      if (!id) {
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        const marker = parts.findIndex((part) => part === "embed" || part === "shorts");
+        if (marker !== -1) id = parts[marker + 1] || "";
+      }
+    }
+  } catch {
+    return "";
+  }
+  if (!/^[\w-]{6,}$/.test(id)) return "";
+  return `https://www.youtube.com/embed/${id}`;
+}
+
+function galleryHtml(images) {
+  const items = images.map((image) => {
+    return `<figure>${responsiveImg(image.src, image.alt, image.width, image.height, true)}</figure>`;
+  }).join("");
+  return `<div class="post-gallery">${items}</div>`;
+}
+
+function linkedFigureHtml(alt, src, href, width, height) {
+  const img = responsiveImg(src, alt, width, height, true);
+  return `<figure class="post-figure post-certificate"><a href="${escapeAttr(href)}">${img}</a></figure>`;
+}
+
+function responsiveImg(src, alt, width, height, lazy) {
+  const safeAlt = escapeHtml(alt);
+  const safeSrc = escapeAttr(src);
+  const dims = width && height ? ` width="${width}" height="${height}"` : "";
+  const lazyAttr = lazy ? ` loading="lazy" decoding="async"` : "";
+  if (/\.webp$/i.test(safeSrc)) {
+    const jpg = safeSrc.replace(/\.webp$/i, ".jpg");
+    return `<picture><source srcset="${safeSrc}" type="image/webp"><img src="${jpg}" alt="${safeAlt}"${dims}${lazyAttr}></picture>`;
+  }
+  return `<img src="${safeSrc}" alt="${safeAlt}"${dims}${lazyAttr}>`;
 }
 
 function figureHtml(alt, src, caption) {
