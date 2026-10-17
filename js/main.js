@@ -76,7 +76,7 @@ function newsLink(item, hidden) {
   const li = document.createElement("li");
   const link = document.createElement("a");
   link.href = `blog/post.html?slug=${encodeURIComponent(item.slug)}`;
-  link.textContent = item.title;
+  link.textContent = item.news || item.title;
   if (hidden) {
     li.setAttribute("aria-hidden", "true");
     link.tabIndex = -1;

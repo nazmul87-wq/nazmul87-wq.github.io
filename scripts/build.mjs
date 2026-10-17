@@ -143,7 +143,7 @@ function latestPosts(posts) {
 
 function tickerItems(posts, hidden) {
   if (!posts.length) return "";
-  const approx = posts.reduce((sum, post) => sum + post.title.length * 8 + 36, 0);
+  const approx = posts.reduce((sum, post) => sum + (post.news || post.title).length * 8 + 36, 0);
   const copies = Math.max(1, Math.ceil(2000 / Math.max(approx, 1)));
   const parts = [];
   for (let copy = 0; copy < copies; copy += 1) {
@@ -156,7 +156,7 @@ function newsItem(post, hidden) {
   const tab = hidden ? ` tabindex="-1"` : "";
   const hide = hidden ? ` aria-hidden="true"` : "";
   const href = `blog/post.html?slug=${encodeURIComponent(post.slug)}`;
-  return `<li${hide}><a href="${href}"${tab}>${escapeHtml(post.title)}</a></li>`;
+  return `<li${hide}><a href="${href}"${tab}>${escapeHtml(post.news || post.title)}</a></li>`;
 }
 
 function venueMarkup(text) {
