@@ -1,4 +1,4 @@
-import { newsPosts } from "./blog.js";
+import { canonicalCategory, homeFeed, homeFeedHtml, isUpdate, newsPosts } from "./blog.js";
 import { initChat } from "./chat.js";
 import { initChrome } from "./chrome.js";
 import { iconSvg, paintIcons, renderFooterSocial } from "./icons.js";
@@ -7,7 +7,8 @@ initChrome();
 
 const status = document.querySelector("[data-status]");
 
-loadTicker();
+loadHomeNews();
+initFeedVideo();
 
 loadProfile()
   .then((profile) => {
@@ -22,14 +23,59 @@ loadProfile()
     }
   });
 
-function loadTicker() {
+function loadHomeNews() {
   fetch("blog/posts.json", { cache: "no-cache" })
     .then((response) => {
       if (!response.ok) throw new Error("posts");
       return response.json();
     })
-    .then((data) => renderTicker(newsPosts(data.posts || [])))
+    .then(async (data) => {
+      const entries = data.posts || [];
+      renderTicker(newsPosts(entries));
+      const markdownBySlug = {};
+      await Promise.all(entries.map(async (entry) => {
+        if (!entry || isUpdate(entry) || !entry.slug || !entry.file) return;
+        if (canonicalCategory(entry.category) !== "News") return;
+        const response = await fetch(`blog/${entry.file}`, { cache: "no-cache" });
+        if (response.ok) markdownBySlug[entry.slug] = await response.text();
+      }));
+      renderHomeFeed(homeFeed(entries, markdownBySlug));
+    })
     .catch(() => {});
+}
+
+function renderHomeFeed(items) {
+  const section = document.querySelector("[data-home-feed]");
+  const root = document.querySelector("[data-home-feed-list]");
+  if (!section || !root) return;
+  if (!items.length) {
+    section.hidden = true;
+    root.replaceChildren();
+    return;
+  }
+  section.hidden = false;
+  root.innerHTML = homeFeedHtml(items);
+}
+
+function initFeedVideo() {
+  const section = document.querySelector("[data-home-feed]");
+  if (!section) return;
+  section.addEventListener("click", (event) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest("a[data-video-id]");
+    if (!link || !section.contains(link)) return;
+    const id = link.dataset.videoId || "";
+    if (!/^[\w-]{6,}$/.test(id)) return;
+    event.preventDefault();
+    const frame = document.createElement("iframe");
+    frame.className = "feed-embed";
+    frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+    frame.title = link.dataset.videoTitle || "YouTube video";
+    frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    frame.allowFullscreen = true;
+    frame.referrerPolicy = "strict-origin-when-cross-origin";
+    link.replaceWith(frame);
+  });
 }
 
 function renderTicker(items) {

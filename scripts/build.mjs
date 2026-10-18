@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { newsPosts } from "../js/blog.js";
+import { homeFeed, homeFeedHtml, newsPosts } from "../js/blog.js";
 import { iconMarkup } from "../js/icon-paths.js";
 
 const profile = JSON.parse(readFileSync(new URL("../data/profile.json", import.meta.url), "utf8"));
@@ -36,6 +36,17 @@ html = html.replace(
 );
 html = fill(html, "news", tickerItems(headlines, false));
 html = fill(html, "news-dup", tickerItems(headlines, true));
+const markdownBySlug = {};
+for (const entry of postsFile.posts || []) {
+  if (!entry || !entry.slug || !entry.file) continue;
+  markdownBySlug[entry.slug] = readFileSync(new URL(`../blog/${entry.file}`, import.meta.url), "utf8");
+}
+const feed = homeFeed(postsFile.posts || [], markdownBySlug);
+html = html.replace(
+  /<section class="home-feed"(?: hidden)?/,
+  feed.length ? '<section class="home-feed"' : '<section class="home-feed" hidden'
+);
+html = fill(html, "home-feed", homeFeedHtml(feed));
 html = fill(html, "contact-copy", (profile.collaborate.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join("\n"));
 html = fill(html, "contact", contactHtml(profile.contact));
 html = fill(html, "hero-social", heroSocialHtml(profile.contact));

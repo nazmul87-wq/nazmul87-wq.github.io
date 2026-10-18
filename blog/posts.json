@@ -41,6 +41,13 @@
       "coverPosition": "center 25%",
       "tags": ["quantum", "i-corps"],
       "file": "posts/nsf-icorps-quantum-x.md"
+    },
+    {
+      "type": "update",
+      "date": "2026-10-16",
+      "text": "Our Q BioSense team video from NSF I-Corps Quantum+X",
+      "link": "/blog/post.html?slug=nsf-icorps-quantum-x",
+      "youtube": "https://www.youtube.com/watch?v=ZDbmKt-fsvk"
     }
   ]
 }
