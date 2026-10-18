@@ -98,6 +98,12 @@ The note, in first person. Use only facts already on the site or in the CV.
 
 The band under the hero scrolls the five newest posts whose `category` is `News`, newest first. Posts in the `Posts` category stay on the blog index and do not appear in the band. Each line links to that post, with a dot between items. The line is the post’s `news` text when that field is set, and the title otherwise. Fewer than five News posts shows whatever exists. The band is hidden when there are no News posts. After you add or remove a News post, run `node scripts/build.mjs` so `index.html` matches.
 
+Under that band, the homepage shows up to three cards: the newest News posts mixed with quick updates. Each card uses the post cover when there is one.
+
+## Quick updates
+
+A short item that does not need its own post can live in [`blog/posts.json`](blog/posts.json) with `"type": "update"`. It needs `"date"` and one line of `"text"`. Optional `"link"` and `"youtube"` (a YouTube watch URL). Updates sort with News posts on the homepage, newest first. A YouTube update shows that video’s thumbnail with a play mark. The picture opens the video on YouTube, and with JavaScript it plays in the card instead; the player iframe loads only after the click. Updates are not posts: no Markdown file, no post page, and they stay off the blog index and the Latest band. Run `node scripts/build.mjs` after adding one.
+
 Markdown supported in the browser: paragraphs, `#` / `##` / `###` headings, `-` lists, `>` blockquotes, fenced code blocks, images, `**bold**`, `*italic*`, and links. A YouTube line is `@[youtube](https://www.youtube.com/watch?v=… "title")`. A photo gallery is a `:::gallery` block of images, closed with `:::`. A linked image is `[![alt](image)](file)`. Reading time is about 200 words a minute.
 
 ## Preview locally

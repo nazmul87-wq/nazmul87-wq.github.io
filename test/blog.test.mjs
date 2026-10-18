@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canonicalCategory, chooseCover, coverUrl, dropDuplicateTitle, markdownToHtml, newsPosts } from "../js/blog.js";
+import { canonicalCategory, chooseCover, coverUrl, dropDuplicateTitle, homeFeed, homeFeedHtml, isUpdate, markdownToHtml, newsPosts } from "../js/blog.js";
 
 const post = readFileSync(new URL("../blog/posts/stop-slop-humanizer.md", import.meta.url), "utf8");
 const title = "Two Claude skills that fix how AI writes my emails";
@@ -82,7 +82,10 @@ assert.equal(icorpsEntry.category, "News");
 assert.equal(posts.posts.find((post) => post.slug === "stop-slop-humanizer").category, "Posts");
 assert.equal(posts.posts.find((post) => post.slug === "welcome").category, "Posts");
 assert.equal(posts.posts.find((post) => post.slug === "qwc-2026").category, "News");
-for (const post of posts.posts) assert.ok(post.category === "News" || post.category === "Posts", post.slug);
+for (const post of posts.posts) {
+  if (isUpdate(post)) continue;
+  assert.ok(post.category === "News" || post.category === "Posts", post.slug);
+}
 
 assert.equal(canonicalCategory("News"), "News");
 assert.equal(canonicalCategory(" news "), "News");
@@ -161,6 +164,46 @@ assert.equal(chooseCover({ title: title, markdown: article }), null);
 assert.equal(coverUrl("assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
 assert.equal(coverUrl("../assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
 assert.equal(coverUrl("https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg", "../"), "https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg");
+
+const markdownBySlug = {};
+for (const entry of posts.posts) {
+  if (!entry.file || !entry.slug) continue;
+  markdownBySlug[entry.slug] = readFileSync(new URL(`../blog/${entry.file}`, import.meta.url), "utf8");
+}
+const updateEntry = posts.posts.find((post) => post.type === "update");
+assert.equal(isUpdate(updateEntry), true);
+assert.equal(updateEntry.file, undefined);
+assert.equal(updateEntry.date, "2026-10-16");
+assert.equal(updateEntry.text, "Our Q BioSense team video from NSF I-Corps Quantum+X");
+assert.equal(updateEntry.link, "/blog/post.html?slug=nsf-icorps-quantum-x");
+assert.equal(updateEntry.youtube, "https://www.youtube.com/watch?v=ZDbmKt-fsvk");
+assert.equal(posts.posts.filter(isUpdate).length, 1);
+const feed = homeFeed(posts.posts, markdownBySlug);
+assert.deepEqual(feed.map((item) => item.kind === "update" ? item.kind : item.href), [
+  "blog/post.html?slug=nsf-icorps-quantum-x",
+  "update",
+  "blog/post.html?slug=qwc-2026"
+]);
+assert.equal(feed[0].cover.src, "assets/blog/qwc-backdrop.webp");
+assert.equal(feed[0].cover.video, false);
+assert.equal(feed[1].title, updateEntry.text);
+assert.equal(feed[1].href, updateEntry.link);
+assert.equal(feed[1].videoId, "ZDbmKt-fsvk");
+assert.equal(feed[1].cover.src, "https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg");
+assert.equal(feed[1].cover.video, true);
+assert.equal(feed[2].cover.src, "assets/blog/qwc-2026.webp");
+assert.equal(feed.some((item) => /stop-slop|welcome/.test(item.href || "")), false);
+assert.deepEqual(newsPosts(posts.posts).map((post) => post.slug), ["nsf-icorps-quantum-x", "qwc-2026"]);
+assert.equal(homeFeed([{ type: "update", date: "2026-10-18", text: "Newer line" }, ...posts.posts], markdownBySlug)[0].title, "Newer line");
+assert.equal(homeFeed([{ type: "update", date: "2026-10-18" }], {}).length, 0);
+const feedHtml = homeFeedHtml(feed);
+assert.match(feedHtml, /data-video-id="ZDbmKt-fsvk"/);
+assert.match(feedHtml, /src="https:\/\/i\.ytimg\.com\/vi\/ZDbmKt-fsvk\/hqdefault\.jpg"/);
+assert.match(feedHtml, /href="\/blog\/post\.html\?slug=nsf-icorps-quantum-x"/);
+assert.match(feedHtml, /class="post-cover-play"/);
+assert.doesNotMatch(feedHtml, /<iframe/);
+assert.match(home.slice(home.indexOf("<!-- build:home-feed -->"), home.indexOf("<!-- /build:home-feed -->")), /data-video-id="ZDbmKt-fsvk"/);
+assert.doesNotMatch(newsHtml, /Our Q BioSense team video/);
 assert.equal(
   chooseCover({ title: "Offset", cover: "assets/photo.webp", coverAlt: "Photo", coverPosition: "top left" }).position,
   undefined

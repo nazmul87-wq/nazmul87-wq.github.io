@@ -10,7 +10,7 @@ export async function loadPosts(manifestUrl) {
   const base = manifestUrl.replace(/[^/]*$/, "");
   const posts = [];
   for (const entry of data.posts || []) {
-    if (!entry || !entry.slug || !entry.file) continue;
+    if (!entry || isUpdate(entry) || !entry.slug || !entry.file) continue;
     const fileResponse = await fetch(base + entry.file, { cache: "no-cache" });
     if (!fileResponse.ok) continue;
     const parsed = parsePost(await fileResponse.text(), entry);
@@ -32,11 +32,112 @@ export function canonicalCategory(value) {
   return /^news$/i.test(String(value || "").trim()) ? "News" : "Posts";
 }
 
+export function isUpdate(entry) {
+  return String(entry && entry.type || "").trim().toLowerCase() === "update";
+}
+
 export function newsPosts(posts, limit = 5) {
   return (posts || [])
-    .filter((post) => post && post.slug && post.title && canonicalCategory(post.category) === "News")
+    .filter((post) => post && !isUpdate(post) && post.slug && post.title && canonicalCategory(post.category) === "News")
     .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
     .slice(0, limit);
+}
+
+export function homeFeed(entries, markdownBySlug = {}, limit = 3) {
+  const items = [];
+  for (const entry of entries || []) {
+    if (!entry) continue;
+    if (isUpdate(entry)) {
+      const update = updateFeedItem(entry);
+      if (update) items.push(update);
+      continue;
+    }
+    if (!entry.slug || !entry.title || canonicalCategory(entry.category) !== "News") continue;
+    const source = Object.prototype.hasOwnProperty.call(markdownBySlug, entry.slug) ? markdownBySlug[entry.slug] : "";
+    items.push(postFeedItem(parsePost(source, entry)));
+  }
+  return items
+    .sort((a, b) => String(b.sort).localeCompare(String(a.sort)))
+    .slice(0, limit);
+}
+
+function postFeedItem(post) {
+  return {
+    kind: "post",
+    sort: String(post.published || post.date || ""),
+    date: post.date,
+    title: post.title,
+    href: postHref(post.slug, "blog/"),
+    cover: chooseCover(post)
+  };
+}
+
+function updateFeedItem(entry) {
+  const text = String(entry.text || "").trim();
+  const date = String(entry.date || "").trim();
+  if (!text || !date) return null;
+  const href = String(entry.link || "").trim();
+  const youtube = String(entry.youtube || "").trim();
+  const videoId = youtubeVideoId(youtube);
+  const quoted = text.replace(/"/g, "");
+  const markdown = videoId ? `@[youtube](${youtube} "${quoted}")` : "";
+  return {
+    kind: "update",
+    sort: String(entry.published || date),
+    date,
+    title: text,
+    href,
+    videoId,
+    youtube: videoId ? youtube : "",
+    cover: chooseCover({
+      title: text,
+      cover: entry.cover || "",
+      coverAlt: entry.coverAlt || "",
+      image: entry.image || "",
+      imageAlt: entry.imageAlt || "",
+      coverPosition: entry.coverPosition || "",
+      markdown
+    })
+  };
+}
+
+function homeCoverSrc(src) {
+  const path = String(src || "");
+  if (path.startsWith("../")) return coverUrl(path.slice(3), "");
+  return coverUrl(path, "");
+}
+
+function feedCoverInner(cover) {
+  if (!cover || !cover.src) return "";
+  const position = cover.position ? ` style="object-position: ${escapeAttr(cover.position)}"` : "";
+  const play = cover.video ? `<span class="post-cover-play" aria-hidden="true"></span>` : "";
+  return `<img src="${escapeAttr(homeCoverSrc(cover.src))}" alt="${escapeAttr(cover.alt || "")}" loading="lazy" decoding="async"${position}>${play}`;
+}
+
+function feedTitleHtml(title, href) {
+  const text = escapeHtml(title);
+  if (!href) return `<h3>${text}</h3>`;
+  const external = /^https?:/i.test(href) ? ` target="_blank" rel="noopener noreferrer"` : "";
+  return `<h3><a href="${escapeAttr(href)}"${external}>${text}</a></h3>`;
+}
+
+function feedCardHtml(item) {
+  const inner = feedCoverInner(item.cover);
+  const date = `<p class="post-meta">${escapeHtml(formatPostDate(item.date))}</p>`;
+  if (item.videoId) {
+    const watch = item.youtube || `https://www.youtube.com/watch?v=${item.videoId}`;
+    const cover = `<a class="post-cover" href="${escapeAttr(watch)}" data-video-id="${escapeAttr(item.videoId)}" data-video-title="${escapeAttr(item.title)}">${inner}<span class="visually-hidden">Play video</span></a>`;
+    return `<article class="feed-card">${cover}<div class="feed-card-body">${feedTitleHtml(item.title, item.href)}${date}</div></article>`;
+  }
+  const cover = inner ? `<span class="post-cover">${inner}</span>` : "";
+  const body = `<div class="feed-card-body"><h3>${escapeHtml(item.title)}</h3>${date}</div>`;
+  if (!item.href) return `<article class="feed-card">${cover}${body}</article>`;
+  const external = /^https?:/i.test(item.href) ? ` target="_blank" rel="noopener noreferrer"` : "";
+  return `<article class="feed-card"><a class="feed-card-link" href="${escapeAttr(item.href)}"${external}>${cover}${body}</a></article>`;
+}
+
+export function homeFeedHtml(items) {
+  return (items || []).map(feedCardHtml).join("\n");
 }
 
 export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
