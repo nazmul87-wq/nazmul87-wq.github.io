@@ -48,15 +48,11 @@ function renderTicker(items) {
     for (const item of items) primary.append(newsLink(item, hidden));
   };
   appendSet(false);
-  const overflows = primary.scrollWidth > viewport.clientWidth + 1;
-  if (overflows) {
-    let guard = 0;
-    while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
-      appendSet(true);
-      guard += 1;
-    }
+  let guard = 0;
+  while (primary.scrollWidth < viewport.clientWidth && guard < 12) {
+    appendSet(true);
+    guard += 1;
   }
-  ticker.classList.toggle("is-scrolling", overflows);
   for (const list of lists.slice(1)) {
     list.replaceChildren();
     list.setAttribute("aria-hidden", "true");
