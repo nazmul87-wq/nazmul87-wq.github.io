@@ -36,8 +36,9 @@
       "published": "2026-10-17T12:00:00Z",
       "category": "News",
       "news": "Completed NSF I-Corps Quantum+X with Q BioSense",
-      "cover": "assets/blog/qwc-cohort.webp",
-      "coverAlt": "Group photo of the I-Corps cohort at Quantum World Congress 2026",
+      "cover": "assets/blog/qwc-backdrop.webp",
+      "coverAlt": "Four people at the Quantum World Congress backdrop",
+      "coverPosition": "center 25%",
       "tags": ["quantum", "i-corps"],
       "file": "posts/nsf-icorps-quantum-x.md"
     }

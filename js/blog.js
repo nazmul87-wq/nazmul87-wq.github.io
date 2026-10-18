@@ -54,6 +54,7 @@ export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
       img.alt = chosen.alt;
       img.loading = "lazy";
       img.decoding = "async";
+      if (chosen.position) img.style.objectPosition = chosen.position;
       cover.append(img);
       if (chosen.video) {
         const play = document.createElement("span");
@@ -147,6 +148,7 @@ function parsePost(source, entry) {
     imageAlt: entry.imageAlt || meta.imageAlt || "",
     cover: entry.cover || meta.cover || "",
     coverAlt: entry.coverAlt || meta.coverAlt || "",
+    coverPosition: entry.coverPosition || meta.coverPosition || "",
     markdown: article,
     published: entry.published || meta.published || "",
     category: canonicalCategory(meta.category || entry.category),
@@ -329,13 +331,27 @@ function youtubeEmbedUrl(url) {
   return id ? `https://www.youtube.com/embed/${id}` : "";
 }
 
+function coverPosition(value) {
+  const position = String(value || "").trim().replace(/\s+/, " ");
+  const match = position.match(/^center (\d{1,3})%$/);
+  if (!match || Number(match[1]) > 100) return "";
+  return position;
+}
+
+function metaCover(src, alt, item) {
+  const cover = { src, alt, video: false };
+  const position = coverPosition(item.coverPosition);
+  if (position) cover.position = position;
+  return cover;
+}
+
 export function chooseCover(post) {
   const item = post || {};
   const title = String(item.title || "").trim();
   const explicit = String(item.cover || "").trim();
-  if (explicit) return { src: explicit, alt: String(item.coverAlt || "").trim() || title, video: false };
+  if (explicit) return metaCover(explicit, String(item.coverAlt || "").trim() || title, item);
   const image = String(item.image || "").trim();
-  if (image) return { src: image, alt: String(item.imageAlt || "").trim() || title, video: false };
+  if (image) return metaCover(image, String(item.imageAlt || "").trim() || title, item);
   const markdown = String(item.markdown || "").replace(/```[\s\S]*?```/g, "");
   const picture = markdown.match(/!\[([^\]]*)\]\(([^)\s]+)/);
   if (picture) return { src: picture[2], alt: picture[1].trim() || title, video: false };

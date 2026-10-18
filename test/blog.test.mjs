@@ -114,17 +114,19 @@ assert.match(blogIndex, /data-category="all"[^>]*>All</);
 assert.match(blogIndex, /data-category="News"[^>]*>News</);
 assert.match(blogIndex, /data-category="Posts"[^>]*>Posts</);
 
-const cohortAlt = "Group photo of the I-Corps cohort at Quantum World Congress 2026";
-assert.equal(icorpsEntry.cover, "assets/blog/qwc-cohort.webp");
-assert.equal(icorpsEntry.coverAlt, cohortAlt);
+const backdropAlt = "Four people at the Quantum World Congress backdrop";
+assert.equal(icorpsEntry.cover, "assets/blog/qwc-backdrop.webp");
+assert.equal(icorpsEntry.coverAlt, backdropAlt);
+assert.equal(icorpsEntry.coverPosition, "center 25%");
 assert.deepEqual(
   chooseCover({
     title: icorpsTitle,
     cover: icorpsEntry.cover,
     coverAlt: icorpsEntry.coverAlt,
+    coverPosition: icorpsEntry.coverPosition,
     markdown: icorpsArticle
   }),
-  { src: "assets/blog/qwc-cohort.webp", alt: cohortAlt, video: false }
+  { src: "assets/blog/qwc-backdrop.webp", alt: backdropAlt, video: false, position: "center 25%" }
 );
 assert.deepEqual(
   chooseCover({ title: "Customer discovery", markdown: qwcBody }),
@@ -159,5 +161,9 @@ assert.equal(chooseCover({ title: title, markdown: article }), null);
 assert.equal(coverUrl("assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
 assert.equal(coverUrl("../assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
 assert.equal(coverUrl("https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg", "../"), "https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg");
+assert.equal(
+  chooseCover({ title: "Offset", cover: "assets/photo.webp", coverAlt: "Photo", coverPosition: "top left" }).position,
+  undefined
+);
 
 console.log("blog markdown ok");
