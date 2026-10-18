@@ -28,6 +28,17 @@ export function postHref(slug, prefix = "") {
   return `${prefix}post.html?slug=${encodeURIComponent(slug)}`;
 }
 
+export function canonicalCategory(value) {
+  return /^news$/i.test(String(value || "").trim()) ? "News" : "Posts";
+}
+
+export function newsPosts(posts, limit = 5) {
+  return (posts || [])
+    .filter((post) => post && post.slug && post.title && canonicalCategory(post.category) === "News")
+    .sort((a, b) => String(b.published || b.date || "").localeCompare(String(a.published || a.date || "")))
+    .slice(0, limit);
+}
+
 export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
   root.replaceChildren();
   for (const post of posts) {
@@ -46,6 +57,10 @@ export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
       cover.append(img);
       card.append(cover);
     }
+    card.dataset.category = post.category;
+    const category = document.createElement("p");
+    category.className = "kicker post-category";
+    category.textContent = post.category;
     const title = document.createElement("h3");
     const link = document.createElement("a");
     link.href = postHref(post.slug, prefix);
@@ -58,7 +73,7 @@ export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
       .join(" · ");
     const excerpt = document.createElement("p");
     excerpt.textContent = post.excerpt;
-    card.append(title, meta, excerpt);
+    card.append(category, title, meta, excerpt);
     root.append(card);
   }
 }
@@ -66,8 +81,8 @@ export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
 export function renderPost(root, post) {
   root.replaceChildren();
   const kicker = document.createElement("p");
-  kicker.className = "kicker";
-  kicker.textContent = "Blog";
+  kicker.className = "kicker post-category";
+  kicker.textContent = post.category ? `Blog · ${post.category}` : "Blog";
   const title = document.createElement("h1");
   title.textContent = post.title;
   const meta = document.createElement("p");
@@ -125,6 +140,7 @@ function parsePost(source, entry) {
     image: entry.image || meta.image || "",
     imageAlt: entry.imageAlt || meta.imageAlt || "",
     published: entry.published || meta.published || "",
+    category: canonicalCategory(meta.category || entry.category),
     html,
     excerpt: sentenceExcerpt(plain, 180),
     minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE))
@@ -375,6 +391,30 @@ function readingLabel(minutes) {
   return `${minutes} min read`;
 }
 
+function initCategoryFilter() {
+  const bar = document.querySelector("[data-blog-filters]");
+  const list = document.querySelector("[data-blog-list]");
+  const empty = document.querySelector("[data-blog-empty]");
+  if (!bar || !list) return;
+  const apply = (category) => {
+    for (const button of bar.querySelectorAll("button[data-category]")) {
+      button.setAttribute("aria-pressed", button.dataset.category === category ? "true" : "false");
+    }
+    let shown = 0;
+    for (const card of list.querySelectorAll("[data-category]")) {
+      const visible = category === "all" || card.dataset.category === category;
+      card.hidden = !visible;
+      if (visible) shown += 1;
+    }
+    if (empty) empty.hidden = shown !== 0;
+  };
+  bar.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-category]");
+    if (!button || !bar.contains(button)) return;
+    apply(button.dataset.category);
+  });
+}
+
 function initBlogPage() {
   const kind = document.body.dataset.blog;
   initChrome();
@@ -406,6 +446,7 @@ function initBlogPage() {
           return;
         }
         renderPostCards(root, posts, "", "../");
+        initCategoryFilter();
       })
       .catch(() => {
         if (status) {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dropDuplicateTitle, markdownToHtml } from "../js/blog.js";
+import { canonicalCategory, dropDuplicateTitle, markdownToHtml, newsPosts } from "../js/blog.js";
 
 const post = readFileSync(new URL("../blog/posts/stop-slop-humanizer.md", import.meta.url), "utf8");
 const title = "Two Claude skills that fix how AI writes my emails";
@@ -78,10 +78,40 @@ const icorpsEntry = posts.posts.find((post) => post.slug === "nsf-icorps-quantum
 assert.equal(icorpsEntry.title, icorpsTitle);
 assert.equal(icorpsEntry.date, "2026-10-17");
 assert.equal(icorpsEntry.news, "Completed NSF I-Corps Quantum+X with Q BioSense");
-const home = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-assert.match(
-  home,
-  /<a href="blog\/post\.html\?slug=nsf-icorps-quantum-x">Completed NSF I-Corps Quantum\+X with Q BioSense<\/a>/
+assert.equal(icorpsEntry.category, "News");
+assert.equal(posts.posts.find((post) => post.slug === "stop-slop-humanizer").category, "Posts");
+assert.equal(posts.posts.find((post) => post.slug === "welcome").category, "Posts");
+assert.equal(posts.posts.find((post) => post.slug === "qwc-2026").category, "News");
+for (const post of posts.posts) assert.ok(post.category === "News" || post.category === "Posts", post.slug);
+
+assert.equal(canonicalCategory("News"), "News");
+assert.equal(canonicalCategory(" news "), "News");
+assert.equal(canonicalCategory("Posts"), "Posts");
+assert.equal(canonicalCategory(""), "Posts");
+assert.equal(canonicalCategory("essay"), "Posts");
+
+const sample = [
+  { slug: "article", title: "Article", category: "Posts", date: "2026-10-18", news: "should not show" },
+  { slug: "newer", title: "Newer", category: "News", published: "2026-10-17T12:00:00Z", news: "Headline" },
+  { slug: "older", title: "Older", category: "News", date: "2026-10-01" },
+  { slug: "unset", title: "Unset", date: "2026-10-19" }
+];
+assert.deepEqual(newsPosts(sample).map((post) => post.slug), ["newer", "older"]);
+assert.deepEqual(
+  newsPosts(posts.posts).map((post) => post.slug),
+  ["nsf-icorps-quantum-x", "qwc-2026"]
 );
+
+const home = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const newsHtml = home.slice(home.indexOf("<!-- build:news -->"), home.indexOf("<!-- /build:news-dup -->"));
+assert.match(newsHtml, /<a href="blog\/post\.html\?slug=nsf-icorps-quantum-x">Completed NSF I-Corps Quantum\+X with Q BioSense<\/a>/);
+assert.match(newsHtml, /slug=qwc-2026/);
+assert.doesNotMatch(newsHtml, /stop-slop-humanizer|slug=welcome/);
+
+const blogIndex = readFileSync(new URL("../blog/index.html", import.meta.url), "utf8");
+assert.match(blogIndex, /data-blog-filters/);
+assert.match(blogIndex, /data-category="all"[^>]*>All</);
+assert.match(blogIndex, /data-category="News"[^>]*>News</);
+assert.match(blogIndex, /data-category="Posts"[^>]*>Posts</);
 
 console.log("blog markdown ok");

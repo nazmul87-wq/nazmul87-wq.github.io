@@ -5,6 +5,7 @@
       "title": "Welcome to my site",
       "date": "2026-10-11",
       "published": "2026-10-11T09:00:00Z",
+      "category": "Posts",
       "tags": ["welcome", "robotics", "ai"],
       "file": "posts/welcome.md"
     },
@@ -13,6 +14,7 @@
       "title": "Customer discovery at Quantum World Congress 2026",
       "date": "2026-10-11",
       "published": "2026-10-11T18:00:00Z",
+      "category": "News",
       "tags": ["quantum", "i-corps"],
       "file": "posts/qwc-2026.md",
       "image": "assets/blog/qwc-2026.webp",
@@ -23,6 +25,7 @@
       "title": "Two Claude skills that fix how AI writes my emails",
       "date": "2026-10-14",
       "published": "2026-10-14T12:00:00Z",
+      "category": "Posts",
       "tags": [],
       "file": "posts/stop-slop-humanizer.md"
     },
@@ -31,6 +34,7 @@
       "title": "We finished NSF I-Corps Quantum+X",
       "date": "2026-10-17",
       "published": "2026-10-17T12:00:00Z",
+      "category": "News",
       "news": "Completed NSF I-Corps Quantum+X with Q BioSense",
       "tags": ["quantum", "i-corps"],
       "file": "posts/nsf-icorps-quantum-x.md"

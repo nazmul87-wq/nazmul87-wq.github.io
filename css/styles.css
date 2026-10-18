@@ -1041,11 +1041,15 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 .news-track {
   display: flex;
   width: max-content;
-  animation: news-scroll 45s linear infinite;
 }
 
-.news-ticker:hover .news-track,
-.news-ticker:focus-within .news-track { animation-play-state: paused; }
+.news-ticker.is-scrolling .news-track { animation: news-scroll 45s linear infinite; }
+
+.news-ticker:not(.is-scrolling) .news-list[aria-hidden="true"],
+.news-ticker:not(.is-scrolling) .news-list li[aria-hidden="true"] { display: none; }
+
+.news-ticker.is-scrolling:hover .news-track,
+.news-ticker.is-scrolling:focus-within .news-track { animation-play-state: paused; }
 
 .news-list {
   display: flex;
@@ -1086,9 +1090,15 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
   .news-ticker { height: 32px; }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .news-ticker.is-scrolling .news-viewport {
+    mask-image: linear-gradient(90deg, transparent, #000 0.8rem, #000 calc(100% - 1.4rem), transparent);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .news-track { animation: none; }
-  .news-viewport { overflow-x: auto; }
+  .news-viewport { overflow-x: auto; mask-image: none; }
   .news-list[aria-hidden="true"],
   .news-list li[aria-hidden="true"] { display: none; }
 }
@@ -1256,6 +1266,64 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 }
 
 .post-body pre code { font-size: 0.82rem; }
+
+.post-card .post-category { margin: 0 0 0.4rem; }
+
+.post-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.2rem 0 1.25rem;
+}
+
+.post-filters button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.32rem 0.85rem;
+  font: inherit;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.post-filters button:hover,
+.post-filters button:focus-visible {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.post-filters button[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: transparent;
+  color: var(--bg);
+}
+
+.post-empty { margin: 0.2rem 0 0; color: var(--muted); }
+
+/* 48ch of the body face (Outfit at 1.0625rem), so the title and the text share one column. */
+body[data-blog="post"] {
+  --post-measure: 33.456rem;
+  --post-media: 40rem;
+}
+
+body[data-blog="post"] .post-body { max-width: none; }
+
+body[data-blog="post"] .post-back,
+body[data-blog="post"] [data-blog-post] > :not(.post-body),
+body[data-blog="post"] .post-body > :is(p, h2, h3, ul, ol, blockquote) {
+  max-width: var(--post-measure);
+  margin-inline: auto;
+}
+
+body[data-blog="post"] :is(.post-video, .post-gallery, .post-certificate, .post-figure) {
+  width: min(100%, var(--post-media));
+  margin-inline: auto;
+}
+
+body[data-blog="post"] .post-body pre { margin-inline: auto; }
 
 #collaborate .hero-actions { margin-top: 1.2rem; }
 
