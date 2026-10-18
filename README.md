@@ -91,7 +91,7 @@ The note, in first person. Use only facts already on the site or in the CV.
 3. Add an `<item>` to [`feed.xml`](feed.xml) with the same title, date, and link `https://nazmulislam-lab.github.io/blog/post.html?slug=my-note`.
 4. Add that same URL to [`sitemap.xml`](sitemap.xml), with `lastmod` set to the post date, and add a link under Notes in [`llms.txt`](llms.txt).
 5. Commit and push. The blog index and the post page read `posts.json`. Run `node scripts/build.mjs` so the news band under the hero includes the new post.
-6. Optional cover: set `"image"` and `"imageAlt"` on the `posts.json` entry. Paths are from the site root, for example `assets/blog/photo.webp`.
+6. Optional cover: set `"cover"` and `"coverAlt"` on the `posts.json` entry. Paths are from the site root, for example `assets/blog/photo.webp`. Without `cover`, the card uses `"image"` and `"imageAlt"` when those are set, then the first image in the Markdown. A YouTube video with no image uses that video’s thumbnail. A post with no media stays a text card.
 7. Optional order: set `"published"` to an ISO datetime when two posts share a `date`. Newer `published` values sort first on the blog index, in the news band, and in `feed.xml`.
 
 ## Latest news

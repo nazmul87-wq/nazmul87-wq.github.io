@@ -44,17 +44,23 @@ export function renderPostCards(root, posts, prefix = "", assetPrefix = "") {
   for (const post of posts) {
     const card = document.createElement("article");
     card.className = "post-card";
-    if (post.image) {
+    const chosen = chooseCover(post);
+    if (chosen) {
       const cover = document.createElement("a");
       cover.className = "post-cover";
       cover.href = postHref(post.slug, prefix);
       const img = document.createElement("img");
-      const src = `${assetPrefix}${post.image}`;
-      img.src = src;
-      img.alt = post.imageAlt || "";
+      img.src = coverUrl(chosen.src, assetPrefix);
+      img.alt = chosen.alt;
       img.loading = "lazy";
       img.decoding = "async";
       cover.append(img);
+      if (chosen.video) {
+        const play = document.createElement("span");
+        play.className = "post-cover-play";
+        play.setAttribute("aria-hidden", "true");
+        cover.append(play);
+      }
       card.append(cover);
     }
     card.dataset.category = post.category;
@@ -139,6 +145,9 @@ function parsePost(source, entry) {
     tags,
     image: entry.image || meta.image || "",
     imageAlt: entry.imageAlt || meta.imageAlt || "",
+    cover: entry.cover || meta.cover || "",
+    coverAlt: entry.coverAlt || meta.coverAlt || "",
+    markdown: article,
     published: entry.published || meta.published || "",
     category: canonicalCategory(meta.category || entry.category),
     html,
@@ -294,7 +303,7 @@ function videoHtml(url, title) {
   return `<figure class="post-video"><iframe src="${escapeAttr(src)}" title="${escapeAttr(label)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></figure>`;
 }
 
-function youtubeEmbedUrl(url) {
+export function youtubeVideoId(url) {
   let id = "";
   try {
     const parsed = new URL(url);
@@ -312,7 +321,37 @@ function youtubeEmbedUrl(url) {
     return "";
   }
   if (!/^[\w-]{6,}$/.test(id)) return "";
-  return `https://www.youtube.com/embed/${id}`;
+  return id;
+}
+
+function youtubeEmbedUrl(url) {
+  const id = youtubeVideoId(url);
+  return id ? `https://www.youtube.com/embed/${id}` : "";
+}
+
+export function chooseCover(post) {
+  const item = post || {};
+  const title = String(item.title || "").trim();
+  const explicit = String(item.cover || "").trim();
+  if (explicit) return { src: explicit, alt: String(item.coverAlt || "").trim() || title, video: false };
+  const image = String(item.image || "").trim();
+  if (image) return { src: image, alt: String(item.imageAlt || "").trim() || title, video: false };
+  const markdown = String(item.markdown || "").replace(/```[\s\S]*?```/g, "");
+  const picture = markdown.match(/!\[([^\]]*)\]\(([^)\s]+)/);
+  if (picture) return { src: picture[2], alt: picture[1].trim() || title, video: false };
+  const video = markdown.match(/@\[youtube\]\((https?:\/\/[^)\s]+)(?:\s+"([^"]*)")?\)/);
+  const id = video ? youtubeVideoId(video[1]) : "";
+  if (!id) return null;
+  return {
+    src: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+    alt: (video[2] || "").trim() || title || "YouTube video",
+    video: true
+  };
+}
+
+export function coverUrl(src, assetPrefix = "") {
+  if (/^(?:[a-z][a-z0-9+.-]*:|\/|\.\.\/|\.\/)/i.test(src)) return src;
+  return `${assetPrefix}${src}`;
 }
 
 function galleryHtml(images) {
