@@ -1125,13 +1125,42 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 
 .post-card:has(.post-cover) { padding-top: 0; }
 
-.post-cover { display: block; margin: 0 -1.15rem 0.9rem; }
+.post-cover {
+  position: relative;
+  display: block;
+  margin: 0 -1.15rem 0.9rem;
+}
 
 .post-cover img {
   width: 100%;
   height: 11rem;
   object-fit: cover;
   object-position: center 40%;
+}
+
+.post-cover-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -1.125rem 0 0 -1.125rem;
+  border-radius: 999px;
+  background: var(--ink);
+  pointer-events: none;
+}
+
+.post-cover-play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.38rem 0 0.38rem 0.62rem;
+  border-color: transparent transparent transparent var(--bg);
+  transform: translate(-50%, -50%);
 }
 
 .post-figure { margin: 0.4rem 0 1.2rem; }

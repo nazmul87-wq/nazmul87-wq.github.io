@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canonicalCategory, dropDuplicateTitle, markdownToHtml, newsPosts } from "../js/blog.js";
+import { canonicalCategory, chooseCover, coverUrl, dropDuplicateTitle, markdownToHtml, newsPosts } from "../js/blog.js";
 
 const post = readFileSync(new URL("../blog/posts/stop-slop-humanizer.md", import.meta.url), "utf8");
 const title = "Two Claude skills that fix how AI writes my emails";
@@ -113,5 +113,57 @@ assert.match(blogIndex, /data-blog-filters/);
 assert.match(blogIndex, /data-category="all"[^>]*>All</);
 assert.match(blogIndex, /data-category="News"[^>]*>News</);
 assert.match(blogIndex, /data-category="Posts"[^>]*>Posts</);
+
+const backdropAlt = "Four people at the Quantum World Congress backdrop";
+assert.equal(icorpsEntry.cover, "assets/blog/qwc-backdrop.webp");
+assert.equal(icorpsEntry.coverAlt, backdropAlt);
+assert.equal(icorpsEntry.coverPosition, "center 25%");
+assert.deepEqual(
+  chooseCover({
+    title: icorpsTitle,
+    cover: icorpsEntry.cover,
+    coverAlt: icorpsEntry.coverAlt,
+    coverPosition: icorpsEntry.coverPosition,
+    markdown: icorpsArticle
+  }),
+  { src: "assets/blog/qwc-backdrop.webp", alt: backdropAlt, video: false, position: "center 25%" }
+);
+assert.deepEqual(
+  chooseCover({ title: "Customer discovery", markdown: qwcBody }),
+  {
+    src: "../assets/blog/qwc-2026.webp",
+    alt: "Group photo at the Quantum World Congress 2026 photo wall in College Park, Maryland",
+    video: false
+  }
+);
+const qwcEntry = posts.posts.find((post) => post.slug === "qwc-2026");
+assert.deepEqual(
+  chooseCover({ title: qwcEntry.title, image: qwcEntry.image, imageAlt: qwcEntry.imageAlt, markdown: "![other](../assets/other.webp)" }),
+  { src: qwcEntry.image, alt: qwcEntry.imageAlt, video: false }
+);
+assert.deepEqual(
+  chooseCover({
+    title: "Video only",
+    markdown: '@[youtube](https://www.youtube.com/watch?v=ZDbmKt-fsvk "Q BioSense Team4844 video")'
+  }),
+  {
+    src: "https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg",
+    alt: "Q BioSense Team4844 video",
+    video: true
+  }
+);
+assert.deepEqual(
+  chooseCover({ title: "Short", markdown: "@[youtube](https://youtu.be/abcdefghijk)" }),
+  { src: "https://i.ytimg.com/vi/abcdefghijk/hqdefault.jpg", alt: "Short", video: true }
+);
+assert.equal(chooseCover({ title: "Text", markdown: "Just words.\n```\n![hidden](secret.webp)\n```" }), null);
+assert.equal(chooseCover({ title: title, markdown: article }), null);
+assert.equal(coverUrl("assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
+assert.equal(coverUrl("../assets/blog/qwc-cohort.webp", "../"), "../assets/blog/qwc-cohort.webp");
+assert.equal(coverUrl("https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg", "../"), "https://i.ytimg.com/vi/ZDbmKt-fsvk/hqdefault.jpg");
+assert.equal(
+  chooseCover({ title: "Offset", cover: "assets/photo.webp", coverAlt: "Photo", coverPosition: "top left" }).position,
+  undefined
+);
 
 console.log("blog markdown ok");
