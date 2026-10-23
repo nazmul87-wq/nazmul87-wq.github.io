@@ -1,8 +1,10 @@
+import { initCalendly } from "./calendly.js";
 import { iconSvg } from "./icons.js";
 
 const THEME_KEY = "nazmul-theme";
 
 export function initChrome() {
+  initCalendly();
   const button = document.querySelector("[data-theme-toggle]");
   if (button && !button.querySelector("svg")) {
     button.replaceChildren();

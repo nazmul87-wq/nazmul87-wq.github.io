@@ -178,6 +178,7 @@ function renderProfile(profile) {
     else scholarLink.href = profile.contact.scholar;
   }
   wireCvLink(profile.contact.cv);
+  wireCalendly(profile.contact.calendly);
   renderHeroSocial(profile);
 
   const portrait = document.querySelector("[data-portrait]");
@@ -657,6 +658,18 @@ function renderContact(profile) {
   if (!isPlaceholder(c.x)) root.append(contactLink("X", c.xLabel || c.x, c.x, "x"));
   if (!isPlaceholder(c.scholar)) root.append(contactLink("Google Scholar", c.scholarLabel || "Google Scholar profile", c.scholar, "scholar"));
   if (!isPlaceholder(c.cv)) root.append(contactLink("Download CV", "PDF", c.cv, "cv"));
+}
+
+function wireCalendly(url) {
+  const links = document.querySelectorAll("[data-calendly]");
+  if (isPlaceholder(url)) {
+    links.forEach((link) => { link.hidden = true; });
+    return;
+  }
+  links.forEach((link) => {
+    link.hidden = false;
+    link.href = url;
+  });
 }
 
 function wireCvLink(path) {

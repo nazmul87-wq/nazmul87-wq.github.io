@@ -737,6 +737,8 @@
     "whatsapp": "https://wa.me/12342829758",
     "whatsappLabel": "+1 234-282-9758",
     "cv": "assets/cv.pdf",
+    "calendly": "https://calendly.com/nazmul87/30min",
+    "calendlyLabel": "Book a 30-min chat",
     "collaboration": "He is happy to talk about research, industry projects, or mentoring in medical robotics and wearable devices. Email is the fastest way to reach him.",
     "match": [
       "how can i contact him",
@@ -756,7 +758,10 @@
       "reach him",
       "get in touch",
       "scholar",
-      "google scholar"
+      "google scholar",
+      "calendly",
+      "book a chat",
+      "30-min"
     ],
     "scholar": "https://scholar.google.com/citations?user=L6BZ7JoAAAAJ&hl=en",
     "scholarLabel": "Google Scholar profile"
