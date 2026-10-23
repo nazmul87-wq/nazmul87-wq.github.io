@@ -193,6 +193,7 @@ function formatContact(profile) {
     lines.push(number ? `WhatsApp: ${number} (${c.whatsapp})` : `WhatsApp: ${c.whatsapp}`);
   }
   if (visitorText(c.scholar)) lines.push(`Google Scholar: ${c.scholar}`);
+  if (visitorText(c.calendly)) lines.push(`Book a 30-min chat: ${c.calendly}`);
   if (c.collaboration) lines.push(c.collaboration);
   const cv = visitorText(c.cv);
   if (cv) lines.push(`CV: ${cvUrl(cv)}`);
@@ -340,7 +341,7 @@ function isProjectListQuestion(q) {
 function isContactQuestion(q) {
   if (/\b(twitter|x\.com|nzml087)\b/.test(q)) return true;
   if (/\b(his|your|the|on|whats)\s+x\b/.test(q)) return true;
-  return /\b(contact|email|e-mail|reach|linkedin|whatsapp|phone|text|resume|cv|hire|collaborat\w*)\b/.test(q);
+  return /\b(contact|email|e-mail|reach|linkedin|whatsapp|phone|text|resume|cv|hire|collaborat\w*|book|calendly)\b/.test(q);
 }
 
 function isResearchListQuestion(q) {

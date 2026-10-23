@@ -553,6 +553,8 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 
 .pending li { display: grid; gap: 0.2rem; }
 
+.contact-actions { margin: 0.35rem 0 0.2rem; }
+
 .contact-list {
   list-style: none;
   margin: 1rem 0 0;
