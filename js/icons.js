@@ -37,7 +37,6 @@ export function renderFooterSocial(container, profile, options = {}) {
     { href: c.whatsapp, icon: "whatsapp", label: "WhatsApp" },
     { href: c.scholar, icon: "scholar", label: "Google Scholar" },
     { href: c.email ? `mailto:${c.email}` : "", icon: "email", label: "Email" },
-    { href: c.cv, icon: "cv", label: "Download CV", download: true, asset: true },
     { href: rssHref, icon: "rss", label: "RSS feed" }
   ];
   container.replaceChildren();

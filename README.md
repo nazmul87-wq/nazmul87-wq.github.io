@@ -21,7 +21,7 @@ Change a fact there, run `node scripts/build.mjs`, commit, and push to `main`. R
 | Jobs | `experience`. `dates` is the timeline label (for example `Aug 2024 – Present`). `duties` is the bullet list. Leave `dates` as `""` only when a range is unknown. |
 | Skills | `skills` |
 | Projects | `projects` (`image` is the card preview) |
-| Email, GitHub, LinkedIn, X, WhatsApp, Google Scholar, CV | `contact`. LinkedIn is `https://www.linkedin.com/in/nazmul87/`. X is `contact.x` (`https://x.com/nzml087`) and `contact.xLabel` (`@nzml087`). WhatsApp is `contact.whatsapp` (`https://wa.me/12342829758`) and `contact.whatsappLabel` (`+1 234-282-9758`); a social button hides if its URL is empty. `scholar` is the Google Scholar profile URL. `cv` is `assets/cv.pdf`. |
+| Email, GitHub, LinkedIn, X, WhatsApp, Google Scholar | `contact`. LinkedIn is `https://www.linkedin.com/in/nazmul87/`. X is `contact.x` (`https://x.com/nzml087`) and `contact.xLabel` (`@nzml087`). WhatsApp is `contact.whatsapp` (`https://wa.me/12342829758`) and `contact.whatsappLabel` (`+1 234-282-9758`); a social button hides if its URL is empty. `scholar` is the Google Scholar profile URL. |
 | Hobbies, hometown, gallery | `beyond` (the section hides until something is filled) |
 | Suggested chat questions and the “I don’t know” line | `chat` |
 
@@ -35,8 +35,8 @@ The hero portrait is a fixed frame (`assets/portrait.jpg`, or whatever path you 
 
 Empty strings are not shown on the page or in the chat. Do not put notes like “TODO” in `data/profile.json`; visitors would see them. Keep editor notes in this README.
 
-- **CV file.** `assets/cv.pdf` is the CV he approved for download. Replace that file and keep `contact.cv` set to `assets/cv.pdf`. The hero and contact section show Download CV only when `contact.cv` is set.
-- **Not on the page.** The street address and the references’ email addresses stay in the PDF only. Do not copy them into `profile.json`.
+- **CV.** The site does not publish a CV file. The hero and the contact section show a small “CV available on request” note that emails `contact.email` with the subject “CV request”.
+- **Not on the page.** The street address and the references’ email addresses are not published. Do not copy them into `profile.json`.
 - **Blank on purpose.** The CV marks the Kent State thesis and academic standing as NA, so those `education` fields are `""` and stay hidden. There is no awards or test-score section because the CV does not list any.
 - **Talks.** `talks` is `[]`. A talk is `{ "title": "", "event": "", "year": "", "url": "" }`. Empty `url` still shows the title. The talks list stays hidden until at least one title is set. No public talks were found in the profile or repos.
 - **Beyond work.** `beyond.intro`, `beyond.hometown`, `beyond.hobbies`, and `beyond.gallery` are empty, so the section is hidden. A gallery photo is `{ "src": "assets/gallery/photo.jpg", "alt": "Describe the photo" }`. Fill any of those fields to show the section.
