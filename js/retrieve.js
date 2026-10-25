@@ -195,8 +195,7 @@ function formatContact(profile) {
   if (visitorText(c.scholar)) lines.push(`Google Scholar: ${c.scholar}`);
   if (visitorText(c.calendly)) lines.push(`Book a 30-min chat: ${c.calendly}`);
   if (c.collaboration) lines.push(c.collaboration);
-  const cv = visitorText(c.cv);
-  if (cv) lines.push(`CV: ${cvUrl(cv)}`);
+  lines.push("A CV is available on request by email.");
   return lines.join("\n");
 }
 
@@ -204,11 +203,6 @@ function visitorText(value) {
   const text = String(value || "").trim();
   if (!text || /\bTODO\b/i.test(text)) return "";
   return text;
-}
-
-function cvUrl(path) {
-  if (/^https?:/i.test(path)) return path;
-  return `https://nazmulislam-lab.github.io/${String(path).replace(/^\//, "")}`;
 }
 
 function formatResearch(profile) {

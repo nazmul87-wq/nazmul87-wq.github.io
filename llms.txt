@@ -6,7 +6,7 @@ Md Nazmul Islam is a PhD candidate and graduate assistant at Kent State Universi
 
 Before the PhD, he serviced MRI and X-ray systems at Siemens Bangladesh and taught part-time at Daffodil International University. He then spent eight years at Philips installing and servicing CT and PET-CT scanners, and three years at Medtronic supporting the Hugo robotic surgery system in hospitals across Bangladesh and India. He also helped expand that service business into Nepal and Sri Lanka. During his MSc at BRAC University he published on explainable AI for medical imaging.
 
-This site lists that background, his publications, experience, education and training, public software projects, short notes, contact details, and a CV.
+This site lists that background, his publications, experience, education and training, public software projects, short notes, and contact details. A CV is available on request by email.
 
 ## Sections
 
@@ -17,8 +17,7 @@ This site lists that background, his publications, experience, education and tra
 - [Education and training](https://nazmulislam-lab.github.io/#education): PhD at Kent State, MSc at BRAC University, BSc at CUET, and professional certifications
 - [Projects](https://nazmulislam-lab.github.io/#projects): Public software projects, including multi-agent-system, orca-draw, passport-photo-studio, northstar-reader, Chess_ORCA, and Nazmul-event-talks-app
 - [Blog](https://nazmulislam-lab.github.io/blog/): Short notes on robotics and medical devices, from the lab and the field
-- [Contact](https://nazmulislam-lab.github.io/#contact): Email is the fastest way to reach him
-- [CV](https://nazmulislam-lab.github.io/assets/cv.pdf): Downloadable CV
+- [Contact](https://nazmulislam-lab.github.io/#contact): Email is the fastest way to reach him. A CV is available on request ([email](mailto:nazmul87@gmail.com?subject=CV%20request))
 
 ## Notes
 

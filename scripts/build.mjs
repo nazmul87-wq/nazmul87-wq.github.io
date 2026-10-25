@@ -178,8 +178,7 @@ function contactHtml(contact) {
     ["linkedin", "LinkedIn", contact.linkedinLabel, contact.linkedin],
     ["github", "GitHub", contact.githubLabel, contact.github],
     ["x", "X", contact.xLabel, contact.x],
-    ["scholar", "Google Scholar", contact.scholarLabel, contact.scholar],
-    ["cv", "Download CV", "PDF", contact.cv]
+    ["scholar", "Google Scholar", contact.scholarLabel, contact.scholar]
   ];
   return rows.filter(([, , , href]) => href).map(([icon, label, value, href]) => {
     const external = /^https?:/i.test(href) ? ` target="_blank" rel="noopener noreferrer"` : "";

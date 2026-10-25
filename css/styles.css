@@ -555,6 +555,24 @@ h3 { margin: 0; font-size: var(--text-md); line-height: 1.25; letter-spacing: -0
 
 .contact-actions { margin: 0.35rem 0 0.2rem; }
 
+.cv-request {
+  margin: 0.7rem 0 0;
+  font-family: var(--sans);
+  font-size: var(--text-xs);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.cv-request a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+}
+
+.cv-request a:hover,
+.cv-request a:focus-visible { color: var(--accent); }
+
+.contact-actions .cv-request { margin-top: 0.55rem; }
+
 .contact-list {
   list-style: none;
   margin: 1rem 0 0;

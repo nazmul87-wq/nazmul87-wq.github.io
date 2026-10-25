@@ -177,7 +177,7 @@ function renderProfile(profile) {
     if (isPlaceholder(profile.contact.scholar)) scholarLink.hidden = true;
     else scholarLink.href = profile.contact.scholar;
   }
-  wireCvLink(profile.contact.cv);
+  wireCvRequest(profile.contact.email);
   wireCalendly(profile.contact.calendly);
   renderHeroSocial(profile);
 
@@ -657,7 +657,6 @@ function renderContact(profile) {
   if (!isPlaceholder(c.github)) root.append(contactLink("GitHub", c.githubLabel || c.github, c.github, "github"));
   if (!isPlaceholder(c.x)) root.append(contactLink("X", c.xLabel || c.x, c.x, "x"));
   if (!isPlaceholder(c.scholar)) root.append(contactLink("Google Scholar", c.scholarLabel || "Google Scholar profile", c.scholar, "scholar"));
-  if (!isPlaceholder(c.cv)) root.append(contactLink("Download CV", "PDF", c.cv, "cv"));
 }
 
 function wireCalendly(url) {
@@ -672,16 +671,21 @@ function wireCalendly(url) {
   });
 }
 
-function wireCvLink(path) {
-  const link = document.querySelector("[data-cv-link]");
-  if (!link) return;
-  if (isPlaceholder(path)) {
-    link.hidden = true;
+function wireCvRequest(email) {
+  const links = document.querySelectorAll("[data-cv-request]");
+  if (isPlaceholder(email)) {
+    links.forEach((link) => {
+      const note = link.closest(".cv-request");
+      if (note) note.hidden = true;
+    });
     return;
   }
-  link.hidden = false;
-  link.href = path;
-  if (!/^https?:/i.test(path)) link.setAttribute("download", "");
+  const href = `mailto:${email}?subject=${encodeURIComponent("CV request")}`;
+  links.forEach((link) => {
+    const note = link.closest(".cv-request");
+    if (note) note.hidden = false;
+    link.href = href;
+  });
 }
 
 function renderStructuredData(profile) {

@@ -13,7 +13,7 @@ const cases = [
   ["Who advised his master's at BRAC?", ["md golam rabiul alam", "highest distinction"]],
   ["What did he work on at Medtronic?", ["field technical service specialist", "hugo", "2021", "aug 2024"]],
   ["What projects has he built?", ["multi-agent-system", "orca-draw", "passport-photo-studio", "northstar-reader"]],
-  ["How can I contact him?", ["nazmul87@gmail.com", "github.com/nazmulislam-lab", "https://www.linkedin.com/in/nazmul87/", "https://wa.me/12342829758", "+1 234-282-9758", "https://nazmulislam-lab.github.io/assets/cv.pdf", "https://calendly.com/nazmul87/30min"]],
+  ["How can I contact him?", ["nazmul87@gmail.com", "github.com/nazmulislam-lab", "https://www.linkedin.com/in/nazmul87/", "https://wa.me/12342829758", "+1 234-282-9758", "https://calendly.com/nazmul87/30min"]],
   ["Can I book a 30-min chat?", ["https://calendly.com/nazmul87/30min"]],
   ["What is his WhatsApp?", ["https://wa.me/12342829758", "+1 234-282-9758"]],
   ["What's his X?", ["https://x.com/nzml087", "nzml087"]],
